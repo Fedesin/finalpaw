@@ -44,17 +44,34 @@
 
   <!--body-->
   <main>
-    <form>
-        <label for="username">Usuario:</label>
-        <input type="text" id="username" name="username" required>
+    <h1>Gestión de Formularios</h1>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password" required>
+    <!-- Filtro de Formularios -->
+    <input type="text" id="filtro" placeholder="Filtrar por nombre">
+    <button onclick="filtrarFormularios()">Filtrar</button>
 
-        <button type="submit">Acceder</button>
+    <!-- Tabla de Formularios -->
+    <table id="tablaFormularios">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Fecha de Elaboración</th>
+            <th>Acciones</th>
+        </tr>
+        <!-- Aquí se cargarán dinámicamente los Formularios -->
+    </table>
 
-        <a href="#">Olvidé mi contraseña</a>
-    </form>
+    <!-- Detalles del Producto -->
+    <table id="detallesProducto" style="display: none;">
+        <tr><th colspan="2">Detalles del Producto</th></tr>
+        <tr><td>ID:</td><td id="detalleId"></td></tr>
+        <tr><td>Nombre:</td><td id="detalleNombre"></td></tr>
+        <tr><td>Precio:</td><td id="detallePrecio"></td></tr>
+        <tr><td>Stock:</td><td id="detalleStock"></td></tr>
+        <tr><td>Fecha de Elaboración:</td><td id="detalleFechaElaboracion"></td></tr>
+    </table>
   </main>
   <!--body-->
 </body>
