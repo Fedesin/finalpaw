@@ -3,6 +3,10 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+  <link href="https://fonts.cdnfonts.com/css/gotham" rel="stylesheet">
+  <script src="/assets/js/components/paw.js"></script>
   <title>Planta piloto UNLU</title>
 </head>
 
@@ -19,15 +23,18 @@
 
   <!--navbar-->
   <nav>
+    <input id="hamburgerMenu" type="checkbox" name="">
+    <label for="hamburgerMenu" class="hamburgerMenu"></label>
+
     <ul>
-      <li>
+      <li class ="navbarDropOption">
         <a>Registro</a>
         <ul>
           <li><a href="login.html">Iniciar sesión</a></li>
           <li><a href="register.html">Registrarse</a></li>
         </ul>
       </li>
-      <li>
+      <li class ="navbarDropOption">
         <a>Gestion de productos</a>
         <ul>
           <li><a href="admtipopro.html">Administrar Tipo de producto</a></li>
@@ -35,11 +42,11 @@
           <li><a href="admfases.html">Administrar Fases</a></li>
         </ul>
       </li>
-      <li>
+      <li class ="navbarDropOption">
         <a>Configuración</a>
         <ul>
-            <li><a href="admform.html">Formularios</li>
-            <li><a href="admalert.html">Alertas</li>
+            <li><a href="admform.html">Formularios</a></li>
+            <li><a href="admalert.html">Alertas</a></li>
           </ul>
       </li>
       <li><a href="admuser.html">Administrar Usuarios</a></li>
