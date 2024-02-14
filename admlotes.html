@@ -49,34 +49,37 @@
 
   <!--body-->
   <main>
-    <h1>Gestión de Alertas</h1>
+    <h1>Creación de Lotes</h1>
+    <!-- Formulario para Agregar/Editar Usuario -->
+    <form id="formularioUsuario" onsubmit="guardarUsuario(event)">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" required>
+            <option value="tipo_prod">Queso</option>
+        </select>
+        <label for="producto">Producto:</label>
+        <select id="producto" required>
+            <option value="sardo">Sardo</option>
+            <option value="quartirolo">Quartirolo</option>
+        </select>
+        
+        
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" required>
+        <label for="nro">Producción N°:</label>
+        <input type="number" id="nro" required>
 
-    <!-- Filtro de Alertas -->
-    <input type="text" id="filtro" placeholder="Filtrar por nombre">
-    <button onclick="filtrarAlertas()">Filtrar</button>
+        <label for="supervisor">Supervisor:</label>
+        <input type="email" id="supervisor" required>
 
-    <!-- Tabla de Alertas -->
-    <table id="tablaAlertas">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Fecha de Elaboración</th>
-            <th>Acciones</th>
-        </tr>
-        <!-- Aquí se cargarán dinámicamente los Alertas -->
-    </table>
+        <label for="enc_de_prod">Encargado de Producción:</label>
+        <input type="email" id="enc_de_prod" required>
 
-    <!-- Detalles del Producto -->
-    <table id="detallesProducto" style="display: none;">
-        <tr><th colspan="2">Detalles del Producto</th></tr>
-        <tr><td>ID:</td><td id="detalleId"></td></tr>
-        <tr><td>Nombre:</td><td id="detalleNombre"></td></tr>
-        <tr><td>Precio:</td><td id="detallePrecio"></td></tr>
-        <tr><td>Stock:</td><td id="detalleStock"></td></tr>
-        <tr><td>Fecha de Elaboración:</td><td id="detalleFechaElaboracion"></td></tr>
-    </table>
+        <label for="enc_de_limp">Encargado de Limpieza:</label>
+        <input type="email" id="enc_de_limp" required>
+
+
+        <button type="submit">Guardar</button>
+    </form>
   </main>
   <!--body-->
 </body>

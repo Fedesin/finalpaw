@@ -28,7 +28,12 @@
         </ul>
       </li>
       <li>
-        <a><a href="admprod.html">Visualización de datos</a>
+        <a>Gestion de productos</a>
+        <ul>
+          <li><a href="admtipopro.html">Administrar Tipo de producto</a></li>
+          <li><a href="admlotes.html">Administrar Lotes</a></li>
+          <li><a href="admfases.html">Administrar Fases</a></li>
+        </ul>
       </li>
       <li>
         <a>Configuración</a>
@@ -44,33 +49,23 @@
 
   <!--body-->
   <main>
-    <h1>Gestión de Productos</h1>
+    <h1>Gestión de Tipo de producto</h1>
+    <!-- Tenemos que crear el enumerado -->
+   
+    <form id="formularioTipoProd" onsubmit="guardarTipoProd(event)">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+        <button type="submit">Agregar tipo de producto</button>
+    </form>
 
-    <!-- Filtro de Productos -->
     <input type="text" id="filtro" placeholder="Filtrar por nombre">
-    <button onclick="filtrarProductos()">Filtrar</button>
-
-    <!-- Tabla de Productos -->
-    <table id="tablaProductos">
+    <button onclick="filtrarTipoProd()">Filtrar</button>
+    <table id="tablaTipoProd">
         <tr>
-            <th>ID</th>
             <th>Nombre</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Fecha de Elaboración</th>
-            <th>Acciones</th>
         </tr>
-        <!-- Aquí se cargarán dinámicamente los productos -->
-    </table>
-
-    <!-- Detalles del Producto -->
-    <table id="detallesProducto" style="display: none;">
-        <tr><th colspan="2">Detalles del Producto</th></tr>
-        <tr><td>ID:</td><td id="detalleId"></td></tr>
-        <tr><td>Nombre:</td><td id="detalleNombre"></td></tr>
-        <tr><td>Precio:</td><td id="detallePrecio"></td></tr>
-        <tr><td>Stock:</td><td id="detalleStock"></td></tr>
-        <tr><td>Fecha de Elaboración:</td><td id="detalleFechaElaboracion"></td></tr>
+        <!-- Aquí se cargarán dinámicamente los usuarios -->
+        <button type="submit">Agregar Fases</button>
     </table>
   </main>
   <!--body-->

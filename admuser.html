@@ -28,7 +28,12 @@
         </ul>
       </li>
       <li>
-        <a><a href="admprod.html">Visualización de datos</a>
+        <a>Gestion de productos</a>
+        <ul>
+          <li><a href="admtipopro.html">Administrar Tipo de producto</a></li>
+          <li><a href="admlotes.html">Administrar Lotes</a></li>
+          <li><a href="admfases.html">Administrar Fases</a></li>
+        </ul>
       </li>
       <li>
         <a>Configuración</a>
@@ -54,7 +59,7 @@
     <table id="tablaUsuarios">
         <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Email</th>
             <th>Rol</th>
             <th>Acciones</th>
         </tr>
@@ -63,7 +68,7 @@
 
     <!-- Formulario para Agregar/Editar Usuario -->
     <form id="formularioUsuario" onsubmit="guardarUsuario(event)">
-        <label for="nombre">Nombre:</label>
+        <label for="email">Email:</label>
         <input type="text" id="nombre" required>
         <label for="rol">Rol:</label>
         <select id="rol" required>
