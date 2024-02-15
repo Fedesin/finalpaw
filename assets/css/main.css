@@ -203,7 +203,7 @@ label[for=hamburgerMenu]:after {
     }
 
     nav li:hover {
-        background-color: #a04928;
+        background-color: #0393C2;
     }
 
     
@@ -211,7 +211,7 @@ label[for=hamburgerMenu]:after {
     .navbarDropOption > ul {
         margin-left: 11ch;
         margin-top: -2em;
-        background-color: #5b2b19
+        background-color: var(--second-grey)
     }
 
     .navbarDropOption > .gp {
@@ -219,7 +219,7 @@ label[for=hamburgerMenu]:after {
     }
 
     .navbarDropOption > ul > li:hover {
-        background-color: #a04928;
+        background-color: #0393C2;
     }
 
     nav ul {
