@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.10 (Ubuntu 14.10-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.10 (Ubuntu 14.10-0ubuntu0.22.04.1)
+-- Dumped from database version 15.6
+-- Dumped by pg_dump version 16.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -87,11 +87,37 @@ CREATE TABLE public.tipo_producto (
 CREATE TABLE public.usuario (
     id integer NOT NULL,
     email character varying(255) NOT NULL,
-    password character varying(50) NOT NULL,
+    password character varying(64) NOT NULL,
     rol public.roles NOT NULL,
-    created_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
     last_login timestamp without time zone
 );
+
+
+--
+-- Name: usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.usuario_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.usuario_id_seq OWNED BY public.usuario.id;
+
+
+--
+-- Name: usuario id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.usuario ALTER COLUMN id SET DEFAULT nextval('public.usuario_id_seq'::regclass);
 
 
 --
@@ -131,7 +157,15 @@ COPY public.tipo_producto (id, nombre) FROM stdin;
 --
 
 COPY public.usuario (id, email, password, rol, created_at, last_login) FROM stdin;
+1	admin@admin.com	$2y$10$iJIxxQQMlPB/iPGjHd2JyOieit/5NyDCpUwYeaXBLgcl5UzFQEo9u	administrador	2024-02-22 14:36:45.71932	\N
 \.
+
+
+--
+-- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.usuario_id_seq', 1, true);
 
 
 --

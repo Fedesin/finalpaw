@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/logo.png">
+	<link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+	<link href="https://fonts.cdnfonts.com/css/gotham" rel="stylesheet">
+	<script src="/assets/js/components/paw.js"></script>
+	<title>Planta piloto UNLU</title>
+	{% block head %}
+	{% endblock %}
+</head>
+
+<body>
+	<!--header-->
+	<header>
+		<h1>
+			<a href="/"><img src="img/logo.png" width="96px" height="96px" />
+			Planta Piloto UNLu
+			</a>
+		</h1>
+	</header>
+	<!--header-->
+
+	<!--navbar-->
+	<nav>
+		<input id="hamburgerMenu" type="checkbox" name="">
+		<label for="hamburgerMenu" class="hamburgerMenu"></label>
+
+		<ul>
+			{% block navbar %}
+			<li class ="navbarDropOption">
+				<a>Registro</a>
+				<ul>
+					<li><a href="login">Iniciar sesión</a></li>
+					<li><a href="register.html">Registrarse</a></li>
+				</ul>
+			</li>
+
+			<li class ="navbarDropOption">
+				<a>Gestion de productos</a>
+				<ul class ="gp">
+					<li><a href="admtipopro.html">Administrar Tipo de producto</a></li>
+					<li><a href="admlotes.html">Administrar Lotes</a></li>
+					<li><a href="admfases.html">Administrar Fases</a></li>
+				</ul>
+			</li>
+			<li class ="navbarDropOption">
+				<a>Configuración</a>
+				<ul>
+					<li><a href="admform.html">Formularios</a></li>
+					<li><a href="admalert.html">Alertas</a></li>
+				</ul>
+			</li>
+			<li><a href="admuser.html">Administrar Usuarios</a></li>
+			{% endblock %}
+		</ul>
+		
+	</nav>
+	
+
+	{% block content %}
+	{% endblock %}
+	
+	<!--footer-->
+	<footer>
+		<p>Sistema desarrollado por los estudiantes de la asignatura Programación en ambiente web</p>
+		<ul>
+			<li>Torres patricio</li>
+			<li>Simone Federico</li>
+		</ul>
+	</footer>
+	<!--footer-->
+
+</html>

@@ -1,0 +1,6 @@
+*.env
+composer.lock
+composer.phar
+vendor/*
+logs/*
+src/App/Views/cache/*
