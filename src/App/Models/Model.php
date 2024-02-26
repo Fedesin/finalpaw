@@ -15,6 +15,8 @@ class Model
 
     protected static $table = '';
 
+    private $queryBuilder;
+
     public function setQueryBuilder(QueryBuilder $qb)
     {
         $this->queryBuilder = $qb;
