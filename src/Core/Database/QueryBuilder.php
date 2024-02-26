@@ -7,6 +7,9 @@ use Monolog\Logger;
 
 class QueryBuilder
 {
+    private $pdo;
+    private $logger;
+
     public function __construct(PDO $pdo, Logger $logger = null)
     {
         $this->pdo = $pdo;
