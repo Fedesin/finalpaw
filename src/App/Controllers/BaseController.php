@@ -12,6 +12,8 @@ class BaseController
 
     protected ?string $modelName = null;
 
+    protected $model = null;
+
     public function __construct()
     {
         global $connection, $log;
