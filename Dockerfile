@@ -1,11 +1,7 @@
 FROM funxtionatics/php8-fpm-nginx-alpine
 
-USER root
-
-COPY . /var/www/
-RUN chown -R nobody:nobody /var/www
-RUN mkdir -p /vaw/www/logs
-RUN echo "" > /vaw/www/logs/app.log
+WORKDIR /var/www/
+COPY --chown=nobody:nobody . .
 
 # Image config
 ENV SKIP_COMPOSER 1
@@ -19,11 +15,17 @@ ENV APP_ENV testing
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 
+ENV LOG_PATH=logs/app.log
+ENV LOG_LEVEL=DEBUG
+
+ENV DB_ADAPTER=pgsql
+ENV DB_HOSTNAME=localhost
+ENV DB_DBNAME=paw
+ENV DB_USERNAME=postgres
+ENV DB_PASSWORD=
+ENV DB_PORT=5432
+
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN composer update
-
-#CMD ["/start.sh"]
-
-USER nobody
