@@ -29,3 +29,5 @@ ENV DB_PORT=5432
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN composer update
+
+RUN ./vendor/bin/phinx migrate
