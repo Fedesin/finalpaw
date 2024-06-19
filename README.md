@@ -1,10 +1,10 @@
 ## Instalación y ejecución local
 
 # Clonar el repositorio
-* git clone https://github.com/Fedesin/grupo3-PAW.git PAW
+* git clone https://github.com/Fedesin/finalpaw
 
 # Instalar dependencias
-* cd PAW
+* cd finalpaw
 * composer install
 
 # Crear una base de datos
