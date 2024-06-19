@@ -28,12 +28,15 @@ class UserController extends BaseController
 
 		try {
 			$user = User::valid($email, $password);
-			echo("Success");
+			parent::showView('login.view.twig', [
+				"status"=>"Success"
+			]);
+			
 		} catch(ModelNotFoundException $e) {
-			$error = "Usuario o contraseña incorrecto";
-			echo($error);
+			$error = 'Usuario o contraseña incorrecto';
+			parent::showView('login.view.twig', [
+				"status"=>$error
+			]);
 		}
-		
-		parent::showView('index.view.twig');
 	}
 }

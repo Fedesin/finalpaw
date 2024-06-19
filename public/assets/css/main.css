@@ -283,6 +283,8 @@ footer {
     color: var(--second-light-grey);
     padding: 0;
     text-align: center;
+    max-height: 5.5em;
+    align-content: last baseline;
 }
 
 footer > p {

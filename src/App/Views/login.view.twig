@@ -6,6 +6,7 @@
 
   <main class="login-container">
     <form class="login-form" action="login" method="post">
+        
         <label for="username">Usuario:</label>
         <input type="text" id="username" name="username" required>
 
@@ -13,9 +14,12 @@
         <input type="password" id="password" name="password" required>
 
         <button type="submit">Acceder</button>
-
+        
+        <p "{{ status }}">{{ status }}</p>
+        
         <a href="#">Olvidé mi contraseña</a>
     </form>
+    
   </main>
 
 {% endblock %}

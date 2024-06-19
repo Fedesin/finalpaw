@@ -7,7 +7,7 @@ use Paw\Core\Exceptions\ModelNotFoundException;
 
 class User extends Model
 {
-    protected static $table = 'usuario';
+    protected static $table = 'usuarios';
 
     protected $fields = [
         "email" => null,
@@ -26,7 +26,7 @@ class User extends Model
         $where = [
             "email" => $user
         ];
-
+  
         try {
             $model = static::get($where);
 
