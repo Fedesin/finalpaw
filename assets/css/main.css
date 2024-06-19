@@ -155,6 +155,7 @@ nav li:hover {
     opacity: 0;
 }
 
+
 label[for=hamburgerMenu] {
     display: none;
     border-radius: 3px;

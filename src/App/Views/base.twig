@@ -26,8 +26,10 @@
 
 	<!--navbar-->
 	<nav>
+		{% block hamburgerMenu %}
 		<input id="hamburgerMenu" type="checkbox" name="">
 		<label for="hamburgerMenu" class="hamburgerMenu"></label>
+		{% endblock %}
 
 		<ul>
 			{% block navbar %}
