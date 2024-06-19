@@ -109,7 +109,7 @@ nav ul li {
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #025255;
+    background-color: var(--second-grey);
     margin-top: 1em;
     padding: 0%;
     position: absolute;
