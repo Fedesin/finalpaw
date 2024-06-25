@@ -38,4 +38,35 @@ class User extends Model
         
         return $model;
     }
+
+    public function register($email, $password)
+    {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $createdAt = date('Y-m-d H:i:s');
+
+        try {
+            // Verificar si el usuario ya existe
+            $where = [
+                "email" => $email
+            ];
+            $existingUser = $this->queryBuilder->select(static::$table, $where);
+            
+            if ($existingUser) {
+                throw new Exception("El correo electrónico ya está registrado");
+            }
+
+            // Insertar el nuevo usuario
+            $data = [
+                'email' => $email,
+                'password' => $hashedPassword,
+                'created_at' => $createdAt
+            ];
+            $this->queryBuilder->insert(static::$table, $data);
+
+        } catch (Exception $e) {
+            throw new Exception("Error al registrar usuario: " . $e->getMessage());
+        }
+
+        return true;
+    }
 }

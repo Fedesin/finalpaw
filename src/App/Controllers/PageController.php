@@ -19,4 +19,9 @@ class PageController extends BaseController
     {
         parent::showView('login.view.twig');
     }
+
+    public function register ()
+    {
+        parent::showView('register.view.twig');
+    }
 }
