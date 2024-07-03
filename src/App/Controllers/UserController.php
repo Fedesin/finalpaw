@@ -7,72 +7,72 @@ use Paw\Core\Exceptions\ModelNotFoundException;
 
 class UserController extends BaseController
 {
-	public function __construct()
+    public function __construct()
     {
         $this->modelName = User::class;
         parent::__construct();
     }
 
-	public function index()
-	{
-		parent::showView('index.view.twig');
-	}
+    public function index()
+    {
+        parent::showView('index.view.twig');
+    }
 
-	public function login()
-	{
-		$data = $_POST;
-		$valido = true;
-		
-		$email = $data['username'];
-		$password = $data['password'];
+    public function login()
+    {
+        $data = $_POST;
+        $valido = true;
+        
+        $email = $data['username'];
+        $password = $data['password'];
 
-		try {
-			$user = User::valid($email, $password);
-			parent::showView('index.view.twig');
-			
-		} catch(ModelNotFoundException $e) {
-			$error = 'Usuario o contraseña incorrecto';
-			parent::showView('login.view.twig', [
-				"status"=>$error
-			]);
-		}
-	}
+        try {
+            $user = User::valid($email, $password);
+            parent::showView('index.view.twig');
+            
+        } catch(ModelNotFoundException $e) {
+            $error = 'Usuario o contraseña incorrecto';
+            parent::showView('login.view.twig', [
+                "status" => $error
+            ]);
+        }
+    }
 
+    public function getRoles()
+    { 
+        $roles = [
+			['id' => 1, 'nombre' => 'usuario'],
+			['id' => 2, 'nombre' => 'supervisor'],
+			['id' => 3, 'nombre' => 'administrador']
+		];
 
-	public function register()
-	{
-		$data = $_POST;		
-		$email = $data['username'];
-		$password = $data['password'];
-		$repeatPassword = $data['repeat-password'];
+        parent::showView('register.view.twig', [
+            "roles" => $roles
+        ]);
+    }
 
-		try {
-			if ($password !== $repeatPassword){
-				$passverify = 'Las contraseñas no coinciden';
-				parent::showView('register.view.twig', [
-					"status" => $passverify
-				]);
-			}
-		} catch(ModelNotFoundException $e) {
-			$error = 'Error al registrar usuario';
-			parent::showView('register.view.twig', [
-				"status"=>$error
-			]);
-		}
+    public function showRegisterForm()
+    {
+        $this->getRoles();
+    }
 
-		try {
-			$user = User::register($email, $password);
-			$success = 'Usuario registrado con exito';
-			parent::showView('register.view.twig', [
-				"status"=>$success
-			]);
-			
-		} catch(ModelNotFoundException $e) {
-			$error = 'Error al registrar usuario: ' . $e->getMessage();
-			parent::showView('register.view.twig', [
-				"status"=>$error
-			]);
-		}
-	}
+    public function register()
+    {
+        $data = $_POST;
+        
+        $email = $data['username'];
+        $password = $data['password'];
+        $rol_id = $data['rol_id'];
 
+        try {
+			$user = new User();
+            $user->register($email, $password, $rol_id); // Llamada no estática
+        	parent::showView('index.view.twig');
+        } catch(ModelNotFoundException $e) {
+            $error = 'Ocurrio un error al registrar el usuario';
+            parent::showView('register.view.twig', [
+                "status" => $error
+            ]);
+        }
+    }
 }

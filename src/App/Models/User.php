@@ -39,34 +39,28 @@ class User extends Model
         return $model;
     }
 
-    public function register($email, $password)
+
+    public function register($username, $password, $rol_id)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $createdAt = date('Y-m-d H:i:s');
-
-        try {
-            // Verificar si el usuario ya existe
-            $where = [
-                "email" => $email
-            ];
-            $existingUser = $this->queryBuilder->select(static::$table, $where);
-            
-            if ($existingUser) {
-                throw new Exception("El correo electrónico ya está registrado");
-            }
-
-            // Insertar el nuevo usuario
-            $data = [
-                'email' => $email,
-                'password' => $hashedPassword,
-                'created_at' => $createdAt
-            ];
-            $this->queryBuilder->insert(static::$table, $data);
-
-        } catch (Exception $e) {
-            throw new Exception("Error al registrar usuario: " . $e->getMessage());
+        // Verificar si el QueryBuilder está inicializado en el modelo base (Model.php)
+        if (!$this->queryBuilder) {
+            throw new Exception("QueryBuilder no inicializado en User.");
         }
 
-        return true;
+        // Obtener el QueryBuilder configurado en el modelo base (Model.php)
+        $qb = $this->queryBuilder;
+
+        // Construir la inserción con los datos proporcionados
+        $lastInsertId = $qb->insert(static::$table)
+            ->values([
+                'email' => $username,
+                'password' => password_hash($password, PASSWORD_BCRYPT),
+                'rol_id' => $rol_id,
+                'last_login' => 'NOW()' // Considera si es necesario, de lo contrario, manéjalo de otra manera
+            ])
+            ->execute();
+
+        return $lastInsertId;
     }
+   
 }

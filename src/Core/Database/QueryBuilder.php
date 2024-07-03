@@ -51,18 +51,69 @@ class QueryBuilder
         return $sentencia->fetchAll();
     }
 
-    public function insert()
+    public function insert($table, $values)
     {
-        
+        $columns = implode(', ', array_keys($values));
+        $placeholders = ':' . implode(', :', array_keys($values));
+
+        $query = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
+        $statement = $this->pdo->prepare($query);
+
+        foreach ($values as $key => $value) {
+            $statement->bindValue(":{$key}", $value);
+        }
+
+        $statement->execute();
+
+        return $this->pdo->lastInsertId();
     }
 
-    public function update()
+    public function update($table, $values, $where = [])
     {
-        
+        $setClause = [];
+        foreach ($values as $key => $value) {
+            $setClause[] = "{$key} = :{$key}";
+        }
+
+        $whereStr = "";
+        foreach ($where as $key => $value) {
+            $whereStr .= "AND {$key} = :where_{$key} ";
+        }
+        $whereStr = trim($whereStr, "AND ");
+
+        $query = "UPDATE {$table} SET " . implode(', ', $setClause) . " WHERE {$whereStr}";
+        $statement = $this->pdo->prepare($query);
+
+        foreach ($values as $key => $value) {
+            $statement->bindValue(":{$key}", $value);
+        }
+
+        foreach ($where as $key => $value) {
+            $statement->bindValue(":where_{$key}", $value);
+        }
+
+        $statement->execute();
+
+        return $statement->rowCount();
     }
 
-    public function delete()
+    public function delete($table, $where = [])
     {
-        
+        $whereStr = "";
+        foreach ($where as $key => $value) {
+            $whereStr .= "AND {$key} = :{$key} ";
+        }
+        $whereStr = trim($whereStr, "AND ");
+
+        $query = "DELETE FROM {$table} WHERE {$whereStr}";
+        $statement = $this->pdo->prepare($query);
+
+        foreach ($where as $key => $value) {
+            $statement->bindValue(":{$key}", $value);
+        }
+
+        $statement->execute();
+
+        return $statement->rowCount();
     }
 }

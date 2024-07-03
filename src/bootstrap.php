@@ -53,5 +53,5 @@ $router->get('/index', 'PageController@index');
 $router->get('/login', 'PageController@login');
 $router->post('/login', 'UserController@login');
 
-$router->get('/register', 'PageController@register');
+$router->get('/register', 'UserController@showRegisterForm');
 $router->post('/register', 'UserController@register');
