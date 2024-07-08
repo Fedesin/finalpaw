@@ -42,23 +42,18 @@ class User extends Model
 
     public function register($username, $password, $rol_id)
     {
-        // Verificar si el QueryBuilder está inicializado en el modelo base (Model.php)
+        // Verificar si el QueryBuilder está inicializado
         if (!$this->queryBuilder) {
             throw new Exception("QueryBuilder no inicializado en User.");
         }
 
-        // Obtener el QueryBuilder configurado en el modelo base (Model.php)
-        $qb = $this->queryBuilder;
-
-        // Construir la inserción con los datos proporcionados
-        $lastInsertId = $qb->insert(static::$table)
-            ->values([
-                'email' => $username,
-                'password' => password_hash($password, PASSWORD_BCRYPT),
-                'rol_id' => $rol_id,
-                'last_login' => 'NOW()' // Considera si es necesario, de lo contrario, manéjalo de otra manera
-            ])
-            ->execute();
+        // Insertar el usuario
+        $lastInsertId = $this->queryBuilder->insert(static::$table, [
+            'email' => $username,
+            'password' => password_hash($password, PASSWORD_BCRYPT),
+            'rol_id' => $rol_id,
+            'last_login' => date('Y-m-d H:i:s')
+        ]);
 
         return $lastInsertId;
     }

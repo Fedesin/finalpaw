@@ -44,7 +44,7 @@ class Config
 
     public static function getDBName()
     {
-        return self::getVar("DB_DBNAME", "unlupaw");
+        return self::getVar("DB_DBNAME", "finalpaw");
     }
 
     public static function getDBUsername()

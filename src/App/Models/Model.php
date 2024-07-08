@@ -15,7 +15,17 @@ class Model
 
     protected static $table = '';
 
-    private $queryBuilder;
+    protected $queryBuilder;
+
+    public function __construct()
+    {
+        // Obtener la conexión desde ConnectionBuilder y pasarla a QueryBuilder
+        $connection = ConnectionBuilder::getInstance();
+        if ($connection === null) {
+            throw new Exception("No se pudo obtener la conexión a la base de datos.");
+        }
+        $this->queryBuilder = new QueryBuilder($connection);
+    }
 
     public function setQueryBuilder(QueryBuilder $qb)
     {
