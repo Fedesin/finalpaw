@@ -29,6 +29,5 @@ ENV LOG_CHANNEL stderr
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN composer update
-
-#RUN ./vendor/bin/phinx migrate
-CMD ["./vendor/bin/phinx", "migrate"]
+RUN ./vendor/bin/phinx migrate
+#CMD ["./vendor/bin/phinx", "migrate"]
