@@ -14,6 +14,14 @@ if(file_exists($environment.'.env')) {
 	$dotenv->load();
 }
 
+echo "DB_ADAPTER:".$_ENV["DB_ADAPTER"];
+echo "DB_HOSTNAME:".$_ENV["DB_HOSTNAME"];
+echo "DB_DBNAME:".$_ENV["DB_DBNAME"];
+echo "DB_USERNAME:".$_ENV["DB_USERNAME"];
+echo "DB_PASSWORD:".$_ENV["DB_PASSWORD"];
+echo "DB_PORT:".$_ENV["DB_PORT"];
+echo "DB_CHARSET:".$_ENV["DB_CHARSET"];
+
 return
 [
     'paths' => [
