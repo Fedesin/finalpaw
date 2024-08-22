@@ -311,104 +311,159 @@ footer y navbar
 Vamos ahora con el login
 */
 
-.login-container{
-    box-shadow: 0 0 3px var(--primary-black);
-    padding: 20px;
-    width: 300px;
-    text-align: center;
-    align-self: center;
-    margin-left: 37vw;
+.login-container {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */
+    padding: 20px; /* Espacio interno */
+    margin: auto; /* Centra el contenedor y agrega espacio superior/inferior */
+    background-color: var(--primary-white); /* Fondo similar */
+    border-radius: 10px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente ajustado */
+    color: var(--primary-black); /* Color de texto */
+    text-align: left; /* Alineación del texto a la izquierda */
 }
 
-@media (max-width:565px) and (min-width:401px) {
-    .login-container{
-        margin-left: 10vw;
-    }
+.login-container h1 {
+    font-size: 20px; /* Tamaño más grande para el título */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    color: var(--primary-green); /* Color del título */
+    text-align: center; /* Centra el título */
 }
 
-
-@media (max-width:679px) and (min-width:566px) {
-    .login-container{
-        margin-left: 21vw;
-    }
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre elementos */
 }
-
-@media (max-width:865px) and (min-width:680px) {
-    .login-container{
-        margin-left: 25vw;
-    }
-}
-
-@media (max-width:1000px) and (min-width:866px) {
-    .login-container{
-        margin-left: 30vw;
-    }
-}
-
-@media (max-width:1361px) and (min-width:1001px) {
-    .login-container{
-        margin-left: 37vw;
-    }
-}
-
 
 .login-form label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #555555;
+    font-weight: bold; /* Peso de fuente mayor para etiquetas */
 }
 
 .login-form input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 5px;
-    box-sizing: border-box;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-
-.login-form a{
-    text-decoration: underline;
-    color: var(--second-grey);
-    font-family: var(--font-family)
+    padding: 10px; /* Espacio interno en campos */
+    border: 1px solid #ccc; /* Bordes suaves */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 14px; /* Ajuste de fuente */
 }
 
 .login-form button {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #4caf50;
-    color: #ffffff;
-    border: none;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
+    background-color: var(--primary-green); /* Color de fondo similar */
+    color: white; /* Color de texto blanco */
+    font-weight: bold;
+    padding: 10px; /* Relleno interno */
+    border: none; /* Sin bordes */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano */
+    transition: background-color 0.3s; /* Suaviza el cambio de color */
 }
 
 .login-form button:hover {
-    background-color: #45a049;
+    background-color: var(--second-light-blue); /* Color en hover */
 }
+
+.login-form a {
+    text-decoration: underline;
+    color: var(--second-light-blue); /* Color del enlace similar al esquema */
+    text-align: center; /* Centrado del enlace */
+    margin-top: 10px; /* Espacio superior al enlace */
+}
+
+.login-form p{
+    color: red; /* Cambiar color si el estado es un error */
+    text-align: center; /* Centrar el texto de estado */
+    font-weight: bold; /* Texto en negrita */
+}
+
+
+
 
 
 /*
 Hasta aca es login
 
 Vamos ahora con la gestion de tipo de producto
+
+colores:
+--primary-white: #FBFBFB;
+--primary-green: #2C7733;
+--primary-yellow: #FF8523;
+--primary-red: #C12424;
+--primary-blue: #1E648A;
+--primary-black: #1C1C1C;
+
+--second-light-blue: #0393C2;
+--second-light-green: #99CB9D;
+--second-grey: #3b4a5a;
+--second-light-grey: #eef1ef;
+
 */
-.admtipopro-container{
-    box-shadow: 0 0 3px var(--primary-black);
-    padding: auto;
-    width: auto;
-    height: auto;
-    text-align: center;
-    align-self: center;
-    margin: auto;
-    display: block;
-    font-size: 14px;
-    color: #555555;
+.admtipopro-container {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
+    padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
+    max-width: 400px; /* Limita el ancho máximo del contenedor */
+    margin: 20px auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+    background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
+    border-radius: 10px; /* Añade bordes redondeados */
+    font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
+    color: var(--primary-black); /* Cambia el color de texto para mejor contraste */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.admtipopro-container h1 {
+    font-size: 20px; /* Tamaño más grande para el título */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    color: var(--primary-green); /* Color del título */
+    text-align: center; /* Centra el título */
+}
+
+.admtipopro-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los elementos del formulario */
+}
+
+.admtipopro-container label {
+    font-weight: bold; /* Hace el texto de los labels más visible */
+}
+
+.admtipopro-container input[type="text"],
+.admtipopro-container select {
+    padding: 8px; /* Añade un relleno interno */
+    border: 1px solid #ccc; /* Define un borde suave */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 14px; /* Ajusta el tamaño de la fuente */
+}
+
+.admtipopro-container button {
+    background-color: var(--primary-green); /* Color de fondo del botón */
+    color: var(--primary-white); /* Color de texto del botón */
+    padding: 10px; /* Relleno interno del botón */
+    border: none; /* Sin bordes */
+    font-weight: 600;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+    transition: background-color 0.3s; /* Efecto suave al cambiar color de fondo */
+}
+
+.admtipopro-container button:hover {
+    background-color: var(--second-light-blue); /* Color de fondo al pasar el ratón por encima */
+}
+
+.admtipopro-container table {
+    width: 100%; /* La tabla ocupa todo el ancho del contenedor */
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+    margin-top: 20px; /* Espacio encima de la tabla */
+}
+
+.admtipopro-container th,
+.admtipopro-container td {
+    padding: 10px; /* Añade relleno interno a las celdas */
+    border: 1px solid #ccc; /* Bordes suaves */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.admtipopro-container th {
+    background-color: var(--primary-green); /* Color de fondo de la cabecera */
+    color: var(--primary-white); /* Color de texto de la cabecera */
 }
 
