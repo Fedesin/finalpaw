@@ -1,0 +1,41 @@
+{% extends 'base.twig' %}
+
+
+{% block content %}
+
+  <main class="admlotes-container">
+    <h1>Creación de Lotes</h1>
+    <!-- Formulario para Agregar/Editar Usuario -->
+    <form id="formularioUsuario" onsubmit="guardarUsuario(event)">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" required>
+            <option value="tipo_prod">Queso</option>
+        </select>
+        <label for="producto">Producto:</label>
+        <select id="producto" required>
+            <option value="sardo">Sardo</option>
+            <option value="quartirolo">Quartirolo</option>
+        </select>
+        
+        
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" required>
+        <label for="nro">Producción N°:</label>
+        <input type="number" id="nro" required>
+
+        <label for="supervisor">Supervisor:</label>
+        <input type="email" id="supervisor" required>
+
+        <label for="enc_de_prod">Encargado de Producción:</label>
+        <input type="email" id="enc_de_prod" required>
+
+        <label for="enc_de_limp">Encargado de Limpieza:</label>
+        <input type="email" id="enc_de_limp" required>
+
+        <label for="blanco"></label>
+        <button type="submit">Guardar</button>
+    </form>
+  </main>
+
+{% endblock %}
+  

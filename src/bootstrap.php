@@ -57,3 +57,5 @@ $router->get('/register', 'UserController@showRegisterForm');
 $router->post('/register', 'UserController@register');
 
 $router->get('/admtipopro', 'PageController@admtipopro');
+
+$router->get('/admlotes', 'PageController@admlotes');
