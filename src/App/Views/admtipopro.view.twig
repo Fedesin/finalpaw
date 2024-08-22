@@ -10,7 +10,7 @@
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" required placeholder="Queso">
         <button type="submit">Agregar tipo de producto</button>
-    </form>
+    
 
     <label for="tipoprod">Tipo de producto:</label>
         <select id="tipoprod" name="tipoprod_id" required>
@@ -18,7 +18,7 @@
               <option value="{{ tipoprod.id }}">{{ tipoprod.nombre }}</option>
             {% endfor %}
         </select>
-
+    </form>
     <input type="text" id="agregarFase" placeholder="Pasteurización">
     <table id="tablaTipoProd">
         <tr>
