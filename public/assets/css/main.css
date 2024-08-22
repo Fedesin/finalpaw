@@ -394,3 +394,21 @@ Vamos ahora con el login
 }
 
 
+/*
+Hasta aca es login
+
+Vamos ahora con la gestion de tipo de producto
+*/
+.admtipopro-container{
+    box-shadow: 0 0 3px var(--primary-black);
+    padding: auto;
+    width: auto;
+    height: auto;
+    text-align: center;
+    align-self: center;
+    margin: auto;
+    display: block;
+    font-size: 14px;
+    color: #555555;
+}
+

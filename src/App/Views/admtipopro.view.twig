@@ -1,0 +1,33 @@
+{% extends 'base.twig' %}
+
+
+{% block content %}
+
+  <main class="admtipopro-container">
+    <h1>Gestión de Tipo de producto</h1>
+   
+    <form id="formularioTipoProd" onsubmit="guardarTipoProd(event)">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required placeholder="Queso">
+        <button type="submit">Agregar tipo de producto</button>
+    </form>
+
+    <label for="tipoprod">Tipo de producto:</label>
+        <select id="tipoprod" name="tipoprod_id" required>
+            {% for tipoprod in tipoproductos %}
+              <option value="{{ tipoprod.id }}">{{ tipoprod.nombre }}</option>
+            {% endfor %}
+        </select>
+
+    <input type="text" id="agregarFase" placeholder="Pasteurización">
+    <table id="tablaTipoProd">
+        <tr>
+            <th>Tipo de producto</th>
+            <th>Fase</th>
+        </tr>
+        <button type="submit">Agregar Fases</button>
+    </table>
+  </main>
+
+{% endblock %}
+  

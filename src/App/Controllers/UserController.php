@@ -20,14 +20,16 @@ class UserController extends BaseController
 
     public function login()
     {
-        $data = $_POST;
-        $valido = true;
-        
+        $data = $_POST;        
         $email = $data['username'];
         $password = $data['password'];
 
         try {
             $user = User::valid($email, $password);
+            // Iniciar la sesión y almacenar el email del usuario
+            //session_start();
+            $_SESSION['username'] = $user->email;
+
             parent::showView('index.view.twig');
             
         } catch(ModelNotFoundException $e) {

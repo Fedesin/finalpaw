@@ -24,4 +24,9 @@ class PageController extends BaseController
     {
         parent::showView('register.view.twig');
     }
+
+    public function admtipopro ()
+    {
+        parent::showView('admtipopro.view.twig');
+    }
 }
