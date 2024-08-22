@@ -500,7 +500,7 @@ colores:
 .admtipopro-container td {
     padding: 10px; /* Añade relleno interno a las celdas */
     border: 1px solid #ccc; /* Bordes suaves */
-    text-align: left; /* Alinea el texto a la izquierda */
+    text-align: center; /* Alinea el texto a la izquierda */
 }
 
 .admtipopro-container th {
