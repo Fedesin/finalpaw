@@ -329,6 +329,26 @@ Vamos ahora con el login
     text-align: center; /* Centra el título */
 }
 
+.register-container {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */
+    padding: 20px; /* Espacio interno */
+    margin: auto; /* Centra el contenedor y agrega espacio superior/inferior */
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    background-color: var(--primary-white); /* Fondo similar */
+    border-radius: 10px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente ajustado */
+    color: var(--primary-black); /* Color de texto */
+    text-align: left; /* Alineación del texto a la izquierda */
+}
+
+.register-container h1 {
+    font-size: 20px; /* Tamaño más grande para el título */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    color: var(--primary-green); /* Color del título */
+    text-align: center; /* Centra el título */
+}
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -338,6 +358,26 @@ Vamos ahora con el login
 .login-form label {
     font-weight: bold; /* Peso de fuente mayor para etiquetas */
 }
+
+.login-form select {
+    width: 100%; /* Ancho completo del contenedor */
+    padding: 10px; /* Espacio interno */
+    margin-bottom: 10px; /* Espacio inferior */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold; /* Peso de la fuente */
+    color: var(--primary-black); /* Color del texto */
+    background-color: var(--primary-white); /* Fondo claro */
+    border: 2px solid #ccc; /* Borde sólido */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano para interactuar */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+}
+.login-form select:hover {
+    border-color: var(--second-light-blue); /* Color del borde al pasar el ratón */
+}
+
+
+
 
 .login-form input {
     padding: 10px; /* Espacio interno en campos */
