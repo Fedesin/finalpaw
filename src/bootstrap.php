@@ -59,3 +59,11 @@ $router->post('/register', 'UserController@register');
 $router->get('/admtipopro', 'PageController@admtipopro');
 
 $router->get('/admlotes', 'PageController@admlotes');
+
+$router->get('/admfases', 'PageController@admfases');
+
+$router->get('/admform', 'PageController@admform');
+
+$router->get('/admalert', 'PageController@admalert');
+
+$router->get('/admuser', 'PageController@admuser');

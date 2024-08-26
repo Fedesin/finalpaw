@@ -34,4 +34,24 @@ class PageController extends BaseController
     {
         parent::showView('admlotes.view.twig');
     }
+
+    public function admfases ()
+    {
+        parent::showView('admfases.view.twig');
+    }
+
+    public function admform ()
+    {
+        parent::showView('admform.view.twig');
+    }
+
+    public function admalert ()
+    {
+        parent::showView('admalert.view.twig');
+    }
+
+    public function admuser ()
+    {
+        parent::showView('admuser.view.twig');
+    }
 }

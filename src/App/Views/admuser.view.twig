@@ -1,0 +1,38 @@
+
+{% extends 'base.twig' %}
+
+
+{% block content %}
+<main class="admform-container">
+    <h1>Gestión de Usuarios</h1>
+
+    <!-- Filtro de Usuarios -->
+    <input type="text" id="filtro" placeholder="Filtrar por nombre">
+    <button onclick="filtrarUsuarios()">Filtrar</button>
+
+    <!-- Tabla de Usuarios -->
+    <table id="tablaUsuarios">
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+        <!-- Aquí se cargarán dinámicamente los usuarios -->
+    </table>
+
+    <!-- Formulario para Agregar/Editar Usuario -->
+    <form id="formularioUsuario" onsubmit="guardarUsuario(event)">
+        <label for="email">Email:</label>
+        <input type="text" id="nombre" required>
+        <label for="rol">Rol:</label>
+        <select id="rol" required>
+            <option value="usuario">Usuario</option>
+            <option value="supervisor">Supervisor</option>
+            <option value="administrador">Administrador</option>
+        </select>
+        <button type="submit">Guardar</button>
+    </form>
+  </main>
+
+{% endblock %}
