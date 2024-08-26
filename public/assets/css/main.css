@@ -755,6 +755,10 @@ Modo oscuro
         background-color: var(--primary-blue); /* Color de fondo similar */
         color: var(--second-light-grey); /* Color de texto blanco */
     }
+    .admtipopro-container th,
+    .admtipopro-container td {
+        border: 1px solid #494949; /* Bordes suaves */
+    }
     .admtipopro-container th {
         background-color: var(--primary-blue); /* Color de fondo de la cabecera */
         color: var(--primary-white); /* Color de texto de la cabecera */
@@ -788,6 +792,10 @@ Modo oscuro
     .admform-container th {
         background-color: var(--primary-blue); /* Color de fondo de la cabecera */
         color: var(--primary-white); /* Color de texto de la cabecera */
+    }
+    .admform-container th,
+    .admform-container td {
+        border: 1px solid #494949; /* Bordes suaves */
     }
 
  }
