@@ -651,4 +651,143 @@ Vamos ahora con la gestion de formularios
     background-color: var(--primary-green); /* Color de fondo de la cabecera */
     color: var(--primary-white); /* Color de texto de la cabecera */
 }
+/*
+-----------------------------
+Vista de impresion
+-----------------------------
+*/
 
+@media print  {
+    nav {
+        display: none;
+    }
+    footer {
+        display: none;
+    }
+    main {
+        float: none
+    }
+}
+/*
+-----------------------------
+Modo oscuro
+-----------------------------
+*/
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--primary-black);
+    }
+    header{
+        background-color: var(--primary-blue);
+    }
+    header a:link{
+        color: var(--second-light-green);
+    }
+    header a:hover{
+        color: var(--second-light-green);
+    }
+    header a:visited{
+        color: var(--second-light-green);  
+    }
+    nav{
+        background-color: var(--second-grey);
+    }
+    nav a {
+        color: var(--second-light-green);   
+    }
+    footer{
+        background-color: #3b4a5a;
+    }
+    
+    .login-container h1{
+        color: var(--second-light-green);
+    }
+
+    .login-container{
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+
+    .login-form p{
+        color: var(--primary-white); /* Cambiar color si el estado es un error */
+    }
+    .login-form a {
+        color: var(--second-light-grey); /* Color del enlace similar al esquema */
+    }
+    .login-form button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+
+    .register-container h1{
+        color: var(--second-light-green);
+    }
+
+    .register-container{
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+
+    .register-form button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+
+    
+
+    .admtipopro-container h1{
+        color: var(--second-light-green);
+    }
+
+    .admtipopro-container{
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+
+    .admtipopro-container p{
+        color: var(--primary-white); /* Cambiar color si el estado es un error */
+    }
+    .admtipopro-container a {
+        color: var(--second-light-grey); /* Color del enlace similar al esquema */
+    }
+    .admtipopro-container button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+    .admtipopro-container th {
+        background-color: var(--primary-blue); /* Color de fondo de la cabecera */
+        color: var(--primary-white); /* Color de texto de la cabecera */
+    }
+
+    .admlotes-container h1{
+        color: var(--second-light-green);
+    }
+
+    .admlotes-container{
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+    .admlotes-container button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+
+
+    .admform-container h1{
+        color: var(--second-light-green);
+    }
+    .admform-container {
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+    .admform-container button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+    .admform-container th {
+        background-color: var(--primary-blue); /* Color de fondo de la cabecera */
+        color: var(--primary-white); /* Color de texto de la cabecera */
+    }
+
+ }
