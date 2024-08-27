@@ -332,9 +332,7 @@ Vamos ahora con el login
 .register-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */
     padding: 20px; /* Espacio interno */
-    margin: auto; /* Centra el contenedor y agrega espacio superior/inferior */
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+    margin:  2vh auto 2vh; /* Centra el contenedor y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Fondo similar */
     border-radius: 10px; /* Bordes redondeados */
     font-size: 16px; /* Tamaño de fuente ajustado */
@@ -441,7 +439,7 @@ colores:
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     max-width: 400px; /* Limita el ancho máximo del contenedor */
-    margin: 20px auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -515,13 +513,12 @@ Gestion de Fases
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     max-width: 400px; /* Limita el ancho máximo del contenedor */
-    margin: 20px auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
     color: var(--primary-black); /* Cambia el color de texto para mejor contraste */
     text-align: left; /* Alinea el texto a la izquierda */
-    margin-bottom: auto;
 }
 
 .admfases-container h1 {
@@ -588,7 +585,7 @@ Vamos ahora con la gestion de lotes
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     width: 80%;
     max-width: 80vw; /* Limita el ancho máximo del contenedor */
-    margin: 3vh auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+    margin: 3vh auto 3vh; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -649,13 +646,12 @@ Vamos ahora con la gestion de formularios
 .admform-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
-    margin: 20px auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
     color: var(--primary-black); /* Cambia el color de texto para mejor contraste */
     text-align: left; /* Alinea el texto a la izquierda */
-    margin-bottom: auto;
 }
 
 .admform-container h1 {
