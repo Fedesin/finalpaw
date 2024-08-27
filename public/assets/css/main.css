@@ -868,4 +868,33 @@ Modo oscuro
         border: 1px solid #494949; /* Bordes suaves */
     }
 
+
+    .admfases-container h1{
+        color: var(--second-light-green);
+    }
+
+    .admfases-container{
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+
+    .admfases-container p{
+        color: var(--primary-white); /* Cambiar color si el estado es un error */
+    }
+    .admfases-container a {
+        color: var(--second-light-grey); /* Color del enlace similar al esquema */
+    }
+    .admfases-container button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+    .admfases-container th,
+    .admfases-container td {
+        border: 1px solid #494949; /* Bordes suaves */
+    }
+    .admfases-container th {
+        background-color: var(--primary-blue); /* Color de fondo de la cabecera */
+        color: var(--primary-white); /* Color de texto de la cabecera */
+    }
+
  }
