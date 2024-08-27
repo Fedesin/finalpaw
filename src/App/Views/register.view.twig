@@ -23,7 +23,9 @@
             {% endfor %}
         </select>
 
-        <p>{{ status }}</p>
+        {% if status %}
+        <p class="login-error">{{ status }}</p>
+        {% endif %}
         <button type="submit" id="submit-button">Registrarse</button>
         
         

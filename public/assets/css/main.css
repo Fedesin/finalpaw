@@ -329,6 +329,10 @@ Vamos ahora con el login
     text-align: center; /* Centra el título */
 }
 
+.login-form > .login-error {
+    margin: 0;
+}
+
 .register-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */
     padding: 20px; /* Espacio interno */

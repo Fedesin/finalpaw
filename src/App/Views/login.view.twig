@@ -19,9 +19,9 @@
         <input type="password" id="password" name="password" required>
 
         <button type="submit">Acceder</button>
-        
-        <p "{{ status }}">{{ status }}</p>
-        
+        {% if status %}
+        <p class="login-error">{{ status }}</p>
+        {% endif %}
         <a href="#">Olvidé mi contraseña</a>
     </form>
     
