@@ -2,6 +2,7 @@
 
 namespace Paw\App\Controllers;
 use Paw\Core\Validator;
+use Paw\Core\Session;
 use Paw\App\Models\User;
 use Paw\Core\Exceptions\ModelNotFoundException;
 
@@ -26,12 +27,12 @@ class UserController extends BaseController
 
         try {
             $user = User::valid($email, $password);
+
             // Iniciar la sesión y almacenar el email del usuario
-            //session_start();
-            $_SESSION['username'] = $user->email;
+            $session = Session::getInstance();
+            $session->email = $user->email;
 
             parent::showView('index.view.twig');
-            
         } catch(ModelNotFoundException $e) {
             $error = 'Usuario o contraseña incorrecto';
             parent::showView('login.view.twig', [

@@ -44,6 +44,7 @@ if (!is_dir($cachePath)) {
 // You can also set other Twig options as needed
 $twig->setCache($cachePath);
 */
+
 $router = new Router('ErrorController@notFound', 'ErrorController@internalError');
 $router->setLogger($log);
 

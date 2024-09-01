@@ -5,6 +5,7 @@ namespace Paw\App\Controllers;
 use Paw\App\Models\Model;
 use Paw\Core\Database\QueryBuilder;
 use Paw\App\Models;
+use Paw\Core\Session;
 
 class BaseController
 {
@@ -35,6 +36,7 @@ class BaseController
     protected function showView(String $view, array $data = null)
     {
         global $twig;
+
         if (isset($data)) {
             //extract($data);
             foreach ($data as $key => $value) {
@@ -42,6 +44,11 @@ class BaseController
             }
         }
         
+        $session = Session::getInstance();
+
+        if(isset($session->email))
+            $twig->addGlobal('email', $session->email);
+
         $template = $twig->load($view);
         echo $template->render();
     }
