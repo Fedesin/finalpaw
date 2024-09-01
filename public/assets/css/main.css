@@ -49,17 +49,17 @@ header a {
     background-size: 100%;
     background-repeat: no-repeat;
 }
-header a:link{
+header a:link {
     text-decoration: none;
     color: var(--primary-green);
     font-family: var(--font-family)
 }
-header a:hover{
+header a:hover {
     text-decoration: none;
     color: var(--primary-green);
     font-family: var(--font-family)
 }
-header a:visited{
+header a:visited {
     text-decoration: none;
     color: var(--primary-green);
     font-family: var(--font-family)
@@ -103,8 +103,7 @@ nav > ul {
 nav a {
     color: white;
     font-family: 'Gotham', sans-serif;
-    text-decoration: none;
-    
+    text-decoration: none; 
 }
 
 nav ul li {
@@ -143,7 +142,7 @@ nav li:hover {
     position: relative;
     z-index: 2;
     transform: scale(1.1);
-    background-color:#0393C2;
+    background-color: #0393C2;
 }
 
 .navbarDropOption > ul > li:hover {
@@ -151,8 +150,8 @@ nav li:hover {
 }
 
 @keyframes opacity {
-   0% {opacity: 0};
-  100% {opacity: 1};
+    0% {opacity: 0};
+    100% {opacity: 1};
 }
 
 #hamburgerMenu {
@@ -216,8 +215,6 @@ label[for=hamburgerMenu]:after {
         background-color: #0393C2;
     }
 
-    
-
     .navbarDropOption > ul {
         margin-left: 11ch;
         margin-top: -2em;
@@ -242,8 +239,7 @@ label[for=hamburgerMenu]:after {
     }
 
     label[for=hamburgerMenu] {
-        display: inline-block;
-        
+        display: inline-block;   
     }
 
     nav #hamburgerMenu:not(:checked) ~ ul {
@@ -253,19 +249,21 @@ label[for=hamburgerMenu]:after {
     footer {
         display: none;
     }
-
 }
 
 @media (max-width:436px) {
-    header a{
+    header a {
         font-size: smaller;
     }
-    nav a{
+
+    nav a {
         font-size: small;
     }
+
     footer {
         font-size: smaller;
     }
+
     footer p {
         margin-bottom: 0;
     }
@@ -293,15 +291,19 @@ footer {
 }
 
 footer > p {
-    margin-top:0.2em;
-    margin-bottom:auto;
+    margin-top: 0.2em;
+    margin-bottom: auto;
 }
 
 footer > ul {
     list-style: none;
-    margin-top:0.2em;
-    margin-bottom:auto;
+    margin-top: 0.2em;
+    margin-bottom: auto;
     padding: 0;
+}
+
+body > main {
+    margin: 2em auto auto;
 }
 
 /*
@@ -314,7 +316,6 @@ Vamos ahora con el login
 .login-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */
     padding: 20px; /* Espacio interno */
-    margin: auto; /* Centra el contenedor y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Fondo similar */
     border-radius: 10px; /* Bordes redondeados */
     font-size: 16px; /* Tamaño de fuente ajustado */
@@ -324,19 +325,21 @@ Vamos ahora con el login
 
 .login-container h1 {
     font-size: 1.5em; /* Tamaño más grande para el título */
-    margin-bottom: 20px; /* Espacio debajo del título */
+/*    margin-bottom: 20px; /* Espacio debajo del título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
 }
 
+/*
 .login-form > .login-error {
     margin: 0;
 }
+*/
 
 .register-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */
     padding: 20px; /* Espacio interno */
-    margin:  2vh auto 2vh; /* Centra el contenedor y agrega espacio superior/inferior */
+/*    margin: 2vh auto 2vh; /* Centra el contenedor y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Fondo similar */
     border-radius: 10px; /* Bordes redondeados */
     font-size: 16px; /* Tamaño de fuente ajustado */
@@ -346,7 +349,7 @@ Vamos ahora con el login
 
 .register-container h1 {
     font-size: 1.5em; /* Tamaño más grande para el título */
-    margin-bottom: 20px; /* Espacio debajo del título */
+ /*   margin-bottom: 20px; /* Espacio debajo del título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
 }
@@ -374,12 +377,10 @@ Vamos ahora con el login
     cursor: pointer; /* Cursor de mano para interactuar */
     transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
 }
+
 .login-form select:hover {
     border-color: var(--second-light-blue); /* Color del borde al pasar el ratón */
 }
-
-
-
 
 .login-form input {
     padding: 10px; /* Espacio interno en campos */
@@ -417,9 +418,6 @@ Vamos ahora con el login
 }
 
 
-
-
-
 /*
 Hasta aca es login y register
 
@@ -443,7 +441,7 @@ colores:
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     max-width: 400px; /* Limita el ancho máximo del contenedor */
-    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+/*    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -453,7 +451,7 @@ colores:
 
 .admtipopro-container h1 {
     font-size: 1.5em; /* Tamaño más grande para el título */
-    margin-top: 0;
+/*    margin-top: 0;
     margin-bottom: 20px; /* Espacio debajo del título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
@@ -517,7 +515,7 @@ Gestion de Fases
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     max-width: 400px; /* Limita el ancho máximo del contenedor */
-    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+/*    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -527,7 +525,7 @@ Gestion de Fases
 
 .admfases-container h1 {
     font-size: 1.5em; /* Tamaño más grande para el título */
-    margin-top: 0;
+/*    margin-top: 0;
     margin-bottom: 20px; /* Espacio debajo del título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
@@ -589,7 +587,7 @@ Vamos ahora con la gestion de lotes
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     width: 80%;
     max-width: 80vw; /* Limita el ancho máximo del contenedor */
-    margin: 3vh auto 3vh; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+/*    margin: 3vh auto 3vh; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -599,8 +597,9 @@ Vamos ahora con la gestion de lotes
 }
 
 .admlotes-container h1 {
-    margin-top: 0;
+/*    margin-top: 0;
     margin-bottom: 3vh;
+*/
     font-size: 1.5em; /* Tamaño más grande para el título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
@@ -650,7 +649,7 @@ Vamos ahora con la gestion de formularios
 .admform-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
-    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+/*    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -660,7 +659,7 @@ Vamos ahora con la gestion de formularios
 
 .admform-container h1 {
     font-size: 1.5em; /* Tamaño más grande para el título */
-    margin-top: 0;
+/*    margin-top: 0;
     margin-bottom: 20px; /* Espacio debajo del título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
@@ -733,13 +732,16 @@ Vista de impresion
     nav {
         display: none;
     }
+
     footer {
         display: none;
     }
+
     main {
         float: none
     }
 }
+
 /*
 -----------------------------
 Modo oscuro
@@ -806,8 +808,6 @@ Modo oscuro
         color: var(--second-light-grey); /* Color de texto blanco */
     }
 
-    
-
     .admtipopro-container h1{
         color: var(--second-light-green);
     }
@@ -844,32 +844,35 @@ Modo oscuro
         background-color: var(--second-grey);
         color: var(--primary-yellow);
     }
+
     .admlotes-container button {
         background-color: var(--primary-blue); /* Color de fondo similar */
         color: var(--second-light-grey); /* Color de texto blanco */
     }
 
-
     .admform-container h1{
         color: var(--second-light-green);
     }
+
     .admform-container {
         background-color: var(--second-grey);
         color: var(--primary-yellow);
     }
+
     .admform-container button {
         background-color: var(--primary-blue); /* Color de fondo similar */
         color: var(--second-light-grey); /* Color de texto blanco */
     }
+
     .admform-container th {
         background-color: var(--primary-blue); /* Color de fondo de la cabecera */
         color: var(--primary-white); /* Color de texto de la cabecera */
     }
+
     .admform-container th,
     .admform-container td {
         border: 1px solid #494949; /* Bordes suaves */
     }
-
 
     .admfases-container h1{
         color: var(--second-light-green);
@@ -883,17 +886,21 @@ Modo oscuro
     .admfases-container p{
         color: var(--primary-white); /* Cambiar color si el estado es un error */
     }
+
     .admfases-container a {
         color: var(--second-light-grey); /* Color del enlace similar al esquema */
     }
+
     .admfases-container button {
         background-color: var(--primary-blue); /* Color de fondo similar */
         color: var(--second-light-grey); /* Color de texto blanco */
     }
+
     .admfases-container th,
     .admfases-container td {
         border: 1px solid #494949; /* Bordes suaves */
     }
+    
     .admfases-container th {
         background-color: var(--primary-blue); /* Color de fondo de la cabecera */
         color: var(--primary-white); /* Color de texto de la cabecera */
