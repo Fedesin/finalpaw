@@ -76,12 +76,29 @@ header h1 {
 
 .user-profile {
     text-align: end;
-    align-content: end;
+    color: var(--primary-green);
+    display: flex;
+    align-items: baseline;
+    height: fit-content;
+    width: fit-content;
+    align-self: end;
 }
 
 .user-profile > h3 {
     white-space: nowrap;
     margin: 0.5em;
+}
+.user-profile > button {
+    background-color: var(--primary-white); /* Color de fondo similar */
+    color: var(--primary-green); /* Color de texto blanco */
+    padding: 0.1ch; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+.user-profile > button:hover {
+    background-color: var(--second-light-blue);
 }
 
 @keyframes scaleX {
@@ -115,8 +132,10 @@ nav > ul {
 
 nav a {
     color: white;
+    font-style: border;
     font-family: 'Gotham', sans-serif;
     text-decoration: none; 
+    font-weight: bold;
 }
 
 nav ul li {
@@ -261,6 +280,14 @@ label[for=hamburgerMenu]:after {
 
     footer {
         display: none;
+    }
+}
+@media (max-width:625px) {
+    header{
+        display: inline;
+    }
+    .user-profile {
+        float:inline-end
     }
 }
 
@@ -776,6 +803,13 @@ Modo oscuro
     }
     header a:visited{
         color: var(--second-light-green);  
+    }
+    .user-profile {
+        color: var(--second-light-green);
+    }
+    .user-profile > button {
+        background-color: var(--primary-blue); /* Color de fondo del botón */
+        color: var(--second-light-grey);
     }
     nav{
         background-color: var(--second-grey);
