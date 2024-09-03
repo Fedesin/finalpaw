@@ -3,7 +3,37 @@
 
 {% block content %}
 
-  <main>
+  <main class="index-container">
+    <form class="index-form" action="" method="post">
+        <h1>Datos del usuario</h1>
+
+        <label for="username">Usuario:</label>
+        {% if email %}
+          <h3>{{ email }}</h3> 
+        {% endif %}
+        <label for="rol">Rol:</label>
+        {% if rol %}
+          <h3>{{ rol }}</h3> 
+        {% endif %}
+
+        <h1>Cambiar contraseña</h1>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="repeat-password">Repita la contraseña:</label>
+        <input type="password" id="repeat-password" name="repeat-password" required>
+        
+        <button type="submit" id="submit-button">Cambiar contraseña</button>
+
+        <h1>Lista de producciones en las que participa</h1>
+        <table id="tablaProducciones">
+        <tr>
+            <th>Rol</th>
+            <th>Numero</th>
+            <th>Fecha</th>
+        </tr>
+    </table>
+    </form>
   </main>
 
 {% endblock %}

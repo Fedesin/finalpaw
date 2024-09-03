@@ -752,6 +752,111 @@ Vamos ahora con la gestion de formularios
     text-align: center; /* Alinea el texto a la izquierda */
 }
 
+/*
+Hasta aca es administracion de formularios
+
+vamos con los datos del usuario en el index
+*/
+
+.index-container {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */
+    padding: 20px; /* Espacio interno */
+    background-color: var(--primary-white); /* Fondo similar */
+    border-radius: 10px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente ajustado */
+    color: var(--primary-black); /* Color de texto */
+    text-align: left; /* Alineación del texto a la izquierda */
+}
+
+.index-container h1 {
+    font-size: 1.5em; /* Tamaño más grande para el título */
+    color: var(--primary-green); /* Color del título */
+    text-align: center; /* Centra el título */
+}
+.index-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre elementos */
+}
+
+.index-form label {
+    font-weight: bold; /* Peso de fuente mayor para etiquetas */
+}
+
+.index-form select {
+    width: 100%; /* Ancho completo del contenedor */
+    padding: 10px; /* Espacio interno */
+    margin-bottom: 10px; /* Espacio inferior */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold; /* Peso de la fuente */
+    color: var(--primary-black); /* Color del texto */
+    background-color: var(--primary-white); /* Fondo claro */
+    border: 2px solid #ccc; /* Borde sólido */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano para interactuar */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+}
+
+.index-form select:hover {
+    border-color: var(--second-light-blue); /* Color del borde al pasar el ratón */
+}
+
+.index-form input {
+    padding: 10px; /* Espacio interno en campos */
+    border: 1px solid #ccc; /* Bordes suaves */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 14px; /* Ajuste de fuente */
+}
+
+.index-form button {
+    background-color: var(--primary-green); /* Color de fondo similar */
+    color: white; /* Color de texto blanco */
+    font-weight: bold;
+    padding: 10px; /* Relleno interno */
+    border: none; /* Sin bordes */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano */
+    transition: background-color 0.3s; /* Suaviza el cambio de color */
+}
+
+.index-form button:hover {
+    background-color: var(--second-light-blue); /* Color en hover */
+}
+
+.index-form a {
+    text-decoration: underline;
+    color: var(--second-light-blue); /* Color del enlace similar al esquema */
+    text-align: center; /* Centrado del enlace */
+    margin-top: 10px; /* Espacio superior al enlace */
+}
+
+.index-form p{
+    color: red; /* Cambiar color si el estado es un error */
+    text-align: center; /* Centrar el texto de estado */
+    font-weight: bold; /* Texto en negrita */
+}
+
+.index-container th {
+    background-color: var(--primary-green); /* Color de fondo de la cabecera */
+    color: var(--primary-white); /* Color de texto de la cabecera */
+}
+
+.index-container table {
+    width: 100%; /* La tabla ocupa todo el ancho del contenedor */
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+}
+
+.index-container th,
+.index-container td {
+    padding: 10px; /* Añade relleno interno a las celdas */
+    border: 1px solid #ccc; /* Bordes suaves */
+    text-align: center; /* Alinea el texto a la izquierda */
+}
+
+.index-container h3{
+    color: var(--second-light-blue);
+}
+
 @media (max-width:500px) {
     .admform-container th,
     .admform-container td {
@@ -854,6 +959,36 @@ Modo oscuro
     .register-form button {
         background-color: var(--primary-blue); /* Color de fondo similar */
         color: var(--second-light-grey); /* Color de texto blanco */
+    }
+
+    .index-container h1{
+        color: var(--second-light-green);
+    }
+    .index-container h3{
+        color: var(--second-light-grey);
+    }
+
+    .index-container{
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+    .index-form button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+    .index-form p{
+        color: var(--primary-white); /* Cambiar color si el estado es un error */
+    }
+    .index-form a {
+        color: var(--second-light-grey); /* Color del enlace similar al esquema */
+    }
+    .index-container th,
+    .index-container td {
+        border: 1px solid #494949; /* Bordes suaves */
+    }
+    .index-container th {
+        background-color: var(--primary-blue); /* Color de fondo de la cabecera */
+        color: var(--primary-white); /* Color de texto de la cabecera */
     }
 
     .admtipopro-container h1{
