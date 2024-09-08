@@ -23,7 +23,7 @@
           <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.rol.nombre }}</td>
+            <td>{{ user.rol.nombre | ucfirst }}</td>
             <td></td>
           </tr>
         {% endfor %}
