@@ -1,6 +1,7 @@
 <?php
 
 namespace Paw\App\Controllers;
+use Paw\App\Models\Roles;
 use Paw\Core\Validator;
 
 class PageController extends BaseController
@@ -52,6 +53,10 @@ class PageController extends BaseController
 
     public function admuser ()
     {
-        parent::showView('admuser.view.twig');
+        $roles = Roles::getAll();
+
+        parent::showView('admuser.view.twig', [
+            "roles" => $roles
+        ]);
     }
 }
