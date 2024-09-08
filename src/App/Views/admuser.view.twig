@@ -7,9 +7,10 @@
     <h1>Gestión de Usuarios</h1>
 
     <!-- Filtro de Usuarios -->
-    <input type="text" id="filtro" placeholder="Filtrar por nombre">
-    <button onclick="filtrarUsuarios()">Filtrar</button>
-
+    <div class="filtrador">
+        <input type="text" id="filtro" placeholder="Filtrar por nombre">
+        <button onclick="filtrarUsuarios()">Filtrar</button>
+    </div>
     <!-- Tabla de Usuarios -->
     <table id="tablaUsuarios">
         <tr>
@@ -24,10 +25,26 @@
             <td>{{ user.id }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.rol.nombre | ucfirst }}</td>
-            <td></td>
+            <td>
+            <ul class="lista-horizontal">
+                <li><a class="{{ user.deshabilitado ? "up":"down" }}" href="#">
+                    <img/></a></li>
+                <li><a class="modify" href="#">
+                    <img/></a></li>
+            </ul>
+            </td>
           </tr>
         {% endfor %}
     </table>
+    <ul class="lista-horizontal">
+    <li class="button">&lt</li>
+    <li class="button">1</li>
+    <li class="button">2</li>
+    <li class="button pag-current" >3</li>
+    <li class="button">4</li>
+    <li class="button">5</li>
+    <li class="button">&gt</li>
+    </ul>
 
     <!-- Formulario para Agregar/Editar Usuario -->
     <form class="login-form" action="register" method="post">

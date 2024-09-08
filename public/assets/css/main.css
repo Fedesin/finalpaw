@@ -467,6 +467,34 @@ Vamos ahora con el login
     content: url('../../img/logout.svg');
 }
 
+.up {
+    height: 1.3em;
+}
+
+.up > img {
+    height: 1.3em;
+    content: url('../../img/up.svg');
+}
+.down {
+    height: 1.3em;
+}
+
+.down > img {
+    height: 1.3em;
+    content: url('../../img/down.svg');
+}
+
+.modify {
+    height: 1.3em;
+}
+
+.modify > img {
+    height: 1.3em;
+    content: url('../../img/modify.svg');
+}
+
+
+
 /*
 Hasta aca es login y register
 
@@ -760,6 +788,40 @@ Vamos ahora con la gestion de formularios
     text-align: center; /* Alinea el texto a la izquierda */
 }
 
+ul.lista-horizontal{
+    list-style: none;
+    margin: 0;
+    text-align: center;
+    padding: 0;
+}
+ul.lista-horizontal li{
+    display: inline-block;
+    margin: 0.5ch;
+}
+
+.paginador > .pag-current {
+    background-color: var(--second-light-blue);
+}
+
+.filtrador{
+    display: block;
+    text-align: center;
+}
+
+.button {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: fit-content;
+    padding: 10px;
+    align-self: end;
+    font-weight: bold;
+    background-color: var(--primary-green);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 /*
 Hasta aca es administracion de formularios
 
@@ -875,6 +937,10 @@ vamos con los datos del usuario en el index
 .admform-container th {
     background-color: var(--primary-green); /* Color de fondo de la cabecera */
     color: var(--primary-white); /* Color de texto de la cabecera */
+}
+
+main h1{
+    margin-top: 0;
 }
 /*
 -----------------------------
@@ -1020,7 +1086,7 @@ Modo oscuro
     }
     .admtipopro-container th,
     .admtipopro-container td {
-        border: 1px solid #494949; /* Bordes suaves */
+        border: 1px solid var(--primary-black); /* Bordes suaves */
     }
     .admtipopro-container th {
         background-color: var(--primary-blue); /* Color de fondo de la cabecera */
@@ -1062,7 +1128,8 @@ Modo oscuro
 
     .admform-container th,
     .admform-container td {
-        border: 1px solid #494949; /* Bordes suaves */
+        color: var(--second-light-green); /* Color de texto de la cabecera */
+        border: 1px solid var(--primary-blue); /* Bordes suaves */
     }
 
     .admfases-container h1{
@@ -1097,4 +1164,7 @@ Modo oscuro
         color: var(--primary-white); /* Color de texto de la cabecera */
     }
 
+    .button {
+        background-color: var(--primary-blue);
+    }
  }
