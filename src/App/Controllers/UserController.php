@@ -30,15 +30,22 @@ class UserController extends BaseController
 
             // Iniciar la sesión y almacenar el email del usuario
             $session = Session::getInstance();
+            $session->logged_in = true;
             $session->email = $user->email;
 
-            parent::showView('index.view.twig');
+            $this->redirect("/");
         } catch(ModelNotFoundException $e) {
             $error = 'Usuario o contraseña incorrecto';
             parent::showView('login.view.twig', [
                 "status" => $error
             ]);
         }
+    }
+
+    public function logout()
+    {
+        $session = Session::getInstance()->destroy();
+        $this->redirect("/");
     }
 
     public function getRoles()

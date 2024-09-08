@@ -6,6 +6,7 @@ use Paw\Core\Router;
 use Paw\Core\Config;
 use Paw\Core\Log;
 use Paw\Core\Request;
+use Paw\Core\Session;
 use Paw\Core\Database\ConnectionBuilder;
 
 use Monolog\Logger;
@@ -48,23 +49,31 @@ $twig->setCache($cachePath);
 $router = new Router('ErrorController@notFound', 'ErrorController@internalError');
 $router->setLogger($log);
 
-$router->get('/', 'PageController@index');
-$router->get('/index', 'PageController@index');
+$session = Session::getInstance();
 
-$router->get('/login', 'PageController@login');
-$router->post('/login', 'UserController@login');
+if(!isset($session->logged_in)) {
+    $router->get('/', 'PageController@login');
 
-$router->get('/register', 'UserController@showRegisterForm');
-$router->post('/register', 'UserController@register');
+    $router->get('/login', 'PageController@login');
+    $router->post('/login', 'UserController@login');
+} else {
+    $router->get('/logout', 'UserController@logout');
 
-$router->get('/admtipopro', 'PageController@admtipopro');
+    $router->get('/', 'PageController@index');
+    $router->get('/index', 'PageController@index');
 
-$router->get('/admlotes', 'PageController@admlotes');
+    $router->get('/register', 'UserController@showRegisterForm');
+    $router->post('/register', 'UserController@register');
 
-$router->get('/admfases', 'PageController@admfases');
+    $router->get('/admtipopro', 'PageController@admtipopro');
 
-$router->get('/admform', 'PageController@admform');
+    $router->get('/admlotes', 'PageController@admlotes');
 
-$router->get('/admalert', 'PageController@admalert');
+    $router->get('/admfases', 'PageController@admfases');
 
-$router->get('/admuser', 'PageController@admuser');
+    $router->get('/admform', 'PageController@admform');
+
+    $router->get('/admalert', 'PageController@admalert');
+
+    $router->get('/admuser', 'PageController@admuser');
+}

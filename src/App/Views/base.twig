@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="img/logo.png">
 	<link rel="stylesheet" type="text/css" href="/assets/css/main.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="https://fonts.cdnfonts.com/css/gotham" rel="stylesheet">
 	<script src="/assets/js/components/paw.js"></script>
 	<title>Planta piloto UNLU</title>
@@ -26,7 +25,9 @@
 		{% if email %}
 		<div class="user-profile">
 			<h3>{{ email }}</h3>
-			<button><i class="fa fa-sign-out"></i></button> 
+			<a class="logout" href="/logout">
+				<img src="img/logout.svg" />
+			</a>
 		</div>
 		{% endif %}
 	</header>

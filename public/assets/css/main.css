@@ -78,7 +78,7 @@ header h1 {
     text-align: end;
     color: var(--primary-green);
     display: flex;
-    align-items: baseline;
+    align-items: center;
     height: fit-content;
     width: fit-content;
     align-self: end;
@@ -458,6 +458,14 @@ Vamos ahora con el login
     font-weight: bold; /* Texto en negrita */
 }
 
+.logout {
+    height: 1.3em;
+}
+
+.logout > img {
+    height: 1.3em;
+    content: url('../../img/logout.svg');
+}
 
 /*
 Hasta aca es login y register

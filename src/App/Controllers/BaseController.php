@@ -33,6 +33,11 @@ class BaseController
         $this->model = $model;
     }
 
+    public function redirect(String $route) {
+        header("Location: ".$route);
+        exit();
+    }
+
     protected function showView(String $view, array $data = null)
     {
         global $twig;
