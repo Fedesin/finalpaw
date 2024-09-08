@@ -2,6 +2,7 @@
 
 namespace Paw\App\Models;
 
+use Paw\App\Models\Roles;
 use Exception;
 use Paw\Core\Exceptions\ModelNotFoundException;
 
@@ -12,7 +13,7 @@ class User extends Model
     protected $fields = [
         "email" => null,
         "password" => null,
-        "rol" => null,
+        "rol_id" => null,
         "created_at" => null,
         "last_login" => null,
     ];
@@ -20,6 +21,11 @@ class User extends Model
     protected $hidden = [
         "password"
     ];
+
+    public function getRol()
+    {
+        return Roles::getById($this->rol_id);
+    }
 
     public static function valid($user, $password)
     {

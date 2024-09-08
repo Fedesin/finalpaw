@@ -18,7 +18,15 @@
             <th>Rol</th>
             <th>Acciones</th>
         </tr>
-        <!-- Aquí se cargarán dinámicamente los usuarios -->
+        
+        {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.rol.nombre }}</td>
+            <td></td>
+          </tr>
+        {% endfor %}
     </table>
 
     <!-- Formulario para Agregar/Editar Usuario -->
