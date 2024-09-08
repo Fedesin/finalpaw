@@ -51,8 +51,10 @@ class BaseController
         
         $session = Session::getInstance();
 
-        if(isset($session->email))
+        if(isset($session->logged_in)) {
+            $twig->addGlobal('logged_in', true);
             $twig->addGlobal('email', $session->email);
+        }
 
         $template = $twig->load($view);
         echo $template->render();

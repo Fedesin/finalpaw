@@ -362,6 +362,7 @@ Vamos ahora con el login
     font-size: 16px; /* Tamaño de fuente ajustado */
     color: var(--primary-black); /* Color de texto */
     text-align: left; /* Alineación del texto a la izquierda */
+    min-width: 300px;
 }
 
 .login-container h1 {
@@ -371,11 +372,9 @@ Vamos ahora con el login
     text-align: center; /* Centra el título */
 }
 
-/*
 .login-form > .login-error {
     margin: 0;
 }
-*/
 
 .register-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave y difusa */

@@ -38,6 +38,7 @@ class UserController extends BaseController
         } catch(ModelNotFoundException $e) {
             $error = 'Usuario o contraseña incorrecto';
             parent::showView('login.view.twig', [
+                "email" => $email,
                 "status" => $error
             ]);
         }
