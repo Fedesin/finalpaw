@@ -28,6 +28,7 @@ $request = new Request;
 //$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . "/App/Views/");
 $loader = new FilesystemLoader(__DIR__ . "/App/Views/");
 $twig = new \Twig\Environment($loader);
+$twig->addFilter(new \Twig_SimpleFilter('ucfirst', 'ucfirst'));
 
 // Define the path for the cache directory
 $cachePath = __DIR__ . "/App/Views/cache";

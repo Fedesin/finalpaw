@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 use Paw\Core\Validator;
 use Paw\Core\Session;
 use Paw\App\Models\User;
+use Paw\App\Models\Roles;
 use Paw\Core\Exceptions\ModelNotFoundException;
 
 class UserController extends BaseController
@@ -50,11 +51,7 @@ class UserController extends BaseController
 
     public function getRoles()
     { 
-        $roles = [
-			['id' => 1, 'nombre' => 'usuario'],
-			['id' => 2, 'nombre' => 'supervisor'],
-			['id' => 3, 'nombre' => 'administrador']
-		];
+        $roles = Roles::getAll();
 
         parent::showView('register.view.twig', [
             "roles" => $roles

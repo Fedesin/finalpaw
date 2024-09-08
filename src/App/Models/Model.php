@@ -12,6 +12,7 @@ class Model
 //    use Loggable;
 
     protected $fields = [];
+    protected $hidden = [];
 
     protected static $table = '';
 
@@ -25,6 +26,7 @@ class Model
             throw new Exception("No se pudo obtener la conexión a la base de datos.");
         }
         $this->queryBuilder = new QueryBuilder($connection);
+        $this->fields['id'] = null;
     }
 
     public function setQueryBuilder(QueryBuilder $qb)
