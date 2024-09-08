@@ -725,8 +725,7 @@ Vamos ahora con la gestion de formularios
 
 .admform-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
-    padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
-/*    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
+    padding: 1vw; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -799,7 +798,7 @@ ul.lista-horizontal li{
     margin: 0.5ch;
 }
 
-.paginador > .pag-current {
+.lista-horizontal > .pag-current {
     background-color: var(--second-light-blue);
 }
 
