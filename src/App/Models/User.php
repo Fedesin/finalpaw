@@ -16,6 +16,7 @@ class User extends Model
         "rol_id" => null,
         "created_at" => null,
         "last_login" => null,
+        "deshabilitado" => null
     ];
 
     protected $hidden = [
