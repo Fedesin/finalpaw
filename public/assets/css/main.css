@@ -925,10 +925,27 @@ vamos con los datos del usuario en el index
     color: var(--second-light-blue);
 }
 
+@media (max-width:850px) {
+    .admform-container {
+        margin: 1em;
+    }
+}
+
+@media (max-width:700px) {
+    .admform-container {
+        margin: 0.5em;
+    }
+}
+
+
 @media (max-width:500px) {
     .admform-container th,
     .admform-container td {
         padding: 0.2em;
+    }
+
+    .admform-container {
+        margin: 0.5em;
     }
 }
 
