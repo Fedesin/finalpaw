@@ -1182,4 +1182,18 @@ Modo oscuro
     .button {
         background-color: var(--primary-blue);
     }
+
+    
+    .up > img {
+        filter: invert(65%);
+    }
+    
+    .down > img {
+        filter: invert(65%);
+    }
+    
+    
+    .modify > img {
+        filter: invert(65%);
+    }
  }
