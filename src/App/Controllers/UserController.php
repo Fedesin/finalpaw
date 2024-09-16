@@ -83,4 +83,15 @@ class UserController extends BaseController
             ]);
         }
     }
+
+    public function toggleStatus($id, $status) {
+
+        // Lógica para actualizar el estado del usuario en la base de datos.
+        $user = User::find($id);
+        $user->status = $status;
+        $user->save();
+
+        // Enviar una respuesta exitosa al cliente
+        echo json_encode(['status' => 'success']);
+    }
 }

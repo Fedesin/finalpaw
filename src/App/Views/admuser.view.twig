@@ -27,8 +27,15 @@
             <td>{{ user.rol.nombre | ucfirst }}</td>
             <td>
             <ul class="lista-horizontal">
-                <li><a class="{{ user.deshabilitado ? "up":"down" }}" href="#">
-                    <img/></a></li>
+                <li>
+                <a id="toggleStatusButton_{{ user.id }}"
+                  class="toggleStatusButton {{ user.deshabilitado ? 'up' : 'down' }}"
+                  href="javascript:void(0);"
+                  data-id="{{ user.id }}"
+                  data-status="{{ user.deshabilitado == 1 ? 0 : 1 }};">
+                  <img/>
+                </a>
+                </li>
                 <li><a class="modify" href="#">
                     <img/></a></li>
             </ul>
