@@ -84,11 +84,12 @@ class UserController extends BaseController
         }
     }
 
-    public function toggleStatus($id, $status) {
+    public function toggleStatus() {
+        $data = $_POST;
 
         // Lógica para actualizar el estado del usuario en la base de datos.
-        $user = User::find($id);
-        $user->status = $status;
+        $user = User::getById($data['userid']);
+        $user->deshabilitado = $data['status'];
         $user->save();
 
         // Enviar una respuesta exitosa al cliente

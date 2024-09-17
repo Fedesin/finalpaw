@@ -78,5 +78,5 @@ if(!isset($session->logged_in)) {
 
     $router->get('/admuser', 'PageController@admuser');
     
-    $router->post('/admuser/toggleStatus/{id}/{status}', 'UserController@toggleStatus');
+    $router->post('/admuser/toggleStatus', 'UserController@toggleStatus');
 }

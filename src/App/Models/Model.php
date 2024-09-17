@@ -34,8 +34,11 @@ class Model
         $this->queryBuilder = $qb;
     }
 
-    public function __isset($key){
-    if ( isset($this->fields[$key]) ) return true ;
+    public function __isset($key)
+    {
+        if (isset($this->fields[$key]))
+            return true;
+
         return false;
     }
 
@@ -110,5 +113,20 @@ class Model
         ];
 
         return static::get($where);
+    }
+
+    public function save()
+    {
+        // Verificar si el QueryBuilder está inicializado
+        if (!$this->queryBuilder) {
+            throw new Exception("QueryBuilder no inicializado.");
+        }
+
+        $attrs = [];
+        foreach (array_keys($this->fields) as $field) {
+            $attrs[$field] = $this->fields[$field];
+        }
+
+        $this->queryBuilder->update(static::$table, $attrs, ['id' => $this->id]);
     }
 }
