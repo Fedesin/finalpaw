@@ -1,5 +1,5 @@
 // main.js
-function toggleStatus(userId, newStatus) {
+function toggleStatus(button, userId, newStatus) {
     console.log('Sending request to toggle user status for userId:', userId, 'with newStatus:', newStatus);
 
     var xhr = new XMLHttpRequest();
@@ -10,6 +10,13 @@ function toggleStatus(userId, newStatus) {
             console.log('Response received with status:', xhr.status);
             if (xhr.status === 200) {
                 console.log('User status updated successfully');
+                if (newStatus === 0) {
+                    button.classList.remove('up');
+                    button.classList.add('down');
+                } else {
+                    button.classList.remove('down');
+                    button.classList.add('up');
+                }
             } else {
                 console.error('Error in the request:', xhr.status);
             }
@@ -29,7 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
             var userId = this.getAttribute('data-id');
             var newStatus = this.getAttribute('data-status');
             
-            toggleStatus(userId, newStatus);
+            toggleStatus(button, userId, newStatus);
+
         });
     });
 });
