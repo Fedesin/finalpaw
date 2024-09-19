@@ -17,6 +17,8 @@ function toggleStatus(button, userId, newStatus) {
                     button.classList.remove('down');
                     button.classList.add('up');
                 }
+                button.dataset.status = newStatus;
+                console.log(newStatus);
             } else {
                 console.error('Error in the request:', xhr.status);
             }
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var userId = this.getAttribute('data-id');
             var newStatus = this.getAttribute('data-status');
             
-            toggleStatus(button, userId, newStatus);
+            toggleStatus(button, userId, 1 - newStatus);
 
         });
     });
