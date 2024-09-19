@@ -29,6 +29,37 @@ function toggleStatus(button, userId, newStatus) {
 }
 
 
+var roles = [];
+
+function getRoles(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/roles', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function (data) {
+        if (xhr.readyState === 4) {
+            console.log('Response received with status:', xhr.status);
+            if (xhr.status === 200) {
+                console.log(data);
+            } else {
+                console.error('Error in the request:', xhr.status);
+            }
+        }
+    };
+    xhr.send();
+}
+function changeAnchorToOptions() {
+     // Obtener el contenedor del rol donde está el anchor
+     var parent = button.closest('ul').querySelector('li');
+
+     // Guardar el rol actual
+     var currentRole = parent.innerText.trim();
+     
+     // Reemplazar el contenido del <li> por un <select> con las opciones
+     var select = document.createElement('select');
+
+}
+
+
 // Asignar los eventos de clic a los botones
 document.addEventListener('DOMContentLoaded', function() {
     var buttons = document.querySelectorAll('.toggleStatusButton');
@@ -42,4 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         });
     });
+
+    var buttons = document.querySelectorAll('.modifyRoleButton');
+    
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            changeAnchorToOptions(button);
+        });
+    });
+
+    getRoles();
 });

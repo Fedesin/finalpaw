@@ -53,15 +53,19 @@ class UserController extends BaseController
     public function getRoles()
     { 
         $roles = Roles::getAll();
-
-        parent::showView('register.view.twig', [
-            "roles" => $roles
-        ]);
+        $ret = [];
+        foreach($roles as $rol) {
+            $ret[$rol->id] = $rol->nombre;
+        }
+        echo json_encode($ret);
     }
 
     public function showRegisterForm()
     {
-        $this->getRoles();
+        $roles = $this->getRoles();
+        parent::showView('register.view.twig', [
+            "roles" => $roles
+        ]);
     }
 
     public function register()

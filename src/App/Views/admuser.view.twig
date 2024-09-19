@@ -12,19 +12,25 @@
         <button onclick="filtrarUsuarios()">Filtrar</button>
     </div>
     <!-- Tabla de Usuarios -->
-    <table id="tablaUsuarios">
+    <table class="tabla-usuarios">
         <tr>
             <th>ID</th>
             <th>Email</th>
             <th>Rol</th>
-            <th>Acciones</th>
+            <th>Estado</th>
         </tr>
         
         {% for user in users %}
           <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.rol.nombre | ucfirst }}</td>
+            <td class="no-padding">
+            <ul class="lista-horizontal">
+            <li>{{ user.rol.nombre | ucfirst }}</li>
+            <li><a class="modifyRoleButton" >
+                    <img/></a></li>
+            </ul>
+            </td>
             <td>
             <ul class="lista-horizontal">
                 <li>
@@ -34,9 +40,7 @@
                   data-status="{{ user.deshabilitado }}">
                   <img/>
                 </a>
-                </li>
-                <li><a class="modify" href="#">
-                    <img/></a></li>
+                </li>  
             </ul>
             </td>
           </tr>
