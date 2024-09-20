@@ -78,7 +78,7 @@ if(!isset($session->logged_in)) {
 
     $router->get('/admuser', 'PageController@admuser');
     
-    $router->post('/admuser/toggleStatus', 'UserController@toggleStatus');
+    $router->post('/api/users/status', 'UserController@setStatus');
 
     $router->get('/api/roles', 'UserController@getRoles');
 }

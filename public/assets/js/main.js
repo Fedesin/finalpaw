@@ -1,52 +1,47 @@
 // main.js
 function toggleStatus(button, userId, newStatus) {
-    console.log('Sending request to toggle user status for userId:', userId, 'with newStatus:', newStatus);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/admuser/toggleStatus', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            console.log('Response received with status:', xhr.status);
-            if (xhr.status === 200) {
-                console.log('User status updated successfully');
-                if (newStatus === 0) {
-                    button.classList.remove('up');
-                    button.classList.add('down');
-                } else {
-                    button.classList.remove('down');
-                    button.classList.add('up');
-                }
-                button.dataset.status = newStatus;
-                console.log(newStatus);
-            } else {
-                console.error('Error in the request:', xhr.status);
-            }
+    fetch("/api/users/status", {
+        method: "POST",
+        body: JSON.stringify({
+            userid: userId,
+            status: newStatus
+        }),
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json; charset=UTF-8"
         }
-    };
-
-    xhr.send("userid=" + userId + "&status=" + newStatus);
+    })
+    .then(function(ret) {
+        if (ret.status === 200) {
+            if (newStatus === 0) {
+                button.classList.remove('up');
+                button.classList.add('down');
+            } else {
+                button.classList.remove('down');
+                button.classList.add('up');
+            }
+            button.dataset.status = newStatus;
+        }
+    });
 }
 
 
 var roles = [];
 
 function getRoles(){
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/roles', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function (data) {
-        if (xhr.readyState === 4) {
-            console.log('Response received with status:', xhr.status);
-            if (xhr.status === 200) {
-                console.log(data);
-            } else {
-                console.error('Error in the request:', xhr.status);
-            }
+    fetch('/api/roles', {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json; charset=UTF-8"
         }
-    };
-    xhr.send();
+    })
+    .then(function(ret) {
+        if(ret.status === 200)
+            roles = ret.roles;
+    });
 }
+
 function changeAnchorToOptions() {
      // Obtener el contenedor del rol donde está el anchor
      var parent = button.closest('ul').querySelector('li');
@@ -66,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     buttons.forEach(function(button) {
         button.addEventListener('click', function() {
-            var userId = this.getAttribute('data-id');
-            var newStatus = this.getAttribute('data-status');
+            var userId = parseInt(this.getAttribute('data-id'));
+            var newStatus = parseInt(this.getAttribute('data-status'));
             
             toggleStatus(button, userId, 1 - newStatus);
 

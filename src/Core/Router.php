@@ -55,11 +55,11 @@ class Router
         return explode('@', $this->routes[$http_method][$path]);
     }
 
-    public function call($controller, $method)
+    public function call($controller, $method, $request)
     {
         $controller_name = "Paw\\App\\Controllers\\{$controller}";
         $objController = new $controller_name;
-        $objController->$method();
+        $objController->$method($request);
     }
 
     public function direct(Request $request) 
@@ -82,7 +82,7 @@ class Router
             list($controller, $method) = $this->getController($this->internalError, "GET");       
             $this->logger->error('Status Code: 500 - Internal Server Error', ["ERROR"=>$e]);
         } finally {
-            $this->call($controller, $method);
+            $this->call($controller, $method, $request);
         }
     }
 }

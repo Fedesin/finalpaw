@@ -21,29 +21,31 @@
         </tr>
         
         {% for user in users %}
-          <tr>
+        <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.email }}</td>
             <td class="no-padding">
-            <ul class="lista-horizontal">
-            <li>{{ user.rol.nombre | ucfirst }}</li>
-            <li><a class="modifyRoleButton" >
-                    <img/></a></li>
-            </ul>
+                <ul class="lista-horizontal">
+                    <li>{{ user.rol.nombre | ucfirst }}</li>
+                    <li>
+                        <a href="#" class="modifyRoleButton" >
+                        <img/></a>
+                    </li>
+                </ul>
             </td>
             <td>
-            <ul class="lista-horizontal">
-                <li>
-                <a
-                  class="toggleStatusButton {{ user.deshabilitado ? 'up' : 'down' }}"
-                  data-id="{{ user.id }}"
-                  data-status="{{ user.deshabilitado }}">
-                  <img/>
-                </a>
-                </li>  
-            </ul>
+                <ul class="lista-horizontal">
+                    <li>
+                        <a href="#" 
+                            class="toggleStatusButton {{ user.deshabilitado ? 'up' : 'down' }}"
+                            data-id="{{ user.id }}"
+                            data-status="{{ user.deshabilitado }}">
+                            <img/>
+                        </a>
+                    </li>  
+                </ul>
             </td>
-          </tr>
+        </tr>
         {% endfor %}
     </table>
     <ul class="lista-horizontal">

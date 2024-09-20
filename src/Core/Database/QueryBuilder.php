@@ -16,7 +16,7 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function select($table, $where = [])
+    public function select($table, $where = [], $order_by = 'id')
     {
         $whereStr = "WHERE 1 = 1 ";
         $operators = ["=", "<", ">", "<=", ">=", "<>"];
@@ -36,7 +36,7 @@ class QueryBuilder
             $whereStr .= "AND {$key} {$op} :{$key} " ;
         }
 
-        $query = "select * from {$table} {$whereStr}";
+        $query = "select * from {$table} {$whereStr} order by {$order_by}";
         $sentencia = $this->pdo->prepare($query);
 
         /*
