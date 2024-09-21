@@ -59,9 +59,21 @@ function getRoles() {
     });
 }
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function changeAnchorToOptions(button) {
     var parent = button.closest('ul').querySelector('li');
-    var currentRole = parent.innerText.trim();
+    var userId = button.getAttribute('data-id');
+    var currentRoleName = button.getAttribute('rol-nombre');
+    // Verificar si ya se ha cambiado a opciones
+    if (parent.querySelector('select')) {
+        // Si hay un select, significa que ya está en modo de cambio de rol, así que volvemos a la vista original
+        parent.innerHTML = capitalizeFirstLetter(currentRoleName); // Restablece el contenido original
+        return; // Sale de la función
+    }
+    // Obtener el rol actual
     var select = document.createElement('select');
 
     // Llenar el select con roles
@@ -106,7 +118,6 @@ function changeRole(rol_id, user_id) {
     })
     .then(function(ret) {
         if (ret.status === 200) {
-            console.log("Rol cambiado correctamente");
             location.reload();
         }
     });
