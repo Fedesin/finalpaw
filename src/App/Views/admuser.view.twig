@@ -69,7 +69,6 @@
               <option value="{{ role.id }}">{{ role.nombre | ucfirst }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Actualizar Usuario</button>
         {% if status %}
         <p class="login-error">{{ status }}</p>
         {% endif %}

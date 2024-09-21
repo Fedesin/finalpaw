@@ -1,4 +1,6 @@
 // main.js
+//variables globales
+var roles = [];
 function toggleStatus(button, userId, newStatus) {
     fetch("/api/users/status", {
         method: "POST",
@@ -26,7 +28,7 @@ function toggleStatus(button, userId, newStatus) {
 }
 
 
-var roles = [];
+
 
 function getRoles() {
     return fetch('/api/roles', {
@@ -81,7 +83,7 @@ function changeAnchorToOptions(button) {
     // Asignar el evento de clic al botón
     changeButton.addEventListener('click', function() {
         var selectedRoleId = select.value;
-        changeRole(userId, selectedRoleId); // Asegúrate de que userId se esté pasando correctamente
+        changeRole(selectedRoleId, userId); // Asegúrate de que userId se esté pasando correctamente
     });
 
     // Reemplazar el contenido del <li>
@@ -90,50 +92,24 @@ function changeAnchorToOptions(button) {
     parent.appendChild(changeButton);
 }
 
-function changeRole(roleId, userId) {
-    // Datos a enviar
-    const data = {
-        userid: userId,
-        roleid: roleId
-    };
-
-    fetch('/api/users/change-role', {
-        method: 'POST',
+function changeRole(rol_id, user_id) {
+    fetch("/api/users/change-role", {
+        method: "POST",
+        body: JSON.stringify({
+            user_id: user_id,
+            rol_id: rol_id
+        }),
         headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Rol cambiado:', data);
-        if (data.status === 'success') {
-            // Aquí llamas a la función que carga los datos del usuario
-            loadUserData(userId); // Asegúrate de tener esta función
-        } else {
-            console.error('Error al cambiar el rol:', data.message);
+            "Accept": "application/json",
+            "Content-Type": "application/json; charset=UTF-8"
         }
     })
-    .catch(error => {
-        console.error('Error al cambiar el rol:', error);
+    .then(function(ret) {
+        if (ret.status === 200) {
+            console.log("Rol cambiado correctamente");
+            location.reload();
+        }
     });
-}
-
-function loadUserData(userId) {
-    fetch(`/api/users/${userId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('User not found');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Actualiza la interfaz con los nuevos datos del usuario
-            document.getElementById('userRole').innerText = data.role; // Ajusta según tu estructura
-        })
-        .catch(error => {
-            console.error('Error al cargar los datos del usuario:', error);
-        });
 }
 
 
