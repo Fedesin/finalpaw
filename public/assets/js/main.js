@@ -118,23 +118,23 @@ function changeRole(rol_id, user_id) {
     })
     .then(function(ret) {
         if (ret.status === 200) {
-            location.reload();
+            return ret.json();
         }
+    }).then(function(data) {
+        // Aquí actualizas el texto del rol en la vista
+        var parent = document.querySelector(`[data-id='${user_id}']`).closest('ul').querySelector('li');
+        roles.filter(function(role) {
+            if (role.id === rol_id) {
+                parent.innerHTML = capitalizeFirstLetter(role.nombre);
+            }
+        });
+    })
+    .catch(function(error) {
+        console.error(error);
     });
 }
 
 
-function updateRoleDisplay(userId, newRoleId) {
-    // Busca la fila del usuario en la tabla y actualiza el rol visible
-    const row = document.querySelector(`tr[data-user-id="${userId}"]`);
-    if (row) {
-        const roleCell = row.querySelector('.no-padding li'); // Asegúrate de que el selector sea correcto
-        const newRole = roles.find(role => role.id == newRoleId);
-        if (newRole) {
-            roleCell.textContent = newRole.nombre; // Actualiza el nombre del rol en la interfaz
-        }
-    }
-}
 
 
 
