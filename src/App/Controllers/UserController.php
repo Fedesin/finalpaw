@@ -67,24 +67,30 @@ class UserController extends BaseController
             "roles" => $roles
         ]);
     }
+    private function emailExists($email) {
+        // Suponiendo que tienes un método para buscar usuarios por email
+        $user = self::where('email', $email)->first(); // Asegúrate de que `where` esté definido en tu modelo
+        return $user !== null;
+    }
 
-    public function register()
+    public function register($request)
     {
-        $data = $_POST;
-        
-        $email = $data['username'];
-        $password = $data['password'];
-        $rol_id = $data['rol_id'];
-
+        $email = $request->username;
+        if ($this->emailExists($email)) {
+            echo json_encode(['status' => 'error', 'message' => 'El email ya está registrado.']);
+            return;  
+        } 
+        $password = $request->password;
+        $rol_id = $request->rol_id;
+    
         try {
-			$user = new User();
-            $user->register($email, $password, $rol_id); // Llamada no estática
-        	parent::showView('index.view.twig');
+            $user = new User();
+            $user->register($email, $password, $rol_id); // Llamada al método register
+            // Enviar respuesta exitosa al cliente
+            echo json_encode(['status' => 'success', 'message' => 'Usuario registrado correctamente']);
         } catch(ModelNotFoundException $e) {
-            $error = 'Ocurrio un error al registrar el usuario';
-            parent::showView('register.view.twig', [
-                "status" => $error
-            ]);
+            // Captura cualquier otra excepción
+            echo json_encode(['status' => 'error', 'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()]);
         }
     }
 

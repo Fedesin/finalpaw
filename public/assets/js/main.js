@@ -134,12 +134,50 @@ function changeRole(rol_id, user_id) {
     });
 }
 
+function generateRandomPassword(length) {
+    var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    var password = "";
+    for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+    }
+    return password;
+}
 
-
-
+function registerUser(email, rolId, password) {
+    fetch("/register", {
+        method: "POST",
+        body: JSON.stringify({
+            username: email,
+            rol_id: rolId,
+            password: password
+        }),
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json; charset=UTF-8"
+        }
+    })
+    .then(function(ret) {
+        console.log('Response:', ret);
+        return ret.text().then(text => {
+            console.log('Response Text:', text);
+            try {
+                const json = JSON.parse(text);
+                if (!ret.ok) {
+                    document.querySelector('.login-error').innerText = json.message || 'Error desconocido';
+                    throw new Error(json.message);
+                }
+                document.querySelector('.login-error').innerText = 'Usuario registrado correctamente';
+            } catch (error) {
+                document.querySelector('.login-error').innerText = 'Error de formato en la respuesta.';
+            }
+        });
+    })
+}
 
 // Asignar los eventos de clic a los botones
 document.addEventListener('DOMContentLoaded', function() {
+    // Evento para el boton de habilitar o desahabilitar un usuario
     var buttons = document.querySelectorAll('.toggleStatusButton');
     
     buttons.forEach(function(button) {
@@ -152,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Evento para el botón de cambiar rol
     var buttons = document.querySelectorAll('.modifyRoleButton');
     
     buttons.forEach(function(button) {
@@ -160,6 +199,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Evento para el botón de registrar
+    var registerButton = document.querySelector('.btn-registrar');
+    registerButton.addEventListener('click', function() {
+        var email = document.querySelector('.email-input').value;
+        var rolId = document.querySelector('.rol-select').value;
+        var randomPassword = generateRandomPassword(8);
+
+        console.log('Email: ' + email);
+        console.log('Rol ID: ' + rolId);
+        console.log('Contraseña generada: ' + randomPassword);
+
+        // Llamar a la función que hace el registro
+        registerUser(email, rolId, randomPassword);
+        
+    });
     
 
     getRoles();

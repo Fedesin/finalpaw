@@ -62,17 +62,20 @@
     <!-- Formulario para Agregar/Editar Usuario -->
     <form class="login-form" action="register" method="post">
         <label for="email">Email:</label>
-        <input type="text" id="nombre" required>
+        <input type="text" class="email-input" name="email" required>
+        
         <label for="rol">Rol:</label>
-        <select id="rol" name="rol_id" required>
+        <select class="rol-select" name="rol_id" required>
             {% for role in roles %}
-              <option value="{{ role.id }}">{{ role.nombre | ucfirst }}</option>
+            <option value="{{ role.id }}">{{ role.nombre | ucfirst }}</option>
             {% endfor %}
         </select>
+        
         {% if status %}
         <p class="login-error">{{ status }}</p>
         {% endif %}
-        <button type="submit">Registrar Usuario</button>
+        
+        <button class="btn-registrar" type="button">Registrar Usuario</button>
     </form>
   </main>
 
