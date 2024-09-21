@@ -28,7 +28,8 @@
                 <ul class="lista-horizontal">
                     <li>{{ user.rol.nombre | ucfirst }}</li>
                     <li>
-                        <a href="#" class="modifyRoleButton" >
+                        <a href="#" 
+                        class="modify modifyRoleButton"  data-id={{ user.id }}>
                         <img/></a>
                     </li>
                 </ul>

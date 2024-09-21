@@ -97,4 +97,35 @@ class UserController extends BaseController
         // Enviar una respuesta exitosa al cliente
         echo json_encode(['status' => 'success']);
     }
+
+    public function changeRole($request) {
+        try {
+            $user = User::getById($request->userid);
+            if (!$user) {
+                throw new Exception('Usuario no encontrado');
+            }
+    
+            $user->role_id = $request->roleid;
+            $user->save();
+    
+            echo json_encode(['status' => 'success']);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function getUserById($id) {
+        try {
+            $user = User::getById($id);
+            if ($user) {
+                echo json_encode($user);
+            } else {
+                http_response_code(404);
+                echo json_encode(['error' => 'User not found']);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Internal Server Error']);
+        }
+    }
 }

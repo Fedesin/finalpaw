@@ -81,4 +81,8 @@ if(!isset($session->logged_in)) {
     $router->post('/api/users/status', 'UserController@setStatus');
 
     $router->get('/api/roles', 'UserController@getRoles');
+
+    $router->post('/api/users/change-role', 'UserController@changeRole');
+
+    $router->get('/api/users/{id}', 'UserController@getUserById');
 }

@@ -28,31 +28,127 @@ function toggleStatus(button, userId, newStatus) {
 
 var roles = [];
 
-function getRoles(){
-    fetch('/api/roles', {
+function getRoles() {
+    return fetch('/api/roles', {
         method: "GET",
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json; charset=UTF-8"
         }
     })
-    .then(function(ret) {
-        if(ret.status === 200)
-            roles = ret.roles;
+    .then(function(response) {
+        if (response.ok) {
+            return response.json();  // Asegúrate de convertir la respuesta a JSON
+        } else {
+            throw new Error('Error al obtener los roles');
+        }
+    })
+    .then(function(data) {
+        // La respuesta es un objeto con las claves como IDs y nombres como valores
+        roles = Object.keys(data).map(function(key) {
+            return { id: key, nombre: data[key] };  // Transformar a un formato más adecuado
+        });
+        console.log("Roles cargados:", roles);
+        return roles;
+    })
+    .catch(function(error) {
+        console.error("Error al obtener roles:", error);
+        return [];
     });
 }
 
-function changeAnchorToOptions() {
-     // Obtener el contenedor del rol donde está el anchor
-     var parent = button.closest('ul').querySelector('li');
+function changeAnchorToOptions(button) {
+    var parent = button.closest('ul').querySelector('li');
+    var currentRole = parent.innerText.trim();
+    var select = document.createElement('select');
 
-     // Guardar el rol actual
-     var currentRole = parent.innerText.trim();
-     
-     // Reemplazar el contenido del <li> por un <select> con las opciones
-     var select = document.createElement('select');
+    // Llenar el select con roles
+    roles.forEach(function(role) {
+        var option = document.createElement('option');
+        option.value = role.id;
+        option.textContent = role.nombre;
+        select.appendChild(option);
+    });
 
+    // Crear el botón para cambiar el rol
+    var changeButton = document.createElement('button');
+    changeButton.textContent = 'Cambiar Rol';
+    changeButton.classList.add('changeRolePressed');
+
+    // Obtener el ID del usuario desde el botón
+    var userId = button.getAttribute('data-id');
+
+    // Asignar el evento de clic al botón
+    changeButton.addEventListener('click', function() {
+        var selectedRoleId = select.value;
+        changeRole(userId, selectedRoleId); // Asegúrate de que userId se esté pasando correctamente
+    });
+
+    // Reemplazar el contenido del <li>
+    parent.innerHTML = ''; // Limpiar el contenido actual
+    parent.appendChild(select);
+    parent.appendChild(changeButton);
 }
+
+function changeRole(roleId, userId) {
+    // Datos a enviar
+    const data = {
+        userid: userId,
+        roleid: roleId
+    };
+
+    fetch('/api/users/change-role', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Rol cambiado:', data);
+        if (data.status === 'success') {
+            // Aquí llamas a la función que carga los datos del usuario
+            loadUserData(userId); // Asegúrate de tener esta función
+        } else {
+            console.error('Error al cambiar el rol:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error al cambiar el rol:', error);
+    });
+}
+
+function loadUserData(userId) {
+    fetch(`/api/users/${userId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('User not found');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Actualiza la interfaz con los nuevos datos del usuario
+            document.getElementById('userRole').innerText = data.role; // Ajusta según tu estructura
+        })
+        .catch(error => {
+            console.error('Error al cargar los datos del usuario:', error);
+        });
+}
+
+
+function updateRoleDisplay(userId, newRoleId) {
+    // Busca la fila del usuario en la tabla y actualiza el rol visible
+    const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+    if (row) {
+        const roleCell = row.querySelector('.no-padding li'); // Asegúrate de que el selector sea correcto
+        const newRole = roles.find(role => role.id == newRoleId);
+        if (newRole) {
+            roleCell.textContent = newRole.nombre; // Actualiza el nombre del rol en la interfaz
+        }
+    }
+}
+
 
 
 // Asignar los eventos de clic a los botones
@@ -76,6 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
             changeAnchorToOptions(button);
         });
     });
+
+    
 
     getRoles();
 });
