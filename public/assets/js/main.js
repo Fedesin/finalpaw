@@ -144,35 +144,33 @@ function generateRandomPassword(length) {
     return password;
 }
 
+
 function registerUser(email, rolId, password) {
-    fetch("/register", {
-        method: "POST",
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
             username: email,
-            rol_id: rolId,
-            password: password
-        }),
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json; charset=UTF-8"
+            password: password,
+            rol_id: rolId
+        })
+    })
+    .then(response => response.json()) // Asegúrate de que sea un JSON válido
+    .then(data => {
+        const errorContainer = document.querySelector('.login-error'); // El contenedor de errores o mensajes
+
+        if (data.status === 'success') {
+            errorContainer.innerHTML = `<p class="success-message">${data.message}</p>`;
+            window.location.reload();
+        } else if (data.status === 'error') {
+            errorContainer.innerHTML = `<p class="error-message">${data.message}</p>`;
         }
     })
-    .then(function(ret) {
-        console.log('Response:', ret);
-        return ret.text().then(text => {
-            console.log('Response Text:', text);
-            try {
-                const json = JSON.parse(text);
-                if (!ret.ok) {
-                    document.querySelector('.login-error').innerText = json.message || 'Error desconocido';
-                    throw new Error(json.message);
-                }
-                document.querySelector('.login-error').innerText = 'Usuario registrado correctamente';
-            } catch (error) {
-                document.querySelector('.login-error').innerText = 'Error de formato en la respuesta.';
-            }
-        });
-    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 // Asignar los eventos de clic a los botones
@@ -204,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     registerButton.addEventListener('click', function() {
         var email = document.querySelector('.email-input').value;
         var rolId = document.querySelector('.rol-select').value;
-        var randomPassword = generateRandomPassword(8);
+        var randomPassword = generateRandomPassword(12);
 
         console.log('Email: ' + email);
         console.log('Rol ID: ' + rolId);

@@ -72,10 +72,12 @@ class Model
     public function load($where)
     {
         $record = current($this->queryBuilder->select(static::$table, $where));
-        if($record == false)
-            throw new Exception("Model not found");
+        if ($record == false) {
+            return null;
+        }
 
         $this->set($record);
+        return $this;
     }
 
     public static function getAll()
@@ -97,14 +99,18 @@ class Model
 
     public static function get($where) {
         $qb = new QueryBuilder(ConnectionBuilder::getInstance());
-
+    
         $class = get_called_class();
         $newInstance = new $class;
         $newInstance->setQueryBuilder($qb);
-        $newInstance->load($where);
-
+    
+        if ($newInstance->load($where) === null) {
+            return null;
+        }
+    
         return $newInstance;
     }
+    
 
     public static function getById($id) {
 

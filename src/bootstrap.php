@@ -78,6 +78,8 @@ if(!isset($session->logged_in)) {
 
     $router->get('/admuser', 'PageController@admuser');
     
+    $router->get('/api/users', 'UserController@getAllUsers');
+
     $router->post('/api/users/status', 'UserController@setStatus');
 
     $router->get('/api/roles', 'UserController@getRoles');

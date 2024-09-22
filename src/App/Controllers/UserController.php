@@ -67,29 +67,36 @@ class UserController extends BaseController
             "roles" => $roles
         ]);
     }
+
     private function emailExists($email) {
-        // Suponiendo que tienes un método para buscar usuarios por email
-        $user = self::where('email', $email)->first(); // Asegúrate de que `where` esté definido en tu modelo
-        return $user !== null;
+        $user = User::get(['email' => $email]); // Usar el método `get` del modelo `User`
+        return $user !== null; // Si devuelve un usuario, entonces existe
     }
 
     public function register($request)
     {
+        header('Content-Type: application/json');
+        
         $email = $request->username;
+
+        // Verifica si el correo ya está registrado
         if ($this->emailExists($email)) {
-            echo json_encode(['status' => 'error', 'message' => 'El email ya está registrado.']);
-            return;  
-        } 
+            echo json_encode(['status' => 'error', 'message' => 'Ya existe un usuario registrado con ese email.']);
+            return;
+        }
+
         $password = $request->password;
         $rol_id = $request->rol_id;
-    
+        
         try {
+            // Registrar el nuevo usuario
             $user = new User();
-            $user->register($email, $password, $rol_id); // Llamada al método register
-            // Enviar respuesta exitosa al cliente
+            $user->register($email, $password, $rol_id);
+
+            // Respuesta exitosa
             echo json_encode(['status' => 'success', 'message' => 'Usuario registrado correctamente']);
-        } catch(ModelNotFoundException $e) {
-            // Captura cualquier otra excepción
+        } catch (Exception $e) {
+            // Captura cualquier otro error inesperado
             echo json_encode(['status' => 'error', 'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()]);
         }
     }
@@ -113,4 +120,8 @@ class UserController extends BaseController
         echo json_encode(['status' => 'success']);
     }
 
+    public function getAllUsers() {
+        $users = User::getAll(); // Asegúrate de que tu modelo User tenga este método
+        echo json_encode($users); // Devolver como JSON
+    }
 }
