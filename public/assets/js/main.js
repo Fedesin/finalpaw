@@ -232,11 +232,57 @@ function filtrarUsuarios() {
             `;
             tbody.appendChild(row);
         });
+        // Volver a agregar manejadores de eventos
+        agregarManejadoresDeEventos()
     })
     .catch(error => {
         console.error('Error al filtrar usuarios:', error);
     });
 }
+
+function agregarManejadoresDeEventos() {
+     // Evento para el boton de habilitar o desahabilitar un usuario
+     var buttons = document.querySelectorAll('.toggleStatusButton');
+    
+     buttons.forEach(function(button) {
+         button.addEventListener('click', function() {
+             var userId = parseInt(this.getAttribute('data-id'));
+             var newStatus = parseInt(this.getAttribute('data-status'));
+             
+             toggleStatus(button, userId, 1 - newStatus);
+ 
+         });
+     });
+ 
+     // Evento para el botón de cambiar rol
+     var buttons = document.querySelectorAll('.modifyRoleButton');
+     
+     buttons.forEach(function(button) {
+         button.addEventListener('click', function() {
+             changeAnchorToOptions(button);
+         });
+     });
+ 
+     // Evento para el botón de registrar
+     var registerButton = document.querySelector('.btn-registrar');
+     registerButton.addEventListener('click', function() {
+         var email = document.querySelector('.email-input').value;
+         var rolId = document.querySelector('.rol-select').value;
+         var randomPassword = generateRandomPassword(12);
+ 
+         console.log('Email: ' + email);
+         console.log('Rol ID: ' + rolId);
+         console.log('Contraseña generada: ' + randomPassword);
+ 
+         // Llamar a la función que hace el registro
+         registerUser(email, rolId, randomPassword);
+         
+     });
+     
+ 
+     getRoles();
+}
+
 
 // Asignar los eventos de clic a los botones
 document.addEventListener('DOMContentLoaded', function() {
