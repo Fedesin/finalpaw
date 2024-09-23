@@ -78,9 +78,11 @@ if(!isset($session->logged_in)) {
 
     $router->get('/admuser', 'PageController@admuser');
     
-    $router->get('/api/users', 'UserController@getAllUsers');
+    $router->get('/api/users', 'UserController@getUsers');
 
-    $router->post('/api/users/status', 'UserController@setStatus');
+    $router->put('/api/users', 'UserController@updateUser');
+
+    $router->post('/api/users', 'UserController@createUser');
 
     $router->get('/api/roles', 'UserController@getRoles');
 

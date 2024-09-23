@@ -13,6 +13,7 @@ class Router
     private array $routes = [
         "GET" => [],
         "POST" => [],
+        "PUT" => []
     ];
 
     private string $notFound = 'not_found';
@@ -39,6 +40,11 @@ class Router
     public function post($path, $accion)
     {
         $this->loadRoutes($path, $accion, "POST");
+    }
+
+    public function put($path, $accion)
+    {
+        $this->loadRoutes($path, $accion, "PUT");
     }
 
     public function exists($path, $method)

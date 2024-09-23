@@ -29,6 +29,20 @@ class Request
         return null;
     }
 
+    public function __isset($name)
+    {
+        if(array_key_exists($name, $this->body))
+            return true;
+
+        if(array_key_exists($name, $this->post))
+            return true;
+        
+        if(array_key_exists($name, $this->get))
+            return true;
+        
+        return false;
+    }
+
     public function uri()
     {
         return parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
