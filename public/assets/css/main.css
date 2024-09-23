@@ -492,7 +492,9 @@ Vamos ahora con el login
     content: url('../../img/modify.svg');
 }
 
-
+.capitalize {
+    text-transform: capitalize;
+}
 
 /*
 Hasta aca es login y register

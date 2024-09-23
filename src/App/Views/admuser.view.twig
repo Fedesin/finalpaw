@@ -21,14 +21,14 @@
                 <th>Estado</th>
             </tr>
         </thead>
-        <tbody class="tabla-body">
+        <tbody>
             {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td class="no-padding">
                     <ul class="lista-horizontal">
-                        <li>{{ user.rol.nombre | ucfirst }}</li>
+                        <li class="capitalize">{{ user.rol.nombre }}</li>
                         <li>
                             <a href="#" 
                             class="modify modifyRoleButton"  data-id={{ user.id }} rol-nombre={{user.rol.nombre}}>
@@ -68,9 +68,9 @@
         <input type="text" class="email-input" name="email" required>
         
         <label for="rol">Rol:</label>
-        <select class="rol-select" name="rol_id" required>
+        <select class="rol-select capitalize" name="rol_id" required>
             {% for role in roles %}
-            <option value="{{ role.id }}">{{ role.nombre | ucfirst }}</option>
+            <option value="{{ role.id }}">{{ role.nombre }}</option>
             {% endfor %}
         </select>
         

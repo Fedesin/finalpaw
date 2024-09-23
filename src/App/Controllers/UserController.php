@@ -127,6 +127,7 @@ class UserController extends BaseController
         $ret = [];
         foreach($users as $user) {
             $ret[$user->id] = [
+                "id" => $user->id,
                 "email" => $user->email,
                 "rol_id" => $user->rol_id,
                 "deshabilitado" => $user->deshabilitado
