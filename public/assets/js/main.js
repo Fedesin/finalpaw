@@ -190,7 +190,8 @@ function filtrarUsuarios() {
         let tbody = document.querySelector('.tabla-usuarios > tbody');
         tbody.innerHTML = ''; // Limpiar la tabla existente
 
-        data.forEach(user => {
+        Object.keys(data).forEach(key => {
+            let user = data[key];
             let row = document.createElement('tr');
             row.innerHTML = `
                 <td>${user.id}</td>
@@ -221,7 +222,7 @@ function filtrarUsuarios() {
                     </ul>
                 </td>
             `;
-            
+
             tbody.appendChild(row);
         });
 

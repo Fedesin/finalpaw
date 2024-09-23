@@ -80,11 +80,11 @@ class Model
         return $this;
     }
 
-    public static function getAll()
+    public static function getAll($where = [])
     {
         $qb = new QueryBuilder(ConnectionBuilder::getInstance());
 
-        $instances = $qb->select(static::$table);
+        $instances = $qb->select(static::$table, $where);
         $collection = [];
 
         foreach ($instances as $instance) {

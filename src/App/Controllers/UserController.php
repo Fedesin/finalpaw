@@ -191,13 +191,26 @@ class UserController extends BaseController
         exit;
     }
 
-
     public function getUsersViaEmail($request)
-    { 
-        $userModel = new User();
-        $users = $userModel->filtrarPorEmail($request->email);
+    {
+        $users = User::getAll([
+            'email' => [
+                'LIKE', '%' . $request->email . '%'
+            ]
+        ]);
 
-        echo json_encode($users);
+        $ret = [];
+        foreach($users as $user) {
+            $ret[$user->id] = [
+                "id" => $user->id,
+                "email" => $user->email,
+                "rol_id" => $user->rol_id,
+                "deshabilitado" => $user->deshabilitado
+
+            ];
+        }
+
+        echo json_encode($ret);
     }
 
 }
