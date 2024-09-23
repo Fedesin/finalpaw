@@ -192,7 +192,99 @@ function getRolById(rol_id)
     };
 }
 
-function agregarEventos() {
+function filtrarUsuarios() {
+    const filtro = document.querySelector('.filtro').value;
+
+    fetch('/api/users/filterViaEmail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: filtro })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        console.log(roles);
+        
+        // Crear un mapa de roles
+        const rolesMap = roles.reduce((acc, rol) => {
+            acc[rol.id] = rol.nombre;
+            return acc;
+        }, {});
+
+        const tbody = document.querySelector('.tabla-body');
+        tbody.innerHTML = ''; // Limpiar la tabla existente
+
+        data.forEach(user => {
+            const rolNombre = (rolesMap[user.rol_id] || 'Sin rol').charAt(0).toUpperCase() + (rolesMap[user.rol_id] || 'Sin rol').slice(1);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.id}</td>
+                <td>${user.email}</td>
+                <td class="no-padding">
+                    <ul class="lista-horizontal">
+                        <li>${rolNombre}</li> <!-- Mostrar el nombre del rol -->
+                        <li>
+                            <a href="#" 
+                                class="modify modifyRoleButton"  
+                                data-id="${user.id}" 
+                                rol-nombre="${rolNombre}">
+                                <img/>
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul class="lista-horizontal">
+                        <li>
+                            <a href="#" 
+                                class="toggleStatusButton ${user.deshabilitado ? 'up' : 'down'}"
+                                data-id="${user.id}"
+                                data-status="${user.deshabilitado}">
+                                <img/>
+                            </a>
+                        </li>  
+                    </ul>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+        // Volver a agregar manejadores de eventos
+        agregarManejadoresDeEventos()
+    })
+    .catch(error => {
+        console.error('Error al filtrar usuarios:', error);
+    });
+}
+
+function agregarManejadoresDeEventos() {
+     // Evento para el boton de habilitar o desahabilitar un usuario
+     var buttons = document.querySelectorAll('.toggleStatusButton');
+    
+     buttons.forEach(function(button) {
+         button.addEventListener('click', function() {
+             var userId = parseInt(this.getAttribute('data-id'));
+             var newStatus = parseInt(this.getAttribute('data-status'));
+             
+             toggleStatus(button, userId, 1 - newStatus);
+ 
+         });
+     });
+ 
+     // Evento para el botón de cambiar rol
+     var buttons = document.querySelectorAll('.modifyRoleButton');
+     
+     buttons.forEach(function(button) {
+         button.addEventListener('click', function() {
+             changeAnchorToOptions(button);
+         });
+     });
+}
+
+// Asignar los eventos de clic a los botones
+document.addEventListener('DOMContentLoaded', function() {
     // Evento para el boton de habilitar o desahabilitar un usuario
     var buttons = document.querySelectorAll('.toggleStatusButton');
     
@@ -218,7 +310,7 @@ function agregarEventos() {
 
 // Asignar los eventos de clic a los botones
 document.addEventListener('DOMContentLoaded', function() {
-    agregarEventos();
+    agregarManejadoresDeEventos();
 
     // Evento para el botón de registrar
     var registerButton = document.querySelector('.btn-registrar');
@@ -303,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 tabla_usuarios.appendChild(tr);
             });
 
-            agregarEventos();
+            agregarManejadoresDeEventos();
         });
     });
     
