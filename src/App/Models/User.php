@@ -23,6 +23,7 @@ class User extends Model
         "password"
     ];
 
+
     public function getRol()
     {
         return Roles::getById($this->rol_id);
@@ -65,4 +66,18 @@ class User extends Model
         return $lastInsertId;
     }
    
+    public function filtrarPorEmail($email) {
+        // Verificar si el QueryBuilder está inicializado
+        if (!$this->queryBuilder) {
+            throw new Exception("QueryBuilder no inicializado en User.");
+        }
+    
+        // Filtrar usuarios por email utilizando el QueryBuilder
+        $where = ['email' => ['LIKE', '%' . $email . '%']]; // Crea un array con la condición de filtrado
+        $resultados = $this->queryBuilder->select(static::$table, $where); // Pasa la tabla y el array de condiciones
+        
+
+        return $resultados;
+    }
+
 }

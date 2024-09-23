@@ -20,6 +20,7 @@ class UserController extends BaseController
         parent::showView('index.view.twig');
     }
 
+
     public function login()
     {
         $data = $_POST;        
@@ -120,8 +121,25 @@ class UserController extends BaseController
         echo json_encode(['status' => 'success']);
     }
 
+
     public function getAllUsers() {
         $users = User::getAll(); // Asegúrate de que tu modelo User tenga este método
         echo json_encode($users); // Devolver como JSON
     }
+    private function jsonResponse($data, $status = 200) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
+
+
+    public function getUsersViaEmail($request)
+    { 
+        $userModel = new User();
+        $users = $userModel->filtrarPorEmail($request->email);
+
+        echo json_encode($users);
+    }
+
 }

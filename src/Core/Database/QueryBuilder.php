@@ -19,7 +19,7 @@ class QueryBuilder
     public function select($table, $where = [], $order_by = 'id')
     {
         $whereStr = "WHERE 1 = 1 ";
-        $operators = ["=", "<", ">", "<=", ">=", "<>"];
+        $operators = ["=", "<", ">", "<=", ">=", "<>","LIKE"];
 
         foreach ($where as $key => $value) {
             if(is_array($value)) {

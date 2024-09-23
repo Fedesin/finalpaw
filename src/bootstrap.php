@@ -85,4 +85,6 @@ if(!isset($session->logged_in)) {
     $router->get('/api/roles', 'UserController@getRoles');
 
     $router->post('/api/users/change-role', 'UserController@changeRole');
+
+    $router->POST('/api/users/filterViaEmail', 'UserController@getUsersViaEmail');
 }
