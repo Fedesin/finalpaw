@@ -120,8 +120,65 @@ class UserController extends BaseController
         echo json_encode(['status' => 'success']);
     }
 
-    public function getAllUsers() {
+    public function getUsers() {
         $users = User::getAll(); // Asegúrate de que tu modelo User tenga este método
-        echo json_encode($users); // Devolver como JSON
+
+        $ret = [];
+        foreach($users as $user) {
+            $ret[$user->id] = [
+                "email" => $user->email,
+                "rol_id" => $user->rol_id,
+                "deshabilitado" => $user->deshabilitado
+
+            ];
+        }
+        echo json_encode($ret);
+    }
+
+    public function updateUser($request) {
+        // Lógica para actualizar el estado del usuario en la base de datos.
+        $user = User::getById($request->userid);
+
+        if(isset($request->email))
+            $user->email = $request->email;
+
+        if(isset($request->rol_id))
+            $user->rol_id = $request->rol_id;
+
+        if(isset($request->deshabilitado))
+            $user->deshabilitado = $request->deshabilitado;
+
+        $user->save();
+
+        // Enviar una respuesta exitosa al cliente
+        echo json_encode(['status' => 'success']);
+    }
+
+    public function createUser($request)
+    {
+        header('Content-Type: application/json');
+        
+        $email = $request->username;
+
+        // Verifica si el correo ya está registrado
+        if ($this->emailExists($email)) {
+            echo json_encode(['status' => 'error', 'message' => 'Ya existe un usuario registrado con ese email.']);
+            return;
+        }
+
+        $password = $request->password;
+        $rol_id = $request->rol_id;
+        
+        try {
+            // Registrar el nuevo usuario
+            $user = new User();
+            $user->register($email, $password, $rol_id);
+
+            // Respuesta exitosa
+            echo json_encode(['status' => 'success', 'message' => 'Usuario registrado correctamente']);
+        } catch (Exception $e) {
+            // Captura cualquier otro error inesperado
+            echo json_encode(['status' => 'error', 'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()]);
+        }
     }
 }
