@@ -9,10 +9,13 @@ use Paw\Core\Exceptions\ModelNotFoundException;
 
 class UserController extends BaseController
 {
+    private $user;
     public function __construct()
     {
         $this->modelName = User::class;
         parent::__construct();
+        // Inicializar el usuario logueado
+        $this->user = $this->getLoggedInUser();
     }
 
     public function index()
@@ -34,6 +37,7 @@ class UserController extends BaseController
             $session = Session::getInstance();
             $session->logged_in = true;
             $session->email = $user->email;
+            $session->user_id = $user->id; // Guardar el ID del usuario
 
             $this->redirect("/");
         } catch(ModelNotFoundException $e) {
@@ -49,6 +53,17 @@ class UserController extends BaseController
     {
         $session = Session::getInstance()->destroy();
         $this->redirect("/");
+    }
+
+    private function getLoggedInUser()
+    {
+        // Obtener el ID del usuario desde la sesión
+        $session = Session::getInstance();
+        if (isset($session->user_id)) {
+            // Obtener el usuario por su ID
+            return User::getById($session->user_id);
+        }
+        return null;
     }
 
     public function getRoles()
@@ -211,6 +226,40 @@ class UserController extends BaseController
         }
 
         echo json_encode($ret);
+    }
+
+    public function applyChangePassword($newPassword)
+    {
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        // Actualizar la contraseña en la base de datos
+        return $this->user->update(['password' => $hashedPassword]);
+    }
+    
+
+    public function changePassword($request)
+    {
+        $actualPassword = $request->actual_password;
+        $newPassword = $request->new_password;
+
+        // Verificar si el usuario está logueado
+        if (!$this->user) {
+            echo json_encode(['success' => false, 'message' => 'Usuario no logueado']);
+            return;
+        }
+
+        // Verificar si la contraseña actual es correcta
+        if (!$this->user->verifyPassword($actualPassword)) {
+            echo json_encode(['success' => false, 'message' => 'Contraseña actual incorrecta']);
+            return;
+        }
+
+        // Cambiar la contraseña
+        if ($this->applyChangePassword($newPassword)) {
+            echo json_encode(['success' => true, 'message' => 'Contraseña cambiada con éxito']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se pudo cambiar la contraseña']);
+        }
     }
 
 }

@@ -65,4 +65,10 @@ class User extends Model
 
         return $lastInsertId;
     }
+
+    public function verifyPassword($password)
+    {
+        // Verificar si la contraseña ingresada coincide con el hash almacenado
+        return password_verify($password, $this->password);
+    }
 }

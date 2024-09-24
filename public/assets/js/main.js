@@ -43,6 +43,7 @@ var Users = {
     }
 }
 
+
 function toggleStatus(button, userId, newStatus) {
     Users.update({
         userid: userId,
@@ -175,6 +176,35 @@ function registerUser(email, rol_id, password) {
     });
 }
 
+function changePassword(actualPassword, newPassword) {
+    // Enviar solicitud al backend para cambiar la contraseña
+    fetch('/api/change-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            actual_password: actualPassword,
+            new_password: newPassword
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Contraseña cambiada exitosamente');
+            // Limpia los campos si es necesario
+            document.querySelector('.actual-password').value = '';
+            document.querySelector('.new-password').value = '';
+            document.querySelector('.repeat-password').value = '';
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error al cambiar la contraseña:', error);
+    });
+}
+
 function filtrarUsuarios() {
     const filtro = document.querySelector('.filtro').value;
 
@@ -266,64 +296,87 @@ document.addEventListener('DOMContentLoaded', function() {
     var registerButton = document.querySelector('.btn-registrar');
     var tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
 
-    registerButton.addEventListener('click', function() {
-        var email = document.querySelector('.email-input').value;
-        var rolId = document.querySelector('.rol-select').value;
-        var randomPassword = generateRandomPassword(12);
-
-        console.log('Email: ' + email);
-        console.log('Rol ID: ' + rolId);
-        console.log('Contraseña generada: ' + randomPassword);
-
-        // Llamar a la función que hace el registro
-        registerUser(email, rolId, randomPassword);
-
-        // Acá habría que agregar un spinner
-
-        // Devuelvo la lista actualizada y rearmo la tabla, hay que automagizarlo un poco, es demasiado manual
-        Users.list().then(function(ret) {
-            tabla_usuarios.innerHTML = ''; // Limpiar la tabla existente
-
-            Object.keys(ret).forEach(key => {
-                let user = ret[key];
-                let row = document.createElement('tr');
-
-                row.innerHTML = `
-                    <td>${user.id}</td>
-                    <td>${user.email}</td>
-                    <td class="no-padding">
-                        <ul class="lista-horizontal">
-                            <li class="capitalize">${roles[user.rol_id]}</li> <!-- Mostrar el nombre del rol -->
-                            <li>
-                                <a href="#" 
-                                    class="modify modifyRoleButton"  
-                                    data-id="${user.id}" 
-                                    rol-nombre="${roles[user.rol_id]}">
-                                    <img/>
-                                </a>
-                            </li>
-                        </ul>
-                    </td>
-                    <td>
-                        <ul class="lista-horizontal">
-                            <li>
-                                <a href="#" 
-                                    class="toggleStatusButton ${user.deshabilitado ? 'up' : 'down'}"
-                                    data-id="${user.id}"
-                                    data-status="${user.deshabilitado}">
-                                    <img/>
-                                </a>
-                            </li>  
-                        </ul>
-                    </td>
-                `;
-
-                tabla_usuarios.appendChild(row);
+    // evento para el boton de cambiar de contraseña
+    var changePasswordButton = document.querySelector('.change-password-button');
+    if (registerButton){
+        registerButton.addEventListener('click', function() {
+            var email = document.querySelector('.email-input').value;
+            var rolId = document.querySelector('.rol-select').value;
+            var randomPassword = generateRandomPassword(12);
+    
+            console.log('Email: ' + email);
+            console.log('Rol ID: ' + rolId);
+            console.log('Contraseña generada: ' + randomPassword);
+    
+            // Llamar a la función que hace el registro
+            registerUser(email, rolId, randomPassword);
+    
+            // Acá habría que agregar un spinner
+    
+            // Devuelvo la lista actualizada y rearmo la tabla, hay que automagizarlo un poco, es demasiado manual
+            Users.list().then(function(ret) {
+                tabla_usuarios.innerHTML = ''; // Limpiar la tabla existente
+    
+                Object.keys(ret).forEach(key => {
+                    let user = ret[key];
+                    let row = document.createElement('tr');
+    
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.email}</td>
+                        <td class="no-padding">
+                            <ul class="lista-horizontal">
+                                <li class="capitalize">${roles[user.rol_id]}</li> <!-- Mostrar el nombre del rol -->
+                                <li>
+                                    <a href="#" 
+                                        class="modify modifyRoleButton"  
+                                        data-id="${user.id}" 
+                                        rol-nombre="${roles[user.rol_id]}">
+                                        <img/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="lista-horizontal">
+                                <li>
+                                    <a href="#" 
+                                        class="toggleStatusButton ${user.deshabilitado ? 'up' : 'down'}"
+                                        data-id="${user.id}"
+                                        data-status="${user.deshabilitado}">
+                                        <img/>
+                                    </a>
+                                </li>  
+                            </ul>
+                        </td>
+                    `;
+    
+                    tabla_usuarios.appendChild(row);
+                });
+    
+                agregarManejadoresDeEventos();
             });
-
-            agregarManejadoresDeEventos();
         });
-    });
+    }
+    
+    if (changePasswordButton) {
+        changePasswordButton.addEventListener('click', function() {
+            const actualPassword = document.querySelector('.actual-password').value;
+            const newPassword = document.querySelector('.new-password').value;
+            const repeatPassword = document.querySelector('.repeat-password').value;
+            if (newPassword !== repeatPassword) {
+                alert('Las contraseñas no coinciden.');
+                return;
+            }
+        
+            if (!actualPassword || !newPassword || !repeatPassword) {
+                alert('Por favor, complete todos los campos.');
+                return;
+            }
+    
+            changePassword(actualPassword, newPassword);
+        });    
+    }
     
     getRoles().then(function(ret) {
         roles = ret;
