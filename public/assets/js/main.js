@@ -191,13 +191,13 @@ function changePassword(actualPassword, newPassword) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert('Contraseña cambiada exitosamente');
-            // Limpia los campos si es necesario
-            document.querySelector('.actual-password').value = '';
-            document.querySelector('.new-password').value = '';
-            document.querySelector('.repeat-password').value = '';
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = 'Contraseña cambiada con éxito.';
+            messageElement.classList.remove('hidden'); // Mostrar el mensaje
         } else {
-            alert('Error: ' + data.message);
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = data.message;
+            messageElement.classList.remove('hidden'); // Mostrar el mensaje
         }
     })
     .catch(error => {
@@ -365,12 +365,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const newPassword = document.querySelector('.new-password').value;
             const repeatPassword = document.querySelector('.repeat-password').value;
             if (newPassword !== repeatPassword) {
-                alert('Las contraseñas no coinciden.');
+                const messageElement = document.getElementById('message');
+                messageElement.textContent = 'Las contraseñas no coinciden.';
+                messageElement.classList.remove('hidden'); 
                 return;
             }
         
             if (!actualPassword || !newPassword || !repeatPassword) {
-                alert('Por favor, complete todos los campos.');
+                const messageElement = document.getElementById('message');
+                messageElement.textContent = 'Por favor, complete todos los campos.';
+                messageElement.classList.remove('hidden'); 
                 return;
             }
     

@@ -66,9 +66,25 @@ class User extends Model
         return $lastInsertId;
     }
 
+    public function applyChangePassword($newPassword)
+    {
+        // Hash de la nueva contraseña
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        // Actualizar la contraseña del usuario en la base de datos
+        $this->queryBuilder->update(static::$table, [
+            'password' => $hashedPassword,
+        ], ['id' => $this->id]);
+
+        // Actualizar el campo 'password' en el objeto actual
+        $this->fields['password'] = $hashedPassword;
+
+        return true; // Devolver true en caso de éxito
+    }
+
     public function verifyPassword($password)
     {
         // Verificar si la contraseña ingresada coincide con el hash almacenado
-        return password_verify($password, $this->password);
+        return password_verify($password, $this->fields['password']);
     }
 }

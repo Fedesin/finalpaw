@@ -227,39 +227,35 @@ class UserController extends BaseController
 
         echo json_encode($ret);
     }
-
-    public function applyChangePassword($newPassword)
-    {
-        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-
-        // Actualizar la contraseña en la base de datos
-        return $this->user->update(['password' => $hashedPassword]);
-    }
     
 
     public function changePassword($request)
     {
-        $actualPassword = $request->actual_password;
-        $newPassword = $request->new_password;
+        $userId = $_SESSION['user_id']; // Suponiendo que tienes el ID del usuario en la sesión
+        $user = User::getById($userId); // Obtener el usuario
 
-        // Verificar si el usuario está logueado
-        if (!$this->user) {
-            echo json_encode(['success' => false, 'message' => 'Usuario no logueado']);
+        $newPassword = $request->new_password; // Suponiendo que recibes la nueva contraseña del formulario
+        if (!$user->verifyPassword($request->actual_password)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'La contraseña ingresada es incorrecta.'
+            ]);
             return;
         }
 
-        // Verificar si la contraseña actual es correcta
-        if (!$this->user->verifyPassword($actualPassword)) {
-            echo json_encode(['success' => false, 'message' => 'Contraseña actual incorrecta']);
-            return;
-        }
-
-        // Cambiar la contraseña
-        if ($this->applyChangePassword($newPassword)) {
-            echo json_encode(['success' => true, 'message' => 'Contraseña cambiada con éxito']);
+        if ($user) {
+            $user->applyChangePassword($newPassword); // Aplicar el cambio de contraseña
+            echo json_encode([
+                'success' => true,
+                'message' => 'Contraseña cambiada con éxito.'
+            ]);
         } else {
-            echo json_encode(['success' => false, 'message' => 'No se pudo cambiar la contraseña']);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Usuario no encontrado.'
+            ]);
         }
     }
+
 
 }
