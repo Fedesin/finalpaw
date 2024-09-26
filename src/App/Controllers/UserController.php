@@ -231,10 +231,11 @@ class UserController extends BaseController
 
     public function changePassword($request)
     {
-        $userId = $_SESSION['user_id']; // Suponiendo que tienes el ID del usuario en la sesión
-        $user = User::getById($userId); // Obtener el usuario
+        $session = Session::getInstance();
+        $userId = $session->user_id;
+        $user = User::getById($userId);
+        $newPassword = $request->new_password;
 
-        $newPassword = $request->new_password; // Suponiendo que recibes la nueva contraseña del formulario
         if (!$user->verifyPassword($request->actual_password)) {
             echo json_encode([
                 'success' => false,
@@ -244,7 +245,7 @@ class UserController extends BaseController
         }
 
         if ($user) {
-            $user->applyChangePassword($newPassword); // Aplicar el cambio de contraseña
+            $user->updatePassword($newPassword); // Aplicar el cambio de contraseña
             echo json_encode([
                 'success' => true,
                 'message' => 'Contraseña cambiada con éxito.'
