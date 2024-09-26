@@ -1,0 +1,21 @@
+<?php
+
+namespace Paw\App\Models;
+
+use Exception;
+use Paw\Core\Exceptions\ModelNotFoundException;
+
+class Fases extends Model
+{
+    protected static $table = 'fases';
+
+    protected $fields = [
+        "nombre" => null,
+        "tipo_producto_id" => null,
+        "atributos" => null
+    ];
+
+    public function getTipoProducto() {
+        return TipoProducto::getById($this->tipo_producto_id);
+    }
+}
