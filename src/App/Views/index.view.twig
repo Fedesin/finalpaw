@@ -8,12 +8,12 @@
         <h1>Datos del usuario</h1>
 
         <label for="username">Usuario:</label>
-        {% if email %}
-          <h3>{{ email }}</h3> 
+        {% if user.email %}
+          <h3>{{ user.email }}</h3> 
         {% endif %}
         <label for="rol">Rol:</label>
-        {% if rol %}
-          <h3>{{ rol }}</h3> 
+        {% if user.rol %}
+          <h3 class="capitalize">{{ user.rol.nombre }}</h3> 
         {% endif %}
 
         <h1>Cambiar contraseña</h1>

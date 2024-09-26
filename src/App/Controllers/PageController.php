@@ -3,6 +3,7 @@
 namespace Paw\App\Controllers;
 use Paw\App\Models\User;
 use Paw\App\Models\Roles;
+use Paw\Core\Session;
 use Paw\Core\Validator;
 
 class PageController extends BaseController
@@ -14,7 +15,12 @@ class PageController extends BaseController
 
     public function index()
     {
-        parent::showView('index.view.twig');
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+
+        parent::showView('index.view.twig', [
+            "user" => $user
+        ]);
     }
 
     public function login ()
