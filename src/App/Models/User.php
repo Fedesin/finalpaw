@@ -55,28 +55,23 @@ class User extends Model
             throw new Exception("QueryBuilder no inicializado en User.");
         }
 
-        // Insertar el usuario
-        $lastInsertId = $this->queryBuilder->insert(static::$table, [
-            'email' => $username,
-            'password' => password_hash($password, PASSWORD_BCRYPT),
-            'rol_id' => $rol_id,
-            'last_login' => date('Y-m-d H:i:s')
-        ]);
+        $this->email = $username;
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->rol_id = $rol_id;
+        $this->last_login = date('Y-m-d H:i:s');
 
-        return $lastInsertId;
+        return $this->save();
     }
 
     public function updatePassword($newPassword)
     {
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-        try{
+        try {
             $this->password = $hashedPassword;
-
             $this->save();
 
             return true;
-        }
-        catch(Exception $e){
+        } catch(Exception $e){
             throw new Exception($e->getMessage());
         }    
     }

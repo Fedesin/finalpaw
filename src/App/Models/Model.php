@@ -133,6 +133,20 @@ class Model
             $attrs[$field] = $this->fields[$field];
         }
 
-        $this->queryBuilder->update(static::$table, $attrs, ['id' => $this->id]);
+        if($this->fields['id'] == null) {
+            foreach (array_keys($this->fields) as $field) {
+                // Itero 2 veces porque en algún caso realmente puedo querer actualizar un valor a null, pero en la primera iteración no sé si va a ser un update o un insert
+                if($this->fields[$field] == null)
+                    unset($attrs[$field]);
+            }
+            
+            return $this->queryBuilder->insert(static::$table, $attrs);
+        } else {
+            if ($this->queryBuilder->update(static::$table, $attrs, ['id' => $this->id])) {
+                return $this->id;
+            } else {
+                return false;
+            }
+        }
     }
 }
