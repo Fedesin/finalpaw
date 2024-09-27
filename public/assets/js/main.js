@@ -43,6 +43,46 @@ var Users = {
     }
 }
 
+var Fases = {
+    list: function(args) {
+        return fetch("/api/fases", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+        .then(function(ret) {
+            return ret.json();
+        })
+    },
+    create: function(args) {
+        return fetch("/api/fases", {
+            method: "POST",
+            body: JSON.stringify(args),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(function(ret) {
+            return ret.json();
+        })
+    },
+    update: function(args) {
+        return fetch("/api/fases", {
+            method: "PUT",
+            body: JSON.stringify(args),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(function(ret) {
+            return ret.json();
+        })
+    }
+}
+
 
 function toggleStatus(button, userId, newStatus) {
     Users.update({
@@ -382,6 +422,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });    
     }
     
+
+    var selectTipo_producto_id = document.querySelector('#tipo_producto_id');
+
+    selectTipo_producto_id.addEventListener('change', function() {
+        var fase_nombre = document.querySelector('#fase-nombre').value;
+        var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+        document.querySelector('.tabla-fases').classList.remove('hidden');
+        document.querySelector('#fase-nombre').classList.remove('hidden');
+        document.querySelector('.btn-agregar-fase').classList.remove('hidden');
+        document.querySelector('#formularioFases').classList.remove('hidden');
+
+
+        Fases.list({
+            fase_nombre: fase_nombre,
+            tipo_producto_id: tipo_producto_id
+        }).then(function(ret) {
+            console.log(ret.data);
+            //Una vez que logramos obtener la lista de fases, actualizamos la tabla
+            var tabla_fases = document.querySelector('.tabla-fases > tbody');
+            tabla_fases.innerHTML = ''; // Limpiar la tabla existente
+
+            Object.values(ret.data).forEach(fase => {
+                 // Crear una nueva fila para cada fase
+                let row = document.createElement('tr');
+                
+                // Actualizar las celdas con los datos correctos
+                row.innerHTML = `
+                    <td>${fase.nombre}</td>
+                `;
+                
+                // Añadir la fila a la tabla
+                tabla_fases.appendChild(row);
+
+
+                // Seleccionamos el <select> donde se agregarán las opciones
+                var listaFase = document.getElementById('lista_fase');
+                listaFase.innerHTML = ''; // Limpiar las opciones existentes
+
+                // Agregar las opciones de fases al <select>
+                Object.values(ret.data).forEach(fase => {
+                    // Crear un nuevo elemento <option> para cada fase
+                    let option = document.createElement('option');
+                    option.value = fase.id; // Establecer el valor de la opción
+                    option.textContent = fase.nombre; // Establecer el texto mostrado
+
+                    // Añadir la opción al <select>
+                    listaFase.appendChild(option);
+                });
+            });
+        });
+    });
+
+    // Evento para el botón de agregar fases
+    var addFasesButton = document.querySelector('.btn-agregar-fase');
+
+    addFasesButton.addEventListener('click', function() {
+        var fase_nombre = document.querySelector('#fase-nombre').value;
+        var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+        
+        Fases.create({
+            fase_nombre: fase_nombre,
+            tipo_producto_id: tipo_producto_id
+        }).then(function(ret) {
+            console.log(ret.data);
+        });
+    });
+
+
     getRoles().then(function(ret) {
         roles = ret;
     });

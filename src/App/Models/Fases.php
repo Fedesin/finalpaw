@@ -18,4 +18,15 @@ class Fases extends Model
     public function getTipoProducto() {
         return TipoProducto::getById($this->tipo_producto_id);
     }
+
+    public static function create($nombre, $tipo_producto_id) {
+        $fase = new Fases();
+
+        $fase->nombre = $nombre;
+        $fase->tipo_producto_id = $tipo_producto_id;
+        $fase->save();
+
+        return $fase;
+    }
+
 }

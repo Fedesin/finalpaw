@@ -88,7 +88,14 @@ if(!isset($session->logged_in)) {
 
     $router->post('/api/users/change-role', 'UserController@changeRole');
 
-    $router->POST('/api/users/filterViaEmail', 'UserController@getUsersViaEmail');
+    $router->post('/api/users/filterViaEmail', 'UserController@getUsersViaEmail');
 
-    $router->POST('/api/change-password', 'UserController@changePassword');
+    $router->post('/api/change-password', 'UserController@changePassword');
+
+    $router->get('/api/fases', 'FasesController@getFases');
+
+    $router->put('/api/fases', 'FasesController@updateFase');
+
+    $router->post('/api/fases', 'FasesController@createFase');
+
 }

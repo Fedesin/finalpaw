@@ -6,24 +6,34 @@
 
   <main class="admfases-container">
     <h1>Gestión de Fases</h1>
-    <!-- Tenemos que crear el enumerado -->
+    
+    <label for="tipoprod">Tipo de producto:</label>
+        <select id="tipo_producto_id" name="tipoprod_id" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            {% for tipo_producto in tipo_productos %}
+              <option value="{{ tipo_producto.id }}">{{ tipo_producto.nombre }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <input id="fase-nombre" class="hidden" type="text" placeholder="Pasteurización">
+    <table class="tabla-fases hidden" >
+         <thead>
+              <tr>
+                  <th>Fases</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        <button class="btn-agregar-fase hidden" type="submit">Agregar Fases</button>
+    </table>
    
 
     <!-- Formulario para Agregar/Editar Usuario -->
-    <form id="formularioUsuario" onsubmit="guardarUsuario(event)">
-        <select id="tipo_fase" required>
-            <option value="inicial">Inicial</option>
-            <option value="pasteurizacion">Pasteurización</option>
-            <option value="prep_del_fermento">Preparación del fermento</option>
-            <option value="mad_en_tina">Maduración en tina</option>
-            <option value="coagulacion">Coagulacion</option>
-            <option value="mol_prensado">Moldeo-prensado</option>
-            <option value="salado">Salado</option>
-            <option value="envasado">Envasado</option>
-            <option value="maduracion">Maduracion</option>
-            <option value="stock">Stock</option>
-            <option value="limpieza">Limpieza</option>
-            <option value="observaciones">Observaciones</option>
+    <form id="formularioFases" class="hidden" onsubmit="">
+        <select id="lista_fase" required>
+            {% for fase in fases %}
+              <option value="{{ fase.id }}">{{ fase.nombre }}</option>
+            {% endfor %}
         </select>
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" required>
