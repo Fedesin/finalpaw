@@ -431,8 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.tabla-fases').classList.remove('hidden');
         document.querySelector('#fase-nombre').classList.remove('hidden');
         document.querySelector('.btn-agregar-fase').classList.remove('hidden');
-        document.querySelector('#formularioFases').classList.remove('hidden');
-
+        document.querySelector('#formularioFases').style.display = 'grid';
 
         Fases.list({
             fase_nombre: fase_nombre,

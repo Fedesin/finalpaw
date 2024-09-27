@@ -596,7 +596,6 @@ Gestion de Fases
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     max-width: 400px; /* Limita el ancho máximo del contenedor */
-/*    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -606,8 +605,6 @@ Gestion de Fases
 
 .admfases-container h1 {
     font-size: 1.5em; /* Tamaño más grande para el título */
-/*    margin-top: 0;
-    margin-bottom: 20px; /* Espacio debajo del título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
 }
@@ -640,9 +637,12 @@ Gestion de Fases
 }
 
 .admfases-container table {
-    width: 100%; /* La tabla ocupa todo el ancho del contenedor */
+    width: 90%; /* La tabla ocupa todo el ancho del contenedor */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
-    margin-top: 20px; /* Espacio encima de la tabla */
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .admfases-container th,
@@ -655,6 +655,35 @@ Gestion de Fases
 .admfases-container th {
     background-color: var(--primary-green); /* Color de fondo de la cabecera */
     color: var(--primary-white); /* Color de texto de la cabecera */
+}
+
+.contenedor_lista_tipo_producto{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-evenly;
+}
+
+.contenedor_agregar_fases{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    margin-top: 0.5vw;
+}
+
+#formularioFases{
+    display: none;
+}
+#formularioFases > label {
+    margin-top:0.5vw
+}
+#formularioFases > input {
+    margin-top:0.5vw
+}
+#formularioFases > select {
+    margin-top:0.5vw
+}
+#formularioFases > button {
+    margin-top:0.5vw
 }
 
 

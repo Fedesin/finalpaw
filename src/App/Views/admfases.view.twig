@@ -7,41 +7,45 @@
   <main class="admfases-container">
     <h1>Gestión de Fases</h1>
     
-    <label for="tipoprod">Tipo de producto:</label>
-        <select id="tipo_producto_id" name="tipoprod_id" required>
-            <option value="" disabled selected>Seleccione una opción</option>
-            {% for tipo_producto in tipo_productos %}
-              <option value="{{ tipo_producto.id }}">{{ tipo_producto.nombre }}</option>
-            {% endfor %}
-        </select>
-    </form>
-    <input id="fase-nombre" class="hidden" type="text" placeholder="Pasteurización">
-    <table class="tabla-fases hidden" >
-         <thead>
-              <tr>
-                  <th>Fases</th>
-              </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        <button class="btn-agregar-fase hidden" type="submit">Agregar Fases</button>
-    </table>
-   
+    <div class="contenedor_lista_tipo_producto">
+      <label for="tipoprod">Tipo de producto:</label>
+          <select id="tipo_producto_id" name="tipoprod_id" required>
+              <option value="" disabled selected>Seleccione una opción</option>
+              {% for tipo_producto in tipo_productos %}
+                <option value="{{ tipo_producto.id }}">{{ tipo_producto.nombre }}</option>
+              {% endfor %}
+          </select>
+      </form>
+    </div>
 
-    <!-- Formulario para Agregar/Editar Usuario -->
-    <form id="formularioFases" class="hidden" onsubmit="">
-        <select id="lista_fase" required>
-            {% for fase in fases %}
-              <option value="{{ fase.id }}">{{ fase.nombre }}</option>
-            {% endfor %}
-        </select>
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" required>
-        <label for="nro">Producción N°:</label>
-        <input type="number" id="nro" required>
+    <div class="contenedor_agregar_fases">
+      <input id="fase-nombre" class="hidden" type="text" placeholder="Pasteurización">
+      <button class="btn-agregar-fase hidden" type="submit">Agregar Fases</button>
+    </div>
+      
+      <table class="tabla-fases hidden" >
+          <thead>
+                <tr>
+                    <th>Fases</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+      </table>
+    
+      <form id="formularioFases" onsubmit="">
+          <select id="lista_fase" required>
+              {% for fase in fases %}
+                <option value="{{ fase.id }}">{{ fase.nombre }}</option>
+              {% endfor %}
+          </select>
+          <label for="fecha">Fecha:</label>
+          <input type="date" id="fecha" required>
+          <label for="nro">Producción N°:</label>
+          <input type="number" id="nro" required>
 
-        <button type="submit">Guardar</button>
-    </form>
+          <button type="submit">Guardar</button>
+      </form>
   </main>
 
 {% endblock %}
