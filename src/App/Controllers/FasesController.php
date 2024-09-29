@@ -22,8 +22,13 @@ class FasesController extends BaseController
     }
 
 
-    public function getFases() {
-        $fases = Fases::getAll();
+    public function getFases($request) {
+        $params = [];
+
+        if (isset($request->tipo_producto_id))
+            $params["tipo_producto_id"] = $request->tipo_producto_id;
+
+        $fases = Fases::getAll($params);
 
         $ret = [];
         foreach($fases as $fase) {

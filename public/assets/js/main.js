@@ -5,7 +5,9 @@ var roles = [];
 
 var Users = {
     list: function(args) {
-        return fetch("/api/users", {
+        params = new URLSearchParams(args);
+
+        return fetch("/api/users" + params.size ? ('?' + params.toString) : '', {
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -45,7 +47,9 @@ var Users = {
 
 var Fases = {
     list: function(args) {
-        return fetch("/api/fases", {
+        params = new URLSearchParams(args);
+
+        return fetch("/api/fases" + (params.size ? ('?' + params.toString()) : ''), {
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -426,17 +430,17 @@ document.addEventListener('DOMContentLoaded', function() {
     var selectTipo_producto_id = document.querySelector('#tipo_producto_id');
 
     selectTipo_producto_id.addEventListener('change', function() {
-        var fase_nombre = document.querySelector('#fase-nombre').value;
         var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+
         document.querySelector('.tabla-fases').classList.remove('hidden');
         document.querySelector('#fase-nombre').classList.remove('hidden');
         document.querySelector('.btn-agregar-fase').classList.remove('hidden');
         document.querySelector('#formularioFases').style.display = 'grid';
 
         Fases.list({
-            fase_nombre: fase_nombre,
-            tipo_producto_id: tipo_producto_id
-        }).then(function(ret) {
+            "tipo_producto_id": tipo_producto_id
+        })
+        .then(function(ret) {
             console.log(ret.data);
             //Una vez que logramos obtener la lista de fases, actualizamos la tabla
             var tabla_fases = document.querySelector('.tabla-fases > tbody');

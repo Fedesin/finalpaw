@@ -17,13 +17,13 @@ class Request
 
     public function __get($name)
     {
-        if(array_key_exists($name, $this->body))
+        if(isset($this->body) && array_key_exists($name, $this->body))
             return $this->body[$name];
 
-        if(array_key_exists($name, $this->post))
+        if(isset($this->post) && array_key_exists($name, $this->post))
             return $this->post[$name];
 
-        if(array_key_exists($name, $this->get))
+        if(isset($this->get) && array_key_exists($name, $this->get))
             return $this->get[$name];
         
         return null;
@@ -31,13 +31,13 @@ class Request
 
     public function __isset($name)
     {
-        if(array_key_exists($name, $this->body))
+        if(isset($this->body) && array_key_exists($name, $this->body))
             return true;
 
-        if(array_key_exists($name, $this->post))
+        if(isset($this->post) && array_key_exists($name, $this->post))
             return true;
         
-        if(array_key_exists($name, $this->get))
+        if(isset($this->get) && array_key_exists($name, $this->get))
             return true;
         
         return false;
