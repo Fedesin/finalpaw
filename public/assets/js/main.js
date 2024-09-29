@@ -441,10 +441,13 @@ document.addEventListener('DOMContentLoaded', function() {
             "tipo_producto_id": tipo_producto_id
         })
         .then(function(ret) {
-            console.log(ret.data);
             //Una vez que logramos obtener la lista de fases, actualizamos la tabla
             var tabla_fases = document.querySelector('.tabla-fases > tbody');
+            // Seleccionamos el <select> donde se agregarán las opciones
+            var listaFase = document.getElementById('lista_fase');
+
             tabla_fases.innerHTML = ''; // Limpiar la tabla existente
+            listaFase.innerHTML = ''; // Limpiar las opciones existentes
 
             Object.values(ret.data).forEach(fase => {
                  // Crear una nueva fila para cada fase
@@ -458,21 +461,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Añadir la fila a la tabla
                 tabla_fases.appendChild(row);
 
+                // Crear un nuevo elemento <option> para cada fase
+                let option = document.createElement('option');
+                
+                option.value = fase.id; // Establecer el valor de la opción
+                option.textContent = fase.nombre; // Establecer el texto mostrado
 
-                // Seleccionamos el <select> donde se agregarán las opciones
-                var listaFase = document.getElementById('lista_fase');
-                listaFase.innerHTML = ''; // Limpiar las opciones existentes
-
-                // Agregar las opciones de fases al <select>
-                Object.values(ret.data).forEach(fase => {
-                    // Crear un nuevo elemento <option> para cada fase
-                    let option = document.createElement('option');
-                    option.value = fase.id; // Establecer el valor de la opción
-                    option.textContent = fase.nombre; // Establecer el texto mostrado
-
-                    // Añadir la opción al <select>
-                    listaFase.appendChild(option);
-                });
+                // Añadir la opción al <select>
+                listaFase.appendChild(option);
             });
         });
     });
