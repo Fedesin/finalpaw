@@ -29,7 +29,7 @@ class User extends Model
         return Roles::getById($this->rol_id);
     }
 
-    public static function valid($user, $password)
+    public static function valid($user, $password, $touch_login)
     {
         $where = [
             "email" => $user
@@ -40,6 +40,11 @@ class User extends Model
 
             if(!password_verify($password, $model->fields['password']))
                 throw new Exception();
+
+            if($touch_login) {
+                $model->last_login = 'NOW()';
+                $model->save();
+            }
         } catch(Exception $e) {
             throw new ModelNotFoundException();
         }

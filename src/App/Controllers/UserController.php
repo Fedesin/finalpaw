@@ -31,7 +31,7 @@ class UserController extends BaseController
         $password = $data['password'];
 
         try {
-            $user = User::valid($email, $password);
+            $user = User::valid($email, $password, true);
 
             // Iniciar la sesión y almacenar el email del usuario
             $session = Session::getInstance();
