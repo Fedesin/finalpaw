@@ -959,6 +959,16 @@ vamos con los datos del usuario en el index
     color: var(--second-light-blue);
 }
 
+
+.index-dataname {
+    display: flex;
+    align-items: baseline;
+}
+.index-dataname > h2 {
+    margin-right:2vw;
+}
+
+
 @media (max-width:850px) {
     .admform-container {
         margin: 1em;

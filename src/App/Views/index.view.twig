@@ -6,16 +6,18 @@
   <main class="index-container">
     <form class="index-form" action="" method="post">
         <h1>Datos del usuario</h1>
-
-        <label for="username">Usuario:</label>
+        <div class="index-dataname">
+        <h2 for="username">Usuario:</h2>
         {% if user.email %}
           <h3>{{ user.email }}</h3> 
         {% endif %}
-        <label for="rol">Rol:</label>
+        </div>
+        <div class="index-dataname">
+        <h2 for="rol">Rol:</h2>
         {% if user.rol %}
           <h3 class="capitalize">{{ user.rol.nombre }}</h3> 
         {% endif %}
-
+        </div>
         <h1>Cambiar contraseña</h1>
         <label for="actual-password">Contraseña actual:</label>
         <input type="password" class="actual-password" name="actual-password" required>
