@@ -2,12 +2,11 @@
 //variables globales
 var roles = [];
 
-
 var Users = {
     list: function(args) {
         params = new URLSearchParams(args);
 
-        return fetch("/api/users" + params.size ? ('?' + params.toString) : '', {
+        return fetch("/api/users" + params.size ? ('?' + params.toString()) : '', {
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -87,7 +86,6 @@ var Fases = {
     }
 }
 
-
 function toggleStatus(button, userId, newStatus) {
     Users.update({
         userid: userId,
@@ -135,40 +133,25 @@ function changeAnchorToOptions(button) {
     var currentRoleName = button.getAttribute('rol-nombre');
     // Verificar si ya se ha cambiado a opciones
     if (parent.querySelector('select')) {
-        // Si hay un select, significa que ya está en modo de cambio de rol, así que volvemos a la vista original
         parent.innerHTML = currentRoleName; // Restablece el contenido original
-        return; // Sale de la función
+        return;
     }
-    // Obtener el rol actual
     var select = document.createElement('select');
-
     select.classList.add('capitalize');
-
-    // Llenar el select con roles
     Object.keys(roles).forEach(key => {
         var option = document.createElement('option');
-
         option.value = key;
         option.textContent = roles[key];
         select.appendChild(option);
     });
-
-    // Crear el botón para cambiar el rol
     var changeButton = document.createElement('button');
     changeButton.textContent = 'Cambiar Rol';
     changeButton.classList.add('changeRolePressed');
-
-    // Obtener el ID del usuario desde el botón
-    var userId = button.getAttribute('data-id');
-
-    // Asignar el evento de clic al botón
     changeButton.addEventListener('click', function() {
         var selectedRoleId = select.value;
-        changeRole(selectedRoleId, userId); // Asegúrate de que userId se esté pasando correctamente
+        changeRole(selectedRoleId, userId);
     });
-
-    // Reemplazar el contenido del <li>
-    parent.innerHTML = ''; // Limpiar el contenido actual
+    parent.innerHTML = ''; 
     parent.appendChild(select);
     parent.appendChild(changeButton);
 }
@@ -179,9 +162,7 @@ function changeRole(rol_id, user_id) {
         rol_id: rol_id
     })
     .then(function(data) {
-        // Aquí actualizas el texto del rol en la vista
         var parent = document.querySelector(`[data-id='${user_id}']`).closest('ul').querySelector('li');
-
         parent.innerHTML = roles[rol_id];
     })
     .catch(function(error) {
@@ -199,7 +180,6 @@ function generateRandomPassword(length) {
     return password;
 }
 
-
 function registerUser(email, rol_id, password) {
     Users.create({
         username: email,
@@ -207,8 +187,7 @@ function registerUser(email, rol_id, password) {
         rol_id: rol_id
     })
     .then(data => {
-        const errorContainer = document.querySelector('.login-error'); // El contenedor de errores o mensajes
-
+        const errorContainer = document.querySelector('.login-error');
         if (data.status === 'success') {
             errorContainer.innerHTML = `<p class="success-message">${data.message}</p>`;
         } else if (data.status === 'error') {
@@ -221,7 +200,6 @@ function registerUser(email, rol_id, password) {
 }
 
 function changePassword(actualPassword, newPassword) {
-    // Enviar solicitud al backend para cambiar la contraseña
     fetch('/api/change-password', {
         method: 'POST',
         headers: {
@@ -234,15 +212,13 @@ function changePassword(actualPassword, newPassword) {
     })
     .then(response => response.json())
     .then(data => {
+        const messageElement = document.getElementById('message');
         if (data.success) {
-            const messageElement = document.getElementById('message');
             messageElement.textContent = 'Contraseña cambiada con éxito.';
-            messageElement.classList.remove('hidden'); // Mostrar el mensaje
         } else {
-            const messageElement = document.getElementById('message');
             messageElement.textContent = data.message;
-            messageElement.classList.remove('hidden'); // Mostrar el mensaje
         }
+        messageElement.classList.remove('hidden');
     })
     .catch(error => {
         console.error('Error al cambiar la contraseña:', error);
@@ -251,7 +227,6 @@ function changePassword(actualPassword, newPassword) {
 
 function filtrarUsuarios() {
     const filtro = document.querySelector('.filtro').value;
-
     fetch('/api/users/filterViaEmail', {
         method: 'POST',
         headers: {
@@ -262,8 +237,7 @@ function filtrarUsuarios() {
     .then(response => response.json())
     .then(data => {
         let tbody = document.querySelector('.tabla-usuarios > tbody');
-        tbody.innerHTML = ''; // Limpiar la tabla existente
-
+        tbody.innerHTML = ''; 
         Object.keys(data).forEach(key => {
             let user = data[key];
             let row = document.createElement('tr');
@@ -272,7 +246,7 @@ function filtrarUsuarios() {
                 <td>${user.email}</td>
                 <td class="no-padding">
                     <ul class="lista-horizontal">
-                        <li class="capitalize">${roles[user.rol_id]}</li> <!-- Mostrar el nombre del rol -->
+                        <li class="capitalize">${roles[user.rol_id]}</li>
                         <li>
                             <a href="#" 
                                 class="modify modifyRoleButton"  
@@ -296,12 +270,9 @@ function filtrarUsuarios() {
                     </ul>
                 </td>
             `;
-
             tbody.appendChild(row);
         });
-
-        // Volver a agregar manejadores de eventos
-        agregarManejadoresDeEventos()
+        agregarManejadoresDeEventos();
     })
     .catch(error => {
         console.error('Error al filtrar usuarios:', error);
@@ -309,22 +280,15 @@ function filtrarUsuarios() {
 }
 
 function agregarManejadoresDeEventos() {
-     // Evento para el boton de habilitar o desahabilitar un usuario
      var buttons = document.querySelectorAll('.toggleStatusButton');
-    
      buttons.forEach(function(button) {
          button.addEventListener('click', function() {
              var userId = parseInt(this.getAttribute('data-id'));
              var newStatus = parseInt(this.getAttribute('data-status'));
-             
              toggleStatus(button, userId, 1 - newStatus);
- 
          });
      });
- 
-     // Evento para el botón de cambiar rol
      var buttons = document.querySelectorAll('.modifyRoleButton');
-     
      buttons.forEach(function(button) {
          button.addEventListener('click', function() {
              changeAnchorToOptions(button);
@@ -332,45 +296,30 @@ function agregarManejadoresDeEventos() {
      });
 }
 
-// Asignar los eventos de clic a los botones
 document.addEventListener('DOMContentLoaded', function() {
     agregarManejadoresDeEventos();
 
-    // Evento para el botón de registrar
     var registerButton = document.querySelector('.btn-registrar');
     var tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
-
-    // evento para el boton de cambiar de contraseña
     var changePasswordButton = document.querySelector('.change-password-button');
+
     if (registerButton){
         registerButton.addEventListener('click', function() {
             var email = document.querySelector('.email-input').value;
             var rolId = document.querySelector('.rol-select').value;
             var randomPassword = generateRandomPassword(12);
-    
-            console.log('Email: ' + email);
-            console.log('Rol ID: ' + rolId);
-            console.log('Contraseña generada: ' + randomPassword);
-    
-            // Llamar a la función que hace el registro
             registerUser(email, rolId, randomPassword);
-    
-            // Acá habría que agregar un spinner
-    
-            // Devuelvo la lista actualizada y rearmo la tabla, hay que automagizarlo un poco, es demasiado manual
             Users.list().then(function(ret) {
-                tabla_usuarios.innerHTML = ''; // Limpiar la tabla existente
-    
+                tabla_usuarios.innerHTML = ''; 
                 Object.keys(ret).forEach(key => {
                     let user = ret[key];
                     let row = document.createElement('tr');
-    
                     row.innerHTML = `
                         <td>${user.id}</td>
                         <td>${user.email}</td>
                         <td class="no-padding">
                             <ul class="lista-horizontal">
-                                <li class="capitalize">${roles[user.rol_id]}</li> <!-- Mostrar el nombre del rol -->
+                                <li class="capitalize">${roles[user.rol_id]}</li>
                                 <li>
                                     <a href="#" 
                                         class="modify modifyRoleButton"  
@@ -394,15 +343,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             </ul>
                         </td>
                     `;
-    
                     tabla_usuarios.appendChild(row);
                 });
-    
                 agregarManejadoresDeEventos();
             });
         });
     }
-    
+
     if (changePasswordButton) {
         changePasswordButton.addEventListener('click', function() {
             const actualPassword = document.querySelector('.actual-password').value;
@@ -414,24 +361,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 messageElement.classList.remove('hidden'); 
                 return;
             }
-        
             if (!actualPassword || !newPassword || !repeatPassword) {
                 const messageElement = document.getElementById('message');
                 messageElement.textContent = 'Por favor, complete todos los campos.';
                 messageElement.classList.remove('hidden'); 
                 return;
             }
-    
             changePassword(actualPassword, newPassword);
         });    
     }
     
-
     var selectTipo_producto_id = document.querySelector('#tipo_producto_id');
-
     selectTipo_producto_id.addEventListener('change', function() {
         var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
-
         document.querySelector('.tabla-fases').classList.remove('hidden');
         document.querySelector('#fase-nombre').classList.remove('hidden');
         document.querySelector('.btn-agregar-fase').classList.remove('hidden');
@@ -441,45 +383,33 @@ document.addEventListener('DOMContentLoaded', function() {
             "tipo_producto_id": tipo_producto_id
         })
         .then(function(ret) {
-            //Una vez que logramos obtener la lista de fases, actualizamos la tabla
             var tabla_fases = document.querySelector('.tabla-fases > tbody');
-            // Seleccionamos el <select> donde se agregarán las opciones
             var listaFase = document.getElementById('lista_fase');
-
-            tabla_fases.innerHTML = ''; // Limpiar la tabla existente
-            listaFase.innerHTML = ''; // Limpiar las opciones existentes
-
+            tabla_fases.innerHTML = '';
+            listaFase.innerHTML = '';
             Object.values(ret.data).forEach(fase => {
-                 // Crear una nueva fila para cada fase
                 let row = document.createElement('tr');
-                
-                // Actualizar las celdas con los datos correctos
                 row.innerHTML = `
                     <td>${fase.nombre}</td>
+                    <td>
+                        <button class="btn-editar" data-id="${fase.id}">✏️</button>
+                        <button class="btn-borrar" data-id="${fase.id}">❌</button>
+                    </td>
                 `;
-                
-                // Añadir la fila a la tabla
                 tabla_fases.appendChild(row);
-
-                // Crear un nuevo elemento <option> para cada fase
                 let option = document.createElement('option');
-                
-                option.value = fase.id; // Establecer el valor de la opción
-                option.textContent = fase.nombre; // Establecer el texto mostrado
-
-                // Añadir la opción al <select>
+                option.value = fase.id;
+                option.textContent = fase.nombre;
                 listaFase.appendChild(option);
             });
+            agregarEventosAcciones();
         });
     });
 
-    // Evento para el botón de agregar fases
     var addFasesButton = document.querySelector('.btn-agregar-fase');
-
     addFasesButton.addEventListener('click', function() {
         var fase_nombre = document.querySelector('#fase-nombre').value;
         var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
-        
         Fases.create({
             fase_nombre: fase_nombre,
             tipo_producto_id: tipo_producto_id
@@ -488,8 +418,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-
     getRoles().then(function(ret) {
         roles = ret;
     });
 });
+
+function agregarEventosAcciones() {
+    document.querySelectorAll('.btn-editar').forEach(button => {
+        button.addEventListener('click', function() {
+            var faseId = this.getAttribute('data-id');
+            console.log("Editar fase con ID:", faseId);
+        });
+    });
+    document.querySelectorAll('.btn-borrar').forEach(button => {
+        button.addEventListener('click', function() {
+            var faseId = this.getAttribute('data-id');
+            console.log("Borrar fase con ID:", faseId);
+        });
+    });
+}
