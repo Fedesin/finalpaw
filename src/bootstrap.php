@@ -95,6 +95,12 @@ if(!isset($session->logged_in)) {
     $router->get('/api/fases', 'FasesController@getFases');
 
     $router->put('/api/fases', 'FasesController@updateFase');
+    
+    $router->get('/api/fases/atributos', 'FasesController@getAttributes');
+
+    $router->delete('/api/fases/deleteCampo', 'FasesController@deleteCampo');
+
+    $router->delete('/api/fases', 'FasesController@deleteFase');
 
     $router->post('/api/fases', 'FasesController@createFase');
 

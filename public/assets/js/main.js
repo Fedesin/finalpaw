@@ -83,6 +83,45 @@ var Fases = {
         .then(function(ret) {
             return ret.json();
         })
+    },
+    delete: function(args) {
+        return fetch("/api/fases", {
+            method: "DELETE",
+            body: JSON.stringify(args),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(function(ret) {
+            return ret.json();
+        })
+    },
+    getAttributes: function(args) {
+        params = new URLSearchParams(args);
+
+        return fetch("/api/fases/atributos" + (params.size ? ('?' + params.toString()) : ''), {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+        .then(function(ret) {
+            return ret.json();
+        });
+    },
+    deleteCampo: function(args) {
+        return fetch("/api/fases/deleteCampo", {
+            method: "DELETE",
+            body: JSON.stringify(args),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(function(ret) {
+            return ret.json();
+        });
     }
 }
 
@@ -131,9 +170,8 @@ function changeAnchorToOptions(button) {
     var parent = button.closest('ul').querySelector('li');
     var userId = button.getAttribute('data-id');
     var currentRoleName = button.getAttribute('rol-nombre');
-    // Verificar si ya se ha cambiado a opciones
     if (parent.querySelector('select')) {
-        parent.innerHTML = currentRoleName; // Restablece el contenido original
+        parent.innerHTML = currentRoleName; 
         return;
     }
     var select = document.createElement('select');
@@ -423,17 +461,127 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 function agregarEventosAcciones() {
     document.querySelectorAll('.btn-editar').forEach(button => {
         button.addEventListener('click', function() {
             var faseId = this.getAttribute('data-id');
             console.log("Editar fase con ID:", faseId);
+            var faseRow = this.closest('tr');
+
+            // Verificar si ya existe un campo de edición en la fila
+            if (!faseRow.querySelector('.input-editar')) {
+                // Obtener los atributos (campos) de la fase desde el servidor
+                Fases.getAttributes({
+                    fase_id: faseId
+                }).then(function(ret) {
+                    let atributos = ret.atributos || {}; // Asignar un objeto vacío si no hay atributos
+
+                    // Crear un nuevo input para agregar un atributo y un botón de confirmación
+                    let input = document.createElement('input');
+                    input.type = 'text';
+                    input.classList.add('input-editar');
+                    input.placeholder = 'Nuevo campo (nombre)';
+
+                    let okButton = document.createElement('button');
+                    okButton.textContent = 'Ok';
+                    okButton.classList.add('btn-ok');
+
+                    // Crear un contenedor para listar los campos ya existentes
+                    let camposContainer = document.createElement('div');
+                    camposContainer.classList.add('campos-container');
+
+                    // Si atributos no está vacío, mostrar los campos existentes
+                    if (Object.keys(atributos).length > 0) {
+                        Object.keys(atributos).forEach(function(campo) {
+                            let campoRow = document.createElement('div');
+                            campoRow.classList.add('campo-row');
+
+                            let campoLabel = document.createElement('span');
+                            campoLabel.textContent = campo;
+
+                            let deleteButton = document.createElement('button');
+                            deleteButton.textContent = '❌';
+                            deleteButton.classList.add('btn-delete-campo');
+
+                            deleteButton.addEventListener('click', function() {
+                                Fases.deleteCampo({
+                                    fase_id: faseId,
+                                    campo: campo
+                                }).then(function(ret) {
+                                    if (ret.success) {
+                                        campoRow.remove();
+                                        console.log('Campo eliminado correctamente');
+                                    } else {
+                                        console.error('Error al eliminar campo:', ret.message);
+                                    }
+                                });
+                            });
+
+                            campoRow.appendChild(campoLabel);
+                            campoRow.appendChild(deleteButton);
+                            camposContainer.appendChild(campoRow);
+                        });
+                    } else {
+                        console.log("No hay atributos existentes para esta fase.");
+                    }
+
+                    // Añadir los elementos a la fila
+                    let newRow = document.createElement('tr');
+                    let newCell = document.createElement('td');
+                    newCell.colSpan = 2; // Que ocupe ambas columnas (Fases y Acciones)
+                    newCell.appendChild(input);
+                    newCell.appendChild(okButton);
+                    newCell.appendChild(camposContainer); // Añadir lista de campos existentes (si los hay)
+                    newRow.appendChild(newCell);
+                    faseRow.after(newRow);
+
+                    // Manejar el evento de clic en el botón Ok
+                    okButton.addEventListener('click', function() {
+                        let nuevoCampo = input.value;
+
+                        if (nuevoCampo.trim() === '') {
+                            alert('Por favor, ingrese un valor válido.');
+                            return;
+                        }
+
+                        // Lógica para enviar el nuevo atributo al backend
+                        Fases.update({
+                            fase_id: faseId,
+                            nuevo_campo: nuevoCampo
+                        }).then(function(ret) {
+                            if (ret.success) {
+                                console.log('Campo agregado correctamente');
+                                // Aquí podrías actualizar la tabla o hacer alguna acción
+                            } else {
+                                console.error('Error al agregar campo:', ret.message);
+                            }
+                        });
+                    });
+                }).catch(function(error) {
+                    console.error("Error al obtener los atributos:", error);
+                });
+            }
         });
     });
+
     document.querySelectorAll('.btn-borrar').forEach(button => {
         button.addEventListener('click', function() {
             var faseId = this.getAttribute('data-id');
             console.log("Borrar fase con ID:", faseId);
+            // Confirmar antes de borrar
+            if (confirm("¿Estás seguro de que deseas eliminar esta fase?")) {
+                // Hacer una solicitud de eliminación al backend
+                Fases.delete({ fase_id: faseId }).then(function(ret) {
+                    if (ret.success) {
+                        console.log("Fase eliminada correctamente:", faseId);
+                        // Recargar la tabla de fases después de la eliminación
+                        document.querySelector(`button[data-id="${faseId}"]`).closest('tr').remove();
+                    } else {
+                        console.error("Error al eliminar la fase:", ret.message);
+                    }
+                });
+            }
         });
     });
 }

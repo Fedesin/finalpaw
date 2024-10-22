@@ -29,4 +29,8 @@ class Fases extends Model
         return $fase;
     }
 
+    // Implementar el método delete
+    public function delete() {
+        $this->queryBuilder->delete(static::$table, ['id' => $this->id]);
+    }
 }

@@ -13,11 +13,11 @@ class Router
     private array $routes = [
         "GET" => [],
         "POST" => [],
-        "PUT" => []
+        "PUT" => [],
+        "DELETE" => [] // Añadimos soporte para DELETE
     ];
 
     private string $notFound = 'not_found';
-
     private string $internalError = 'internal_error';
 
     public function __construct($notFoundRoute, $internalErrorRoute)
@@ -30,7 +30,6 @@ class Router
     {
         $this->routes[$method][$path] = $action;
     }
-
 
     public function get($path, $accion)
     {
@@ -47,15 +46,20 @@ class Router
         $this->loadRoutes($path, $accion, "PUT");
     }
 
+    // Añadimos el método DELETE
+    public function delete($path, $accion)
+    {
+        $this->loadRoutes($path, $accion, "DELETE");
+    }
+
     public function exists($path, $method)
     {
         return array_key_exists($path, $this->routes[$method]);
     }
 
-
     public function getController($path, $http_method)
     {
-        if(!$this->exists($path, $http_method)) {
+        if (!$this->exists($path, $http_method)) {
             throw new RouteNotFoundException("No existe ruta para este Path");    
         } 
         return explode('@', $this->routes[$http_method][$path]);
@@ -70,23 +74,22 @@ class Router
 
     public function direct(Request $request) 
     {
-        try{
-            list($path, $http_method) = $request -> route();
+        try {
+            list($path, $http_method) = $request->route();
             list($controller, $method) = $this->getController($path, $http_method);
-            $this->logger
-                ->info(
-                    "Status Code: 200",
-                    [
-                        "Path"=>$path,
-                        "Method"=>$http_method,
-                    ]
-                );
-        } catch(RouteNotFoundException $e){
+            $this->logger->info(
+                "Status Code: 200",
+                [
+                    "Path" => $path,
+                    "Method" => $http_method,
+                ]
+            );
+        } catch (RouteNotFoundException $e) {
             list($controller, $method) = $this->getController($this->notFound, "GET");       
-            $this->logger->debug('Status Code: 404 - Route Not Found', ["ERROR"=>$e]);
-        } catch(Exception $e){
+            $this->logger->debug('Status Code: 404 - Route Not Found', ["ERROR" => $e]);
+        } catch (Exception $e) {
             list($controller, $method) = $this->getController($this->internalError, "GET");       
-            $this->logger->error('Status Code: 500 - Internal Server Error', ["ERROR"=>$e]);
+            $this->logger->error('Status Code: 500 - Internal Server Error', ["ERROR" => $e]);
         } finally {
             $this->call($controller, $method, $request);
         }
