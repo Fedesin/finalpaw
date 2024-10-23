@@ -44,14 +44,16 @@ class FasesController extends BaseController
     }
 
     public function createFase($request) {
+        // Creamos la nueva fase (el número de orden se maneja en el modelo)
         $fase = Fases::create($request->fase_nombre, $request->tipo_producto_id);
-
+    
         if ($fase) {
             $ret = [
                 "id" => $fase->id,
                 "nombre" => $fase->nombre,
                 "tipo_producto_id" => $fase->tipo_producto_id,
-                "atributos" => $fase->atributos
+                "atributos" => $fase->atributos,
+                "numero_orden" => $fase->numero_orden // Añadimos el número de orden al resultado
             ];
             echo json_encode(['status' => 'success', 'data' => $ret]);
         } else {
@@ -72,25 +74,27 @@ class FasesController extends BaseController
     }
 
     public function updateFase($request) {
-        $faseId = $request->fase_id;
-        $nuevoCampo = $request->nuevo_campo;
+        $fase = Fases::getById($request->fase_id);
     
-        // Obtener la fase por su ID
-        $fase = Fases::getById($faseId);
-        if (!$fase) {
+        if ($fase) {
+            // Actualizamos el número de orden
+            if (isset($request->numero_orden)) {
+                $fase->numero_orden = $request->numero_orden;
+            }
+    
+            // Agregar nuevo campo a los atributos
+            if (isset($request->nuevo_campo)) {
+                $atributos = json_decode($fase->atributos, true);
+                $atributos[$request->nuevo_campo] = ""; // Se agrega el nuevo campo con valor vacío
+                $fase->atributos = json_encode($atributos);
+            }
+            
+            $fase->save();
+    
+            echo json_encode(['success' => true, 'message' => 'Fase actualizada correctamente']);
+        } else {
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
-            return;
         }
-    
-        // Actualizar los atributos (que están en formato JSON)
-        $atributos = json_decode($fase->atributos, true) ?? []; // Decodificar el JSON o iniciar un array vacío
-        $atributos[$nuevoCampo] = ""; // El valor del nuevo campo será vacío
-    
-        // Guardar los nuevos atributos en la base de datos
-        $fase->atributos = json_encode($atributos); // Volver a codificar a JSON
-        $fase->save();
-    
-        echo json_encode(['success' => true, 'message' => 'Campo agregado correctamente']);
     }
     
     public function deleteCampo($request) {
@@ -122,7 +126,7 @@ class FasesController extends BaseController
         // Obtener la fase por su ID
         $fase = Fases::getById($faseId);
         if ($fase) {
-            echo json_encode(['success' => true, 'atributos' => json_decode($fase->atributos, true)]);
+            echo json_encode(['success' => true, 'atributos' => json_decode($fase->atributos, true), 'numero_orden' => $fase->numero_orden]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
         }

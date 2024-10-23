@@ -16,7 +16,7 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function select($table, $where = [], $order_by = 'id')
+    public function select($table, $where = [], $order_by = 'id', $direction = 'ASC')
     {
         $whereStr = "WHERE 1 = 1 ";
         $operators = ["=", "<", ">", "<=", ">=", "<>","LIKE"];
@@ -27,7 +27,7 @@ class QueryBuilder
                 $val = $value[1];
 
                 if(!in_array($op, $operators))
-                    throw new Exception($op . " comparador no implementado");
+                    throw new \Exception($op . " comparador no implementado");
             } else {
                 $op = "=";
                 $val = $value;
@@ -36,14 +36,13 @@ class QueryBuilder
             $whereStr .= "AND {$key} {$op} :{$key} " ;
         }
 
-        $query = "select * from {$table} {$whereStr} order by {$order_by}";
+        // Incorporar order_by y direction (por defecto ASC)
+        $query = "SELECT * FROM {$table} {$whereStr} ORDER BY {$order_by} {$direction}";
         $sentencia = $this->pdo->prepare($query);
 
-        /*
-        Tiene que haber una forma mejor que repetir el código
-        */
-        foreach ($where as $key => $value)
+        foreach ($where as $key => $value) {
             $sentencia->bindValue(":{$key}", is_array($value) ? $value[1] : $value);
+        }
         
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute(); 
@@ -115,5 +114,14 @@ class QueryBuilder
         $statement->execute();
 
         return $statement->rowCount();
+    }
+
+    // Método orderBy para seleccionar registros con ordenamiento
+    public function orderBy($table, $column, $direction = 'ASC')
+    {
+        $query = "SELECT * FROM {$table} ORDER BY {$column} {$direction}";
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -448,11 +448,16 @@ document.addEventListener('DOMContentLoaded', function() {
     addFasesButton.addEventListener('click', function() {
         var fase_nombre = document.querySelector('#fase-nombre').value;
         var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+        var numero_orden_element = document.querySelector('#numero_orden');
+        var numero_orden = (numero_orden_element && numero_orden_element.value) ? numero_orden_element.value : 1; // Asignar 1 por defecto si no existe
+
         Fases.create({
             fase_nombre: fase_nombre,
-            tipo_producto_id: tipo_producto_id
+            tipo_producto_id: tipo_producto_id,
+            numero_orden: numero_orden // Enviar el número de orden
         }).then(function(ret) {
             console.log(ret.data);
+            refrescarTablaFases(); // Refrescar la tabla automáticamente
         });
     });
 
@@ -482,6 +487,11 @@ function agregarEventosAcciones() {
                     input.type = 'text';
                     input.classList.add('input-editar');
                     input.placeholder = 'Nuevo campo (nombre)';
+
+                    let ordenInput = document.createElement('input'); // Añadido para modificar el número de orden
+                    ordenInput.type = 'number';
+                    ordenInput.value = ret.numero_orden || 1; // Aquí deberías acceder al valor de número de orden dentro de la respuesta
+                    ordenInput.classList.add('input-orden');
 
                     let okButton = document.createElement('button');
                     okButton.textContent = 'Ok';
@@ -531,6 +541,7 @@ function agregarEventosAcciones() {
                     let newCell = document.createElement('td');
                     newCell.colSpan = 2; // Que ocupe ambas columnas (Fases y Acciones)
                     newCell.appendChild(input);
+                    newCell.appendChild(ordenInput); // Añadido para el número de orden
                     newCell.appendChild(okButton);
                     newCell.appendChild(camposContainer); // Añadir lista de campos existentes (si los hay)
                     newRow.appendChild(newCell);
@@ -539,20 +550,22 @@ function agregarEventosAcciones() {
                     // Manejar el evento de clic en el botón Ok
                     okButton.addEventListener('click', function() {
                         let nuevoCampo = input.value;
+                        let nuevoOrden = ordenInput.value; // Capturar el nuevo orden
 
                         if (nuevoCampo.trim() === '') {
                             alert('Por favor, ingrese un valor válido.');
                             return;
                         }
 
-                        // Lógica para enviar el nuevo atributo al backend
+                        // Lógica para enviar el nuevo atributo y el número de orden al backend
                         Fases.update({
                             fase_id: faseId,
-                            nuevo_campo: nuevoCampo
+                            nuevo_campo: nuevoCampo,
+                            numero_orden: nuevoOrden // Enviar el nuevo número de orden
                         }).then(function(ret) {
                             if (ret.success) {
-                                console.log('Campo agregado correctamente');
-                                // Aquí podrías actualizar la tabla o hacer alguna acción
+                                console.log('Campo y número de orden actualizados correctamente');
+                                refrescarTablaFases(); // Refrescar la tabla automáticamente
                             } else {
                                 console.error('Error al agregar campo:', ret.message);
                             }
@@ -575,13 +588,35 @@ function agregarEventosAcciones() {
                 Fases.delete({ fase_id: faseId }).then(function(ret) {
                     if (ret.success) {
                         console.log("Fase eliminada correctamente:", faseId);
-                        // Recargar la tabla de fases después de la eliminación
-                        document.querySelector(`button[data-id="${faseId}"]`).closest('tr').remove();
+                        refrescarTablaFases(); // Refrescar la tabla automáticamente después de la eliminación
                     } else {
                         console.error("Error al eliminar la fase:", ret.message);
                     }
                 });
             }
         });
+    });
+}
+
+function refrescarTablaFases() {
+    var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+    Fases.list({
+        "tipo_producto_id": tipo_producto_id
+    })
+    .then(function(ret) {
+        var tabla_fases = document.querySelector('.tabla-fases > tbody');
+        tabla_fases.innerHTML = '';
+        Object.values(ret.data).forEach(fase => {
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${fase.nombre}</td>
+                <td>
+                    <button class="btn-editar" data-id="${fase.id}">✏️</button>
+                    <button class="btn-borrar" data-id="${fase.id}">❌</button>
+                </td>
+            `;
+            tabla_fases.appendChild(row);
+        });
+        agregarEventosAcciones(); // Reasignar los eventos después de refrescar la tabla
     });
 }
