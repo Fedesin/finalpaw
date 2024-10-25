@@ -578,25 +578,35 @@ function agregarEventosAcciones() {
                     okButton.addEventListener('click', function() {
                         let nuevoCampo = input.value;
                         let nuevoOrden = ordenInput.value; // Capturar el nuevo orden
-
-                        if (nuevoCampo.trim() === '') {
-                            alert('Por favor, ingrese un valor válido.');
-                            return;
+                        if (nuevoCampo === '') {
+                            // Si el campo está vacío, solo se debe actualizar el número de orden
+                            Fases.update({
+                                fase_id: faseId,
+                                numero_orden: nuevoOrden // Enviar solo el nuevo número de orden
+                            }).then(function(ret) {
+                                if (ret.success) {
+                                    console.log('Número de orden actualizado correctamente');
+                                    refrescarTablaFases(); // Refrescar la tabla automáticamente
+                                } else {
+                                    console.error('Error al actualizar número de orden:', ret.message);
+                                }
+                            });
+                        } else {
+                            // Lógica para enviar el nuevo atributo y el número de orden al backend
+                            Fases.update({
+                                fase_id: faseId,
+                                nuevo_campo: nuevoCampo,
+                                numero_orden: nuevoOrden // Enviar el nuevo número de orden
+                            }).then(function(ret) {
+                                if (ret.success) {
+                                    console.log('Campo y número de orden actualizados correctamente');
+                                    refrescarTablaFases(); // Refrescar la tabla automáticamente
+                                } else {
+                                    console.error('Error al agregar campo:', ret.message);
+                                }
+                            });
                         }
-
-                        // Lógica para enviar el nuevo atributo y el número de orden al backend
-                        Fases.update({
-                            fase_id: faseId,
-                            nuevo_campo: nuevoCampo,
-                            numero_orden: nuevoOrden // Enviar el nuevo número de orden
-                        }).then(function(ret) {
-                            if (ret.success) {
-                                console.log('Campo y número de orden actualizados correctamente');
-                                refrescarTablaFases(); // Refrescar la tabla automáticamente
-                            } else {
-                                console.error('Error al agregar campo:', ret.message);
-                            }
-                        });
+                        
                     });
                 }).catch(function(error) {
                     console.error("Error al obtener los atributos:", error);
