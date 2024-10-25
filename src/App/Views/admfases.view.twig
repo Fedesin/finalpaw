@@ -23,7 +23,7 @@
       <button class="btn-agregar-fase hidden" type="submit">Agregar Fases</button>
     </div>
       
-      <table class="tabla-fases hidden" >
+      <table class="tabla-fases hidden"  >
           <thead>
                 <tr>
                     <th>Fases</th>
@@ -33,20 +33,6 @@
             <tbody>
             </tbody>
       </table>
-    
-      <form id="formularioFases" onsubmit="">
-          <select id="lista_fase" required>
-              {% for fase in fases %}
-                <option value="{{ fase.id }}">{{ fase.nombre }}</option>
-              {% endfor %}
-          </select>
-          <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha" required>
-          <label for="nro">Producción N°:</label>
-          <input type="number" id="nro" required>
-
-          <button type="submit">Guardar</button>
-      </form>
   </main>
 
 {% endblock %}

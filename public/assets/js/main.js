@@ -318,20 +318,20 @@ function filtrarUsuarios() {
 }
 
 function agregarManejadoresDeEventos() {
-     var buttons = document.querySelectorAll('.toggleStatusButton');
-     buttons.forEach(function(button) {
-         button.addEventListener('click', function() {
-             var userId = parseInt(this.getAttribute('data-id'));
-             var newStatus = parseInt(this.getAttribute('data-status'));
-             toggleStatus(button, userId, 1 - newStatus);
-         });
-     });
-     var buttons = document.querySelectorAll('.modifyRoleButton');
-     buttons.forEach(function(button) {
-         button.addEventListener('click', function() {
-             changeAnchorToOptions(button);
-         });
-     });
+    var buttons = document.querySelectorAll('.toggleStatusButton');
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var userId = parseInt(this.getAttribute('data-id'));
+            var newStatus = parseInt(this.getAttribute('data-status'));
+            toggleStatus(button, userId, 1 - newStatus);
+        });
+    });
+    var buttons = document.querySelectorAll('.modifyRoleButton');
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            changeAnchorToOptions(button);
+        });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -415,16 +415,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.tabla-fases').classList.remove('hidden');
         document.querySelector('#fase-nombre').classList.remove('hidden');
         document.querySelector('.btn-agregar-fase').classList.remove('hidden');
-        document.querySelector('#formularioFases').style.display = 'grid';
+        //document.querySelector('#formularioFases').style.display = 'grid';
 
         Fases.list({
             "tipo_producto_id": tipo_producto_id
         })
         .then(function(ret) {
             var tabla_fases = document.querySelector('.tabla-fases > tbody');
-            var listaFase = document.getElementById('lista_fase');
             tabla_fases.innerHTML = '';
-            listaFase.innerHTML = '';
             Object.values(ret.data).forEach(fase => {
                 let row = document.createElement('tr');
                 row.innerHTML = `
@@ -438,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let option = document.createElement('option');
                 option.value = fase.id;
                 option.textContent = fase.nombre;
-                listaFase.appendChild(option);
+                //listaFase.appendChild(option);
             });
             agregarEventosAcciones();
         });
