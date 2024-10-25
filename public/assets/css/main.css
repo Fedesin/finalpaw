@@ -736,7 +736,7 @@ Gestion de Fases
 }
 
 .label-campo{
-    display: inherit;
+    float: inline-start;
 }
 
 

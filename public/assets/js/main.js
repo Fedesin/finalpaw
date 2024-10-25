@@ -485,21 +485,43 @@ function agregarEventosAcciones() {
                     labelNuevoCampo.textContent = 'Rellene para agregar un campo nuevo:';
                     labelNuevoCampo.classList.add('label-campo');
 
-                    let labelNumeroOrden = document.createElement('label');
-                    labelNumeroOrden.textContent = 'Número de orden:';
-                    labelNumeroOrden.classList.add('label-campo');
+                    let labelNumeroOrdenCampo = document.createElement('label');
+                    labelNumeroOrdenCampo.textContent = 'Número de orden del campo:';
+                    labelNumeroOrdenCampo.classList.add('label-campo');
 
-                    
-                    // Crear un nuevo input para agregar un atributo y un botón de confirmación
+                    let labelTipoCampo = document.createElement('label');
+                    labelTipoCampo.textContent = 'Tipo de dato del campo:';
+                    labelTipoCampo.classList.add('label-campo');
+
+                    let labelNumeroOrdenFase = document.createElement('label');
+                    labelNumeroOrdenFase.textContent = 'Número de orden de la fase:';
+                    labelNumeroOrdenFase.classList.add('label-campo');
+
+                    // Crear un nuevo input para agregar un atributo
                     let input = document.createElement('input');
                     input.type = 'text';
                     input.classList.add('input-editar');
                     input.placeholder = 'Nuevo campo (nombre)';
 
-                    let ordenInput = document.createElement('input'); // Añadido para modificar el número de orden
-                    ordenInput.type = 'number';
-                    ordenInput.value = ret.numero_orden || 1; // Aquí deberías acceder al valor de número de orden dentro de la respuesta
-                    ordenInput.classList.add('input-orden');
+                    // Select para el tipo de campo
+                    let tipoCampoSelect = document.createElement('select'); 
+                    tipoCampoSelect.classList.add('input-tipo-campo');
+                    ["entero", "string", "float", "boolean"].forEach(tipo => {
+                        let option = document.createElement('option');
+                        option.value = tipo;
+                        option.textContent = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+                        tipoCampoSelect.appendChild(option);
+                    });
+
+                    let ordenCampoInput = document.createElement('input'); // Input para modificar el número de orden del campo
+                    ordenCampoInput.type = 'number';
+                    ordenCampoInput.value = 1; // Valor por defecto del número de orden del campo
+                    ordenCampoInput.classList.add('input-orden');
+
+                    let ordenFaseInput = document.createElement('input'); // Input para modificar el número de orden de la fase
+                    ordenFaseInput.type = 'number';
+                    ordenFaseInput.value = ret.numero_orden || 1; // El número de orden actual de la fase
+                    ordenFaseInput.classList.add('input-orden-fase');
 
                     let okButton = document.createElement('button');
                     okButton.textContent = 'Confirmar cambios';
@@ -508,7 +530,6 @@ function agregarEventosAcciones() {
                     // Agregar un salto de línea después del botón de confirmar
                     let lineBreak = document.createElement('br');
                     
-                    
                     // Crear un contenedor para listar los campos ya existentes
                     let labelCamposActuales = document.createElement('label');
                     labelCamposActuales.textContent = 'Campos actuales:';
@@ -516,10 +537,6 @@ function agregarEventosAcciones() {
 
                     let camposContainer = document.createElement('div');
                     camposContainer.classList.add('campos-container');
-
-                    // Añadir el label dentro del contenedor
-                    camposContainer.appendChild(labelCamposActuales);
-                    
 
                     // Si atributos no está vacío, mostrar los campos existentes
                     if (Object.keys(atributos).length > 0) {
@@ -559,54 +576,68 @@ function agregarEventosAcciones() {
                     // Añadir los elementos a la fila
                     let newRow = document.createElement('tr');
                     let newCell = document.createElement('td');
-                    newCell.colSpan = 2; // Que ocupe ambas columnas (Fases y Acciones)
-                    newCell.appendChild(labelNuevoCampo); // Agregar label para nuevo campo
+                    newCell.colSpan = 2; 
+
+                    // Elementos para editar la fase (número de orden de fase)
+                    newCell.appendChild(labelNumeroOrdenFase); // Label para número de orden de la fase
+                    newCell.appendChild(ordenFaseInput); // Input para número de orden de la fase
+
+                    // Elementos para agregar un campo
+                    newCell.appendChild(labelNuevoCampo); // Label para nuevo campo
                     newCell.appendChild(input);
 
-                    newCell.appendChild(labelNumeroOrden); // Agregar label para número de orden
-                    newCell.appendChild(ordenInput); // Añadido para el número de orden
+                    newCell.appendChild(labelNumeroOrdenCampo); // Label para número de orden del campo
+                    newCell.appendChild(ordenCampoInput); // Input para el número de orden del campo
+
+                    newCell.appendChild(labelTipoCampo); // Label para tipo de campo
+                    newCell.appendChild(tipoCampoSelect); // Select para tipo de campo
 
                     newCell.appendChild(okButton);
                     newCell.appendChild(lineBreak);
                     newCell.appendChild(labelCamposActuales); // Agregar label para campos actuales
-                    newCell.appendChild(camposContainer); // Añadir lista de campos existentes (si los hay)
+                    newCell.appendChild(camposContainer); // Añadir lista de campos existentes
 
                     newRow.appendChild(newCell);
                     faseRow.after(newRow);
 
-                    // Manejar el evento de clic en el botón Ok
+                    // Manejar el evento de clic en el botón Confirmar cambios
                     okButton.addEventListener('click', function() {
                         let nuevoCampo = input.value;
-                        let nuevoOrden = ordenInput.value; // Capturar el nuevo orden
-                        if (nuevoCampo === '') {
-                            // Si el campo está vacío, solo se debe actualizar el número de orden
+                        let nuevoOrdenCampo = ordenCampoInput.value;
+                        let tipoCampo = tipoCampoSelect.value;
+                        let nuevoOrdenFase = ordenFaseInput.value; // Capturar el nuevo orden de la fase
+
+                        // Primero actualizamos el número de orden de la fase
+                        Fases.update({
+                            fase_id: faseId,
+                            numero_orden: nuevoOrdenFase // Enviar el nuevo número de orden de la fase
+                        }).then(function(ret) {
+                            if (ret.success) {
+                                console.log('Número de orden de la fase actualizado correctamente');
+                                refrescarTablaFases(); // Refrescar la tabla automáticamente
+                            } else {
+                                console.error('Error al actualizar número de orden de la fase:', ret.message);
+                            }
+                        });
+
+                        if (nuevoCampo.trim() !== '') {
+                            // Si el campo no está vacío, agregarlo con sus datos
                             Fases.update({
                                 fase_id: faseId,
-                                numero_orden: nuevoOrden // Enviar solo el nuevo número de orden
-                            }).then(function(ret) {
-                                if (ret.success) {
-                                    console.log('Número de orden actualizado correctamente');
-                                    refrescarTablaFases(); // Refrescar la tabla automáticamente
-                                } else {
-                                    console.error('Error al actualizar número de orden:', ret.message);
+                                nuevo_campo: {
+                                    nombre: nuevoCampo,
+                                    num_orden: nuevoOrdenCampo,
+                                    tipo: tipoCampo
                                 }
-                            });
-                        } else {
-                            // Lógica para enviar el nuevo atributo y el número de orden al backend
-                            Fases.update({
-                                fase_id: faseId,
-                                nuevo_campo: nuevoCampo,
-                                numero_orden: nuevoOrden // Enviar el nuevo número de orden
                             }).then(function(ret) {
                                 if (ret.success) {
-                                    console.log('Campo y número de orden actualizados correctamente');
-                                    refrescarTablaFases(); // Refrescar la tabla automáticamente
+                                    console.log('Campo y número de orden del campo actualizados correctamente');
+                                    refrescarTablaFases();
                                 } else {
                                     console.error('Error al agregar campo:', ret.message);
                                 }
                             });
                         }
-                        
                     });
                 }).catch(function(error) {
                     console.error("Error al obtener los atributos:", error);
@@ -614,6 +645,8 @@ function agregarEventosAcciones() {
             }
         });
     });
+
+
 
     document.querySelectorAll('.btn-borrar').forEach(button => {
         button.addEventListener('click', function() {
