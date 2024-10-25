@@ -472,15 +472,13 @@ function agregarEventosAcciones() {
             console.log("Editar fase con ID:", faseId);
             var faseRow = this.closest('tr');
 
-            // Verificar si ya existe un campo de edición en la fila
             if (!faseRow.querySelector('.input-editar')) {
-                // Obtener los atributos (campos) de la fase desde el servidor
                 Fases.getAttributes({
                     fase_id: faseId
                 }).then(function(ret) {
-                    let atributos = ret.atributos || {}; // Asignar un objeto vacío si no hay atributos
-                    
-                    // Crear los labels
+                    let atributos = ret.atributos || {};
+
+                    // Crear elementos del formulario de edición
                     let labelNuevoCampo = document.createElement('label');
                     labelNuevoCampo.textContent = 'Rellene para agregar un campo nuevo:';
                     labelNuevoCampo.classList.add('label-campo');
@@ -497,13 +495,11 @@ function agregarEventosAcciones() {
                     labelNumeroOrdenFase.textContent = 'Número de orden de la fase:';
                     labelNumeroOrdenFase.classList.add('label-campo');
 
-                    // Crear un nuevo input para agregar un atributo
                     let input = document.createElement('input');
                     input.type = 'text';
                     input.classList.add('input-editar');
                     input.placeholder = 'Nuevo campo (nombre)';
 
-                    // Select para el tipo de campo
                     let tipoCampoSelect = document.createElement('select'); 
                     tipoCampoSelect.classList.add('input-tipo-campo');
                     ["entero", "string", "float", "boolean"].forEach(tipo => {
@@ -513,24 +509,22 @@ function agregarEventosAcciones() {
                         tipoCampoSelect.appendChild(option);
                     });
 
-                    let ordenCampoInput = document.createElement('input'); // Input para modificar el número de orden del campo
+                    let ordenCampoInput = document.createElement('input');
                     ordenCampoInput.type = 'number';
-                    ordenCampoInput.value = 1; // Valor por defecto del número de orden del campo
+                    ordenCampoInput.value = 1; 
                     ordenCampoInput.classList.add('input-orden');
 
-                    let ordenFaseInput = document.createElement('input'); // Input para modificar el número de orden de la fase
+                    let ordenFaseInput = document.createElement('input');
                     ordenFaseInput.type = 'number';
-                    ordenFaseInput.value = ret.numero_orden || 1; // El número de orden actual de la fase
+                    ordenFaseInput.value = ret.numero_orden || 1;
                     ordenFaseInput.classList.add('input-orden-fase');
 
                     let okButton = document.createElement('button');
                     okButton.textContent = 'Confirmar cambios';
                     okButton.classList.add('btn-ok');
 
-                    // Agregar un salto de línea después del botón de confirmar
                     let lineBreak = document.createElement('br');
-                    
-                    // Crear un contenedor para listar los campos ya existentes
+
                     let labelCamposActuales = document.createElement('label');
                     labelCamposActuales.textContent = 'Campos actuales:';
                     labelCamposActuales.classList.add('label-campo');
@@ -538,19 +532,26 @@ function agregarEventosAcciones() {
                     let camposContainer = document.createElement('div');
                     camposContainer.classList.add('campos-container');
 
-                    // Si atributos no está vacío, mostrar los campos existentes
+                    // Iterar sobre los atributos y añadir los campos actuales con el botón para editar y eliminar
                     if (Object.keys(atributos).length > 0) {
                         Object.keys(atributos).forEach(function(campo) {
                             let campoRow = document.createElement('div');
                             campoRow.classList.add('campo-row');
 
                             let campoLabel = document.createElement('span');
-                            campoLabel.textContent = campo;
+                            campoLabel.textContent = campo; // Mostrar solo el nombre original del campo
+                            
+                            // Botón de editar
+                            let editButton = document.createElement('button');
+                            editButton.textContent = '✏️'; // Icono de lápiz
+                            editButton.classList.add('btn-editar-campo');
 
+                            // Botón de eliminar
                             let deleteButton = document.createElement('button');
-                            deleteButton.textContent = '❌';
+                            deleteButton.textContent = '❌'; // Icono de cruz
                             deleteButton.classList.add('btn-delete-campo');
 
+                            // Evento para eliminar el campo
                             deleteButton.addEventListener('click', function() {
                                 Fases.deleteCampo({
                                     fase_id: faseId,
@@ -560,68 +561,129 @@ function agregarEventosAcciones() {
                                         campoRow.remove();
                                         console.log('Campo eliminado correctamente');
                                     } else {
-                                        console.error('Error al eliminar campo:', ret.message);
+                                        console.error('Error al eliminar el campo:', ret.message);
                                     }
                                 });
                             });
 
+                            // Evento para editar el campo
+                            editButton.addEventListener('click', function() {
+                                campoRow.innerHTML = ''; // Limpiar el contenido para desplegar las opciones de edición
+
+                                let campoEditInput = document.createElement('input');
+                                campoEditInput.type = 'text';
+                                campoEditInput.classList.add('input-nombre-campo');
+                                campoEditInput.value = campo; // Mostrar el nombre original del campo
+
+                                let ordenCampoActualInput = document.createElement('input');
+                                ordenCampoActualInput.type = 'number';
+                                ordenCampoActualInput.value = atributos[campo].num_orden || 1;
+                                ordenCampoActualInput.classList.add('input-orden-campo');
+
+                                let tipoCampoActualSelect = document.createElement('select');
+                                tipoCampoActualSelect.classList.add('input-tipo-campo');
+                                ["entero", "string", "float", "boolean"].forEach(tipo => {
+                                    let option = document.createElement('option');
+                                    option.value = tipo;
+                                    option.textContent = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+                                    if (tipo === atributos[campo].tipo) {
+                                        option.selected = true;
+                                    }
+                                    tipoCampoActualSelect.appendChild(option);
+                                });
+
+                                let guardarButton = document.createElement('button');
+                                guardarButton.textContent = 'Guardar cambios';
+                                guardarButton.classList.add('btn-guardar-campo');
+
+                                // Evento para guardar cambios
+                                guardarButton.addEventListener('click', function() {
+                                    const nuevoNombre = campoEditInput.value;
+                                    const nuevoOrden = ordenCampoActualInput.value;
+                                    const nuevoTipo = tipoCampoActualSelect.value;
+
+                                    Fases.update({
+                                        fase_id: faseId,
+                                        editar_campo: {
+                                            original: campo,
+                                            nuevo_nombre: nuevoNombre,
+                                            num_orden: nuevoOrden,
+                                            tipo: nuevoTipo
+                                        }
+                                    }).then(function(ret) {
+                                        if (ret.success) {
+                                            console.log('Campo actualizado correctamente');
+                                            refrescarTablaFases();
+                                        } else {
+                                            console.error('Error al actualizar el campo:', ret.message);
+                                        }
+                                    });
+                                });
+
+                                campoRow.appendChild(campoEditInput);
+                                campoRow.appendChild(ordenCampoActualInput);
+                                campoRow.appendChild(tipoCampoActualSelect);
+                                campoRow.appendChild(guardarButton);
+                            });
+
                             campoRow.appendChild(campoLabel);
-                            campoRow.appendChild(deleteButton);
+                            campoRow.appendChild(editButton); // Añadir botón de editar
+                            campoRow.appendChild(deleteButton); // Añadir botón de eliminar
                             camposContainer.appendChild(campoRow);
                         });
                     } else {
                         console.log("No hay atributos existentes para esta fase.");
                     }
 
-                    // Añadir los elementos a la fila
+                    // Añadir div para agrupar el label y el input del número de orden del campo
+                    let divNumeroOrdenCampo = document.createElement('div');
+                    divNumeroOrdenCampo.classList.add('campo-orden-container');
+                    divNumeroOrdenCampo.appendChild(labelNumeroOrdenCampo);
+                    divNumeroOrdenCampo.appendChild(ordenCampoInput);
+
+                    // Añadir elementos a la fila de edición
                     let newRow = document.createElement('tr');
                     let newCell = document.createElement('td');
-                    newCell.colSpan = 2; 
+                    newCell.colSpan = 2;
 
-                    // Elementos para editar la fase (número de orden de fase)
-                    newCell.appendChild(labelNumeroOrdenFase); // Label para número de orden de la fase
-                    newCell.appendChild(ordenFaseInput); // Input para número de orden de la fase
+                    newCell.appendChild(labelNumeroOrdenFase);
+                    newCell.appendChild(ordenFaseInput);
 
-                    // Elementos para agregar un campo
-                    newCell.appendChild(labelNuevoCampo); // Label para nuevo campo
+                    newCell.appendChild(labelNuevoCampo);
                     newCell.appendChild(input);
 
-                    newCell.appendChild(labelNumeroOrdenCampo); // Label para número de orden del campo
-                    newCell.appendChild(ordenCampoInput); // Input para el número de orden del campo
+                    newCell.appendChild(divNumeroOrdenCampo); // Ahora el número de orden del campo está en su propio div
 
-                    newCell.appendChild(labelTipoCampo); // Label para tipo de campo
-                    newCell.appendChild(tipoCampoSelect); // Select para tipo de campo
+                    newCell.appendChild(labelTipoCampo);
+                    newCell.appendChild(tipoCampoSelect);
 
                     newCell.appendChild(okButton);
                     newCell.appendChild(lineBreak);
-                    newCell.appendChild(labelCamposActuales); // Agregar label para campos actuales
-                    newCell.appendChild(camposContainer); // Añadir lista de campos existentes
+                    newCell.appendChild(labelCamposActuales);
+                    newCell.appendChild(camposContainer);
 
                     newRow.appendChild(newCell);
                     faseRow.after(newRow);
 
-                    // Manejar el evento de clic en el botón Confirmar cambios
                     okButton.addEventListener('click', function() {
                         let nuevoCampo = input.value;
                         let nuevoOrdenCampo = ordenCampoInput.value;
                         let tipoCampo = tipoCampoSelect.value;
-                        let nuevoOrdenFase = ordenFaseInput.value; // Capturar el nuevo orden de la fase
+                        let nuevoOrdenFase = ordenFaseInput.value;
 
-                        // Primero actualizamos el número de orden de la fase
                         Fases.update({
                             fase_id: faseId,
-                            numero_orden: nuevoOrdenFase // Enviar el nuevo número de orden de la fase
+                            numero_orden: nuevoOrdenFase 
                         }).then(function(ret) {
                             if (ret.success) {
                                 console.log('Número de orden de la fase actualizado correctamente');
-                                refrescarTablaFases(); // Refrescar la tabla automáticamente
+                                refrescarTablaFases(); 
                             } else {
                                 console.error('Error al actualizar número de orden de la fase:', ret.message);
                             }
                         });
 
                         if (nuevoCampo.trim() !== '') {
-                            // Si el campo no está vacío, agregarlo con sus datos
                             Fases.update({
                                 fase_id: faseId,
                                 nuevo_campo: {
@@ -631,12 +693,14 @@ function agregarEventosAcciones() {
                                 }
                             }).then(function(ret) {
                                 if (ret.success) {
-                                    console.log('Campo y número de orden del campo actualizados correctamente');
+                                    console.log('Campo y número de orden del campo agregados correctamente');
                                     refrescarTablaFases();
                                 } else {
                                     console.error('Error al agregar campo:', ret.message);
                                 }
                             });
+                        } else {
+                            console.log('Campo nuevo está vacío, no se puede agregar.');
                         }
                     });
                 }).catch(function(error) {
@@ -645,6 +709,13 @@ function agregarEventosAcciones() {
             }
         });
     });
+
+
+
+
+
+
+
 
 
 

@@ -612,14 +612,19 @@ Gestion de Fases
 
 .admfases-container label {
     font-weight: bold; /* Hace el texto de los labels más visible */
+    margin-bottom: 0.5em;
+    display: block;
 }
 
 .admfases-container input[type="text"],
+.admfases-container input[type="number"],
 .admfases-container select {
-    padding: 8px; /* Añade un relleno interno */
-    border: 1px solid #ccc; /* Define un borde suave */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 14px; /* Ajusta el tamaño de la fuente */
+    padding: 0.5em; /* Aumentar padding */
+    margin-bottom: 0.8em; /* Añadir espacio entre los elementos */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%; /* Ajustar el tamaño de los inputs al 100% del contenedor */
+    max-width: 200px; /* Evitar que crezca demasiado */
 }
 
 .admfases-container button {
@@ -636,6 +641,7 @@ Gestion de Fases
 .admfases-container button:hover {
     background-color: var(--second-light-blue); /* Color de fondo al pasar el ratón por encima */
 }
+
 
 .admfases-container table {
     width: 90%; /* La tabla ocupa todo el ancho del contenedor */
@@ -670,6 +676,32 @@ Gestion de Fases
     justify-content: space-around;
     margin-top: 0.5vw;
 }
+.campo-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #34495E;
+    width: 100%;
+}
+
+.campo-row:first-child {
+    margin: 0; /* Eliminar cualquier margen para el primer hijo */
+    padding: 0; /* Evitar padding que mueva el primer elemento */
+}
+
+.campo-row span {
+    flex-grow: 1; /* Hace que el nombre del campo ocupe el espacio disponible */
+    text-align: left; /* Alinea el nombre del campo a la izquierda */
+}
+
+.campos-container {
+    margin: 0;
+    padding: 0; /* Elimina cualquier margen o padding sobrante en el contenedor */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+}
+
 
 #formularioFases{
     display: none;

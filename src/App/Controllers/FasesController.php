@@ -77,32 +77,43 @@ class FasesController extends BaseController
         $fase = Fases::getById($request->fase_id);
     
         if ($fase) {
-            // Actualizamos el número de orden de la fase
+            // Actualizar el número de orden de la fase si está presente
             if (isset($request->numero_orden)) {
                 $fase->numero_orden = $request->numero_orden;
             }
     
-            // Agregar nuevo campo a los atributos
-            if (isset($request->nuevo_campo) && is_array($request->nuevo_campo)) {
-                $nombreCampo = $request->nuevo_campo['nombre'];
-                $numOrden = $request->nuevo_campo['num_orden'];
-                $tipoCampo = $request->nuevo_campo['tipo'];
-    
-                // Decodificar los atributos JSON existentes
+            // Si estamos editando un campo existente
+            if (isset($request->editar_campo)) {
                 $atributos = json_decode($fase->atributos, true);
+                $campoOriginal = $request->editar_campo['original'];
+                
+                if (isset($atributos[$campoOriginal])) {
+                    // Actualizar el campo con los nuevos valores
+                    unset($atributos[$campoOriginal]); // Eliminar el nombre original
+                    $atributos[$request->editar_campo['nuevo_nombre']] = [
+                        'num_orden' => $request->editar_campo['num_orden'],
+                        'tipo' => $request->editar_campo['tipo'],
+                        'valor' => "" // Mantener vacío o puedes usar el valor que se necesite
+                    ];
+                    $fase->atributos = json_encode($atributos);
+                }
+            }
     
-                // Añadir el nuevo campo con la estructura solicitada
-                $atributos[$nombreCampo] = [
-                    'num_orden' => $numOrden,
-                    'tipo' => $tipoCampo,
-                    'valor' => '' // Puedes añadir un valor por defecto aquí si es necesario
+            // Si estamos agregando un nuevo campo
+            if (isset($request->nuevo_campo)) {
+                $atributos = json_decode($fase->atributos, true);
+                
+                // Añadir el nuevo campo
+                $nuevoCampoNombre = $request->nuevo_campo['nombre'];
+                $atributos[$nuevoCampoNombre] = [
+                    'num_orden' => $request->nuevo_campo['num_orden'],
+                    'tipo' => $request->nuevo_campo['tipo'],
+                    'valor' => "" // Inicializar con un valor vacío o puedes usar otro valor por defecto
                 ];
-    
-                // Volver a codificar los atributos como JSON
                 $fase->atributos = json_encode($atributos);
             }
     
-            // Guardar la fase actualizada
+            // Guardar los cambios en la fase
             $fase->save();
     
             echo json_encode(['success' => true, 'message' => 'Fase actualizada correctamente']);
@@ -110,7 +121,6 @@ class FasesController extends BaseController
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
         }
     }
-    
     
     public function deleteCampo($request) {
         $faseId = $request->fase_id;
