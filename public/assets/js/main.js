@@ -479,7 +479,17 @@ function agregarEventosAcciones() {
                     fase_id: faseId
                 }).then(function(ret) {
                     let atributos = ret.atributos || {}; // Asignar un objeto vacío si no hay atributos
+                    
+                    // Crear los labels
+                    let labelNuevoCampo = document.createElement('label');
+                    labelNuevoCampo.textContent = 'Rellene para agregar un campo nuevo:';
+                    labelNuevoCampo.classList.add('label-campo');
 
+                    let labelNumeroOrden = document.createElement('label');
+                    labelNumeroOrden.textContent = 'Número de orden:';
+                    labelNumeroOrden.classList.add('label-campo');
+
+                    
                     // Crear un nuevo input para agregar un atributo y un botón de confirmación
                     let input = document.createElement('input');
                     input.type = 'text';
@@ -492,12 +502,24 @@ function agregarEventosAcciones() {
                     ordenInput.classList.add('input-orden');
 
                     let okButton = document.createElement('button');
-                    okButton.textContent = 'Ok';
+                    okButton.textContent = 'Confirmar cambios';
                     okButton.classList.add('btn-ok');
 
+                    // Agregar un salto de línea después del botón de confirmar
+                    let lineBreak = document.createElement('br');
+                    
+                    
                     // Crear un contenedor para listar los campos ya existentes
+                    let labelCamposActuales = document.createElement('label');
+                    labelCamposActuales.textContent = 'Campos actuales:';
+                    labelCamposActuales.classList.add('label-campo');
+
                     let camposContainer = document.createElement('div');
                     camposContainer.classList.add('campos-container');
+
+                    // Añadir el label dentro del contenedor
+                    camposContainer.appendChild(labelCamposActuales);
+                    
 
                     // Si atributos no está vacío, mostrar los campos existentes
                     if (Object.keys(atributos).length > 0) {
@@ -538,10 +560,17 @@ function agregarEventosAcciones() {
                     let newRow = document.createElement('tr');
                     let newCell = document.createElement('td');
                     newCell.colSpan = 2; // Que ocupe ambas columnas (Fases y Acciones)
+                    newCell.appendChild(labelNuevoCampo); // Agregar label para nuevo campo
                     newCell.appendChild(input);
+
+                    newCell.appendChild(labelNumeroOrden); // Agregar label para número de orden
                     newCell.appendChild(ordenInput); // Añadido para el número de orden
+
                     newCell.appendChild(okButton);
+                    newCell.appendChild(lineBreak);
+                    newCell.appendChild(labelCamposActuales); // Agregar label para campos actuales
                     newCell.appendChild(camposContainer); // Añadir lista de campos existentes (si los hay)
+
                     newRow.appendChild(newCell);
                     faseRow.after(newRow);
 

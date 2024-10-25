@@ -601,6 +601,7 @@ Gestion de Fases
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
     color: var(--primary-black); /* Cambia el color de texto para mejor contraste */
     text-align: left; /* Alinea el texto a la izquierda */
+    font-weight: bold;
 }
 
 .admfases-container h1 {
@@ -684,6 +685,99 @@ Gestion de Fases
 }
 #formularioFases > button {
     margin-top:0.5vw
+}
+
+/* Mejora del diseño para la sección de Gestión de Fases */
+
+/* Espaciado y alineación de los elementos en las fases */
+.admfases-container .tabla-fases td {
+    vertical-align: middle; /* Alinea el contenido verticalmente */
+}
+
+.admfases-container .tabla-fases input.input-editar {
+    margin-bottom: 10px;
+    width: 90%; /* Aumenta el ancho del input para que se ajuste al contenedor */
+}
+
+.admfases-container .btn-ok {
+    background-color: var(--primary-green); /* Color de fondo del botón */
+    color: var(--primary-white); /* Color de texto blanco */
+    font-size: 0.9em;
+    padding: 5px 10px; /* Ajusta el tamaño del botón */
+    margin-left: 10px;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer;
+    margin: 0.5em;
+}
+
+.admfases-container .btn-ok:hover {
+    background-color: var(--primary-blue); /* Cambia el color al pasar el mouse */
+}
+
+.admfases-container .btn-delete-campo {
+    background-color: var(--primary-white); /* Color de fondo para el botón de eliminar */
+    color: var(--primary-white); /* Color de texto blanco */
+    font-size: 0.9em;
+    padding: 5px 10px; /* Ajusta el tamaño del botón */
+    margin-left: 10px;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer;
+}
+
+.admfases-container .btn-delete-campo:hover {
+    background-color: var(--second-light-blue); /* Cambia el color al pasar el mouse */
+}
+
+.campos-container {
+    padding: 10px;
+    background-color: var(--primary-white); /* Fondo para diferenciar los campos existentes */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 10px;
+}
+
+.label-campo{
+    display: inherit;
+}
+
+
+/* Alineación y espaciado entre las filas y los elementos */
+.admfases-container .campo-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.admfases-container .campos-container {
+    padding: 10px;
+    background-color: var(--primary-white); /* Fondo para diferenciar los campos existentes */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 10px;
+}
+
+/* Mejora del diseño para los botones de edición y borrado */
+.admfases-container .btn-editar, .admfases-container .btn-borrar {
+    font-size: 1em; /* Aumenta un poco el tamaño de los iconos */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.admfases-container .btn-editar:hover, .admfases-container .btn-borrar:hover {
+    color: var(--second-light-blue); /* Cambia el color al pasar el mouse */
+}
+
+/* Mejora del espaciado de la tabla */
+.admfases-container table {
+    margin-top: 1em;
+}
+
+.admfases-container th, .admfases-container td {
+    padding: 10px;
+}
+
+.admfases-container input[type="number"] {
+    width: 50px; /* Ajusta el tamaño del input de número de orden */
 }
 
 
@@ -1255,4 +1349,71 @@ Modo oscuro
     .logout > img {
         filter: invert(65%);
     }
+
+
+    .admfases-container {
+        background-color: var(--second-grey);
+        color: var(--primary-yellow);
+    }
+
+    .admfases-container h1 {
+        color: var(--second-light-green); /* Color de título en modo oscuro */
+    }
+
+    .admfases-container th {
+        background-color: var(--primary-blue); /* Fondo de la cabecera de la tabla */
+        color: var(--primary-white); /* Texto de la cabecera de la tabla */
+    }
+
+    .admfases-container td {
+        color: var(--second-light-green); /* Texto de las celdas */
+        border: 1px solid var(--primary-blue); /* Bordes de las celdas */
+    }
+
+    /* Cambia el fondo de los campos */
+    .admfases-container .campos-container {
+        background-color: var(--second-grey);
+    }
+
+    /* Botones en modo oscuro */
+    .admfases-container .btn-ok {
+        background-color: var(--primary-blue);
+        color: var(--second-light-grey);
+    }
+
+    .admfases-container .btn-ok:hover {
+        background-color: var(--second-light-blue); /* Color al pasar el mouse */
+    }
+
+    .admfases-container .btn-delete-campo {
+        background-color: var(--second-grey); /* Fondo del botón de eliminar */
+        color: var(--primary-white); /* Color de texto del botón de eliminar */
+    }
+
+    .admfases-container .btn-delete-campo:hover {
+        background-color: var(--second-light-blue); /* Color al pasar el mouse */
+    }
+
+    .admfases-container input.input-editar,
+    .admfases-container input[type="number"] {
+        background-color: var(--second-grey); /* Fondo de los inputs */
+        color: var(--primary-yellow); /* Color del texto */
+        border: 1px solid var(--primary-blue); /* Bordes */
+    }
+
+    .admfases-container input.input-editar::placeholder {
+        color: var(--primary-yellow); /* Color del placeholder */
+    }
+
+    /* Botones de editar y borrar en modo oscuro */
+    .admfases-container .btn-editar, 
+    .admfases-container .btn-borrar {
+        color: var(--second-light-green); /* Color de los iconos */
+    }
+
+    .admfases-container .btn-editar:hover, 
+    .admfases-container .btn-borrar:hover {
+        color: var(--second-light-blue); /* Color al pasar el mouse */
+    }
+
  }
