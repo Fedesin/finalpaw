@@ -682,7 +682,7 @@ Gestion de Fases
     justify-content: space-between;
     margin-bottom: 1em;
     padding-bottom: 0.5em;
-    border-bottom: 1px solid #34495E;
+    border-bottom: 1px solid (var(--primary-white));
     width: 100%;
 }
 
@@ -702,6 +702,9 @@ Gestion de Fases
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
 }
 
+.admfases-container .btn-editar-campo{
+    background-color: var(--primary-white);
+}
 
 #formularioFases{
     display: none;
@@ -1446,6 +1449,10 @@ Modo oscuro
     .admfases-container .btn-editar:hover, 
     .admfases-container .btn-borrar:hover {
         color: var(--second-light-blue); /* Color al pasar el mouse */
+    }
+
+    .admfases-container .btn-editar-campo{
+        background-color: var(--second-grey);
     }
 
  }
