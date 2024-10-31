@@ -1140,7 +1140,13 @@ main h1{
     margin-top: 0;
 }
 
+.admtipopro-container .btnEditarProducto {
+    background-color: var(--primary-white);
+}
 
+.admtipopro-container .btnEliminarProducto {
+    background-color: var(--primary-white);
+}
 
 /*
 -----------------------------
@@ -1455,4 +1461,10 @@ Modo oscuro
         background-color: var(--second-grey);
     }
 
+    .admtipopro-container .btnEditarProducto {
+        background-color: var(--second-grey);
+    }
+    .admtipopro-container .btnEliminarProducto {
+        background-color: var(--second-grey);
+    }
  }
