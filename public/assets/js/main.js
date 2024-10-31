@@ -125,6 +125,51 @@ var Fases = {
     }
 }
 
+var Productos = {
+    list: function() {
+        return fetch("/api/productos", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+        .then(response => response.json());
+    },
+    create: function(args) {
+        // Cambiar la URL a "/api/productos" para que coincida con la ruta en el backend
+        return fetch("/api/productos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(args)
+        })
+        .then(response => response.json());
+    },
+    update: function(args) {
+        // Cambiar la URL a "/api/productos" para actualizar (usando el método PUT)
+        return fetch("/api/productos", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(args)
+        })
+        .then(response => response.json());
+    },
+    delete: function(args) {
+        // Cambiar la URL a "/api/productos" para eliminar (usando el método DELETE)
+        return fetch("/api/productos", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(args)
+        })
+        .then(response => response.json());
+    }
+};
+
 function toggleStatus(button, userId, newStatus) {
     Users.update({
         userid: userId,
@@ -341,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
     var changePasswordButton = document.querySelector('.change-password-button');
 
-    if (registerButton){
+    if (registerButton) {
         registerButton.addEventListener('click', function() {
             var email = document.querySelector('.email-input').value;
             var rolId = document.querySelector('.rol-select').value;
@@ -408,61 +453,89 @@ document.addEventListener('DOMContentLoaded', function() {
             changePassword(actualPassword, newPassword);
         });    
     }
-    
-    var selectTipo_producto_id = document.querySelector('#tipo_producto_id');
-    selectTipo_producto_id.addEventListener('change', function() {
-        var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
-        document.querySelector('.tabla-fases').classList.remove('hidden');
-        document.querySelector('#fase-nombre').classList.remove('hidden');
-        document.querySelector('.btn-agregar-fase').classList.remove('hidden');
-        //document.querySelector('#formularioFases').style.display = 'grid';
 
-        Fases.list({
-            "tipo_producto_id": tipo_producto_id
-        })
-        .then(function(ret) {
-            var tabla_fases = document.querySelector('.tabla-fases > tbody');
-            tabla_fases.innerHTML = '';
-            Object.values(ret.data).forEach(fase => {
-                let row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${fase.nombre}</td>
-                    <td>
-                        <button class="btn-editar" data-id="${fase.id}">✏️</button>
-                        <button class="btn-borrar" data-id="${fase.id}">❌</button>
-                    </td>
-                `;
-                tabla_fases.appendChild(row);
-                let option = document.createElement('option');
-                option.value = fase.id;
-                option.textContent = fase.nombre;
-                //listaFase.appendChild(option);
+    var selectTipo_producto_id = document.querySelector('#tipo_producto_id');
+    if (selectTipo_producto_id) {
+        selectTipo_producto_id.addEventListener('change', function() {
+            var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+            document.querySelector('.tabla-fases').classList.remove('hidden');
+            document.querySelector('#fase-nombre').classList.remove('hidden');
+            document.querySelector('.btn-agregar-fase').classList.remove('hidden');
+
+            Fases.list({
+                "tipo_producto_id": tipo_producto_id
+            })
+            .then(function(ret) {
+                var tabla_fases = document.querySelector('.tabla-fases > tbody');
+                tabla_fases.innerHTML = '';
+                Object.values(ret.data).forEach(fase => {
+                    let row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${fase.nombre}</td>
+                        <td>
+                            <button class="btn-editar" data-id="${fase.id}">✏️</button>
+                            <button class="btn-borrar" data-id="${fase.id}">❌</button>
+                        </td>
+                    `;
+                    tabla_fases.appendChild(row);
+                    let option = document.createElement('option');
+                    option.value = fase.id;
+                    option.textContent = fase.nombre;
+                });
+                agregarEventosAcciones();
             });
-            agregarEventosAcciones();
         });
-    });
+    }
 
     var addFasesButton = document.querySelector('.btn-agregar-fase');
-    addFasesButton.addEventListener('click', function() {
-        var fase_nombre = document.querySelector('#fase-nombre').value;
-        var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
-        var numero_orden_element = document.querySelector('#numero_orden');
-        var numero_orden = (numero_orden_element && numero_orden_element.value) ? numero_orden_element.value : 1; // Asignar 1 por defecto si no existe
+    if (addFasesButton) {
+        addFasesButton.addEventListener('click', function() {
+            var fase_nombre = document.querySelector('#fase-nombre').value;
+            var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+            var numero_orden_element = document.querySelector('#numero_orden');
+            var numero_orden = (numero_orden_element && numero_orden_element.value) ? numero_orden_element.value : 1;
 
-        Fases.create({
-            fase_nombre: fase_nombre,
-            tipo_producto_id: tipo_producto_id,
-            numero_orden: numero_orden // Enviar el número de orden
-        }).then(function(ret) {
-            console.log(ret.data);
-            refrescarTablaFases(); // Refrescar la tabla automáticamente
+            Fases.create({
+                fase_nombre: fase_nombre,
+                tipo_producto_id: tipo_producto_id,
+                numero_orden: numero_orden
+            }).then(function(ret) {
+                console.log(ret.data);
+                refrescarTablaFases();
+            });
         });
-    });
+    }
+
+    var btnAgregarProducto = document.querySelector('#btnAgregarProducto');
+    if (btnAgregarProducto) {
+        btnAgregarProducto.addEventListener('click', function() {
+            var nombreProducto = document.querySelector('#agregarProducto').value;
+            var tipoProductoId = document.querySelector('#tipoprod').value;
+            
+            Productos.create({
+                nombre: nombreProducto,
+                tipo_producto_id: tipoProductoId
+            }).then(function(response) {
+                if (response.success) {
+                    refrescarTablaProductos();
+                } else {
+                    console.error('Error al agregar producto:', response.message);
+                }
+            });
+        });
+    }
 
     getRoles().then(function(ret) {
         roles = ret;
     });
+
+    if (document.querySelector('#tablaProductos')) {
+        refrescarTablaProductos();
+    }
 });
+
+
+
 
 
 function agregarEventosAcciones() {
@@ -760,4 +833,104 @@ function refrescarTablaFases() {
         });
         agregarEventosAcciones(); // Reasignar los eventos después de refrescar la tabla
     });
+}
+function refrescarTablaProductos() {
+    Productos.list().then(data => {
+        const tbody = document.querySelector("#tablaProductos tbody");
+        tbody.innerHTML = ''; // Limpiar contenido previo
+        data.productos.forEach(producto => {
+            const row = document.createElement("tr");
+            row.setAttribute("data-id", producto.id);
+            row.innerHTML = `
+                <td class="nombretipoProducto capitalize">${producto.tipo_producto.nombre}</td>
+                <td class="nombreProducto">${producto.nombre}</td>
+                <td>
+                    <button class="btnEditarProducto">✏️</button>
+                    <button class="btnEliminarProducto">❌</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+        agregarEventosProductos(); // Asegurarse de que los eventos se asignen aquí
+    }).catch(error => console.error("Error al listar productos:", error));
+}
+
+// Función para agregar eventos a los botones de edición y eliminación de productos
+function agregarEventosProductos() {
+    document.querySelectorAll(".btnEditarProducto").forEach(button => {
+        button.addEventListener("click", editarProducto);
+    });
+    document.querySelectorAll(".btnEliminarProducto").forEach(button => {
+        button.addEventListener("click", eliminarProducto);
+    });
+}
+
+// Función para agregar un nuevo producto
+document.getElementById("btnAgregarProducto").addEventListener("click", () => {
+    const nombre = document.getElementById("agregarProducto").value;
+    const tipoprod_id = document.getElementById("tipoprod").value;
+
+    Productos.create({ nombre, tipoprod_id }).then(data => {
+        if (data.success) {
+            refrescarTablaProductos();
+            document.getElementById("agregarProducto").value = ""; // Limpiar el campo de nombre
+        } else {
+            alert(data.message);
+        }
+    });
+});
+
+// Función para editar un producto (usando la misma lógica que la edición en fases)
+function editarProducto() {
+    console.log("Edit button clicked");
+    const row = this.closest("tr");
+    const id = row.getAttribute("data-id");
+    const nombreProducto = row.querySelector(".nombreProducto");
+
+    // Verifica si ya hay un campo de edición para evitar duplicados
+    if (!row.querySelector(".input-editar-producto")) {
+        const inputEditar = document.createElement("input");
+        inputEditar.type = "text";
+        inputEditar.classList.add("input-editar-producto");
+        inputEditar.value = nombreProducto.textContent;
+        
+        const guardarButton = document.createElement("button");
+        guardarButton.textContent = "Guardar cambios";
+        guardarButton.classList.add("btn-guardar-producto");
+
+        // Reemplaza el contenido de la celda con el input y botón de guardar
+        nombreProducto.innerHTML = '';
+        nombreProducto.appendChild(inputEditar);
+        nombreProducto.appendChild(guardarButton);
+
+        // Evento para guardar los cambios
+        guardarButton.addEventListener("click", function () {
+            const nuevoNombre = inputEditar.value;
+            if (nuevoNombre) {
+                Productos.update({ producto_id: id, nombre: nuevoNombre }).then(data => {
+                    if (data.success) {
+                        refrescarTablaProductos();
+                    } else {
+                        alert(data.message);
+                    }
+                }).catch(error => console.error("Error al actualizar producto:", error));
+            }
+        });
+    }
+}
+
+// Función para eliminar un producto
+function eliminarProducto() {
+    console.log("Delete button clicked"); // Verifica si se ejecuta al hacer clic
+    const row = this.closest("tr");
+    const id = row.getAttribute("data-id");
+    console.log(id);
+    Productos.delete({ producto_id: id }).then(data => {
+        if (data.success) {
+            refrescarTablaProductos();
+        } else {
+            alert(data.message || "Error al eliminar producto");
+        }
+    }).catch(error => console.error("Error al eliminar producto:", error));
+
 }

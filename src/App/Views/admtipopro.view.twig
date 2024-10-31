@@ -1,33 +1,44 @@
 {% extends 'base.twig' %}
 
-
 {% block content %}
 
-  <main class="admtipopro-container">
-    <h1>Gestión de Tipo de producto</h1>
-   
-    <form id="formularioTipoProd" onsubmit="guardarTipoProd(event)">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required placeholder="Queso">
-        <button type="submit">Agregar tipo de producto</button>
-    
+<main class="admtipopro-container">
+    <h1>Gestión de productos</h1>
 
+    <!-- Formulario para agregar producto -->
     <label for="tipoprod">Tipo de producto:</label>
-        <select id="tipoprod" name="tipoprod_id" required>
-            {% for tipoprod in tipoproductos %}
-              <option value="{{ tipoprod.id }}">{{ tipoprod.nombre }}</option>
+    <select id="tipoprod" name="tipoprod_id" required>
+        {% for tipoprod in tipo_productos %}
+            <option value="{{ tipoprod.id }}">{{ tipoprod.nombre|capitalize }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="agregarProducto" placeholder="Cuartirolo">
+    <button id="btnAgregarProducto">Agregar Producto</button>
+
+    <!-- Tabla de productos -->
+    <table id="tablaProductos">
+        <thead>
+            <tr>
+                <th>Tipo de producto</th>
+                <th>Nombre producto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                <tr data-id="{{ producto.id }}">
+                    <td>{{ producto.tipo_producto.nombre }}</td>
+                    <td class="nombreProducto">{{ producto.nombre }}</td>
+                    <td>
+                        <button class="btnEditar">✏️</button>
+                        <button class="btnEliminar">❌</button>
+                    </td>
+                </tr>
             {% endfor %}
-        </select>
-    </form>
-    <input type="text" id="agregarFase" placeholder="Pasteurización">
-    <table id="tablaTipoProd">
-        <tr>
-            <th>Tipo de producto</th>
-            <th>Fase</th>
-        </tr>
-        <button type="submit">Agregar Fases</button>
+        </tbody>
     </table>
-  </main>
+</main>
 
 {% endblock %}
-  

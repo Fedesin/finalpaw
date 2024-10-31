@@ -5,6 +5,7 @@ use Paw\App\Models\User;
 use Paw\App\Models\Roles;
 use Paw\Core\Session;
 use Paw\Core\Validator;
+use Paw\App\Models\TipoProducto;
 
 class PageController extends BaseController
 {
@@ -35,7 +36,10 @@ class PageController extends BaseController
 
     public function admtipopro ()
     {
-        parent::showView('admtipopro.view.twig');
+        $tipo_productos = TipoProducto::getAll(); // Obtiene todos los tipos de productos desde el modelo
+        parent::showView('admtipopro.view.twig', [
+            'tipo_productos' => $tipo_productos
+        ]);    
     }
 
     public function admlotes ()

@@ -104,4 +104,8 @@ if(!isset($session->logged_in)) {
 
     $router->post('/api/fases', 'FasesController@createFase');
 
+    $router->get('/api/productos', 'ProductoController@getProductos'); // API para obtener productos
+    $router->post('/api/productos', 'ProductoController@createProducto'); // API para crear producto
+    $router->put('/api/productos', 'ProductoController@updateProducto'); // API para actualizar producto
+    $router->delete('/api/productos', 'ProductoController@deleteProducto'); // API para eliminar producto
 }
