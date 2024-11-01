@@ -170,6 +170,42 @@ var Productos = {
     }
 };
 
+var Lotes = {
+    create: function(args) {
+        return fetch("/api/lotes", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(args)
+        }).then(response => response.json());
+    },
+    getUsers: function() {
+        return fetch("/api/lotes/users", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(response => response.json());
+    },
+    getTipoProductos: function() {
+        return fetch("/api/lotes/tipo-productos", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(response => response.json());
+    },
+    getProductosByTipo: function(tipoId) {
+        return fetch(`/api/lotes/productos/${tipoId}`, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(response => response.json());
+    }
+};
+
 function toggleStatus(button, userId, newStatus) {
     Users.update({
         userid: userId,
@@ -532,7 +568,85 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('#tablaProductos')) {
         refrescarTablaProductos();
     }
+
+    // Cargar tipos de productos
+    const tipoProductoSelect = document.getElementById('tipoProducto');
+    if (tipoProductoSelect) {
+        Lotes.getTipoProductos().then(data => {
+            data.forEach(tipo => {
+                let option = document.createElement('option');
+                option.value = tipo.id;
+                option.textContent = tipo.nombre;
+                tipoProductoSelect.appendChild(option);
+            });
+        });
+    }
+
+    // Manejar cambio de tipo de producto para cargar productos asociados
+    const tipoProductoDropdown = document.getElementById('tipoProducto');
+    if (tipoProductoDropdown) {
+        tipoProductoDropdown.addEventListener('change', function() {
+            const tipoId = this.value;
+            Lotes.getProductosByTipo(tipoId).then(data => {
+                const productoSelect = document.getElementById('producto');
+                if (productoSelect) {
+                    productoSelect.innerHTML = ''; // Limpiar opciones anteriores
+                    data.forEach(producto => {
+                        let option = document.createElement('option');
+                        option.value = producto.id;
+                        option.textContent = producto.nombre;
+                        productoSelect.appendChild(option);
+                    });
+                }
+            });
+        });
+    }
+
+    // Cargar usuarios para asignar a los roles de supervisor, encargado de producción y limpieza
+    Lotes.getUsers().then(data => {
+        const supervisorSelect = document.getElementById('supervisor');
+        const encargadoProduccionSelect = document.getElementById('encargadoProduccion');
+        const encargadoLimpiezaSelect = document.getElementById('encargadoLimpieza');
+
+        data.forEach(usuario => {
+            let option = document.createElement('option');
+            option.value = usuario.id;
+            option.textContent = usuario.email;
+            if (supervisorSelect) supervisorSelect.appendChild(option.cloneNode(true));
+            if (encargadoProduccionSelect) encargadoProduccionSelect.appendChild(option.cloneNode(true));
+            if (encargadoLimpiezaSelect) encargadoLimpiezaSelect.appendChild(option.cloneNode(true));
+        });
+    });
+
+    // Manejar envío del formulario para crear un nuevo lote
+    const crearLoteForm = document.getElementById('crearLoteForm');
+    if (crearLoteForm) {
+        crearLoteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const numero = document.getElementById('numeroProduccion').value;
+            const supervisorId = document.getElementById('supervisor').value;
+            const encargadoProduccionId = document.getElementById('encargadoProduccion').value;
+            const encargadoLimpiezaId = document.getElementById('encargadoLimpieza').value;
+            const productoId = document.getElementById('producto').value;
+
+            Lotes.create({
+                numero: numero,
+                supervisor_id: supervisorId,
+                encargado_produccion_id: encargadoProduccionId,
+                encargado_limpieza_id: encargadoLimpiezaId,
+                producto_id: productoId
+            }).then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // Opcional: limpiar formulario o redirigir
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            }).catch(error => console.error("Error al crear lote:", error));
+        });
+    }
 });
+
 
 
 
@@ -934,3 +1048,6 @@ function eliminarProducto() {
     }).catch(error => console.error("Error al eliminar producto:", error));
 
 }
+
+
+
