@@ -8,7 +8,8 @@ final class OrdenTablaFases extends AbstractMigration
 {
     public function change(): void
     {
-        $table = $this->table('fases', ['id' => false, 'primary_key' => 'id']);
-        $table->addColumn('numero_orden', 'integer')->update();
+        $table = $this->table('fases');
+        $table->addColumn('numero_orden', 'integer')
+            ->update();
     }
 }

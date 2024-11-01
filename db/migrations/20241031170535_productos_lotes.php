@@ -8,10 +8,7 @@ final class ProductosLotes extends AbstractMigration
 {
     public function change(): void
     {
-        // Eliminar la columna lote_id de la tabla productos
-        if ($this->table('productos')->hasColumn('lote_id')) {
-            $this->table('productos')->removeColumn('lote_id')->update();
-        }
+        $this->table('productos')->removeColumn('lote_id')->update();
 
         // Agregar la columna producto_id a la tabla lotes
         $table = $this->table('lotes');
