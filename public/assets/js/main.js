@@ -169,7 +169,7 @@ var Productos = {
         .then(response => response.json());
     },
     tipos: function() {
-        return fetch("/api/lotes/tipo-productos", {
+        return fetch("/api/productos/tipo-productos", {
             method: "GET",
             headers: {
                 "Accept": "application/json"
