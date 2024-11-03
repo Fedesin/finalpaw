@@ -81,9 +81,9 @@ class Model
         }
     }
 
-    public function load($where)
+    public function load($where, $order_by  = 'id', $direction = 'ASC')
     {
-        $record = current($this->queryBuilder->select(static::$table, $where));
+        $record = current($this->queryBuilder->select(static::$table, $where, $order_by, $direction));
         if ($record == false) {
             return null;
         }
@@ -109,14 +109,15 @@ class Model
         return $collection;
     }
 
-    public static function get($where) {
+
+    public static function get($where, $order_by = 'id', $direction = 'ASC') {
         $qb = new QueryBuilder(ConnectionBuilder::getInstance());
     
         $class = get_called_class();
         $newInstance = new $class;
         $newInstance->setQueryBuilder($qb);
     
-        if ($newInstance->load($where) === null) {
+        if ($newInstance->load($where, $order_by, $direction) === null) {
             return null;
         }
     

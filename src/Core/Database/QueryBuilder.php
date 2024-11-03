@@ -115,13 +115,4 @@ class QueryBuilder
 
         return $statement->rowCount();
     }
-
-    // Método orderBy para seleccionar registros con ordenamiento
-    public function orderBy($table, $column, $direction = 'ASC')
-    {
-        $query = "SELECT * FROM {$table} ORDER BY {$column} {$direction}";
-        $statement = $this->pdo->prepare($query);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
-    }
 }

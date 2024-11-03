@@ -13,8 +13,7 @@ var Roles = {
 var Users = {
     list: function(args) {
         params = new URLSearchParams(args);
-
-        return fetch("/api/users" + params.size ? ('?' + params.toString()) : '', {
+        return fetch("/api/users" + ( params.size ? ('?' + params.toString()) : ''), {
             method: "GET",
             headers: {
                 "Accept": "application/json"

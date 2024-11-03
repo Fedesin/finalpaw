@@ -1,28 +1,31 @@
 {% extends 'base.twig' %}
 
+{% block head %}
+    <script src="/assets/js/admlotes.js" defer></script>
+{% endblock %}
 
 {% block content %}
 
   <main class="admlotes-container">
     <h1>Creación de Lotes</h1>
-    <form id="crearLoteForm">
+    <form class="crearLoteForm" method="POST" action="api/lotes">
       <label>Tipo:</label>
-      <select id="tipoProducto"></select>
+      <select class="selectTipoProducto"></select>
       
       <label>Producto:</label>
-      <select id="producto"></select>
+      <select class="selectProducto" name="producto_id"></select>
       
       <label>Producción N°:</label>
-      <input type="number" id="numeroProduccion" required>
+      <input type="number" id="numeroProduccion" name="numero" required>
       
       <label>Supervisor:</label>
-      <select id="supervisor"></select>
+      <select class="supervisor" name="supervisor_id"></select>
       
       <label>Encargado de Producción:</label>
-      <select id="encargadoProduccion"></select>
+      <select class="encargadoProduccion" name="encargado_produccion_id"></select>
       
       <label>Encargado de Limpieza:</label>
-      <select id="encargadoLimpieza"></select>
+      <select class="encargadoLimpieza" name="encargado_limpieza_id"></select>
       
       <button type="submit">Guardar</button>
     </form>

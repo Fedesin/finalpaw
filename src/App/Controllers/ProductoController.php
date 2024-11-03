@@ -106,6 +106,16 @@ class ProductoController extends BaseController
 
     public function getTipoProductos()
     {
-        return TipoProducto::getAll();
+        $tipoProducto = TipoProducto::getAll();
+        $ret = [];
+    
+        foreach($tipoProducto as $tipoproducto) {
+            $ret[] = [
+                "id" => $tipoproducto->id,
+                "nombre" => $tipoproducto->nombre
+            ];
+        }
+        
+        echo json_encode(['status' => 'success', 'data' => $ret]);
     }
 }
