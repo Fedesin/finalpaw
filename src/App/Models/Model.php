@@ -44,9 +44,21 @@ class Model
 
     public function __get($name)
     {
+        if(!in_array($name, $this->hidden)) {
+            $method = "get" . ucfirst($name);
+
+            if(method_exists($this, $method)) {
+                return $this->$method();
+            } else if (array_key_exists($name, $this->fields)) {
+                 return $this->fields[$name];
+            }
+        }
+
+/*
         if(array_key_exists($name, $this->fields) &&
             !in_array($name, $this->hidden) )
             return $this->fields[$name];
+*/
     }
 
     public function __set($name, $value)
@@ -140,10 +152,13 @@ class Model
                     unset($attrs[$field]);
             }
             
-            return $this->queryBuilder->insert(static::$table, $attrs);
+            $last_id = $this->queryBuilder->insert(static::$table, $attrs);
+            $this->id = $last_id;
+
+            return $this;
         } else {
             if ($this->queryBuilder->update(static::$table, $attrs, ['id' => $this->id])) {
-                return $this->id;
+                return $this;
             } else {
                 return false;
             }

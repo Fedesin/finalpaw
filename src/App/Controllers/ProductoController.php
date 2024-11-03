@@ -56,7 +56,10 @@ class ProductoController extends BaseController
                 $ret = [
                     "id" => $producto->id,
                     "nombre" => $producto->nombre,
-                    "tipo_producto_id" => $producto->tipo_producto_id
+                    "tipo_producto" => [
+                        "id" => $producto->tipo_producto_id,
+                        "nombre" => $producto->tipo_producto->nombre
+                    ]
                 ];
                 echo json_encode(['status' => 'success', 'data' => $ret]);
             } else {

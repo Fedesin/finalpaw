@@ -3,31 +3,32 @@ function refrescarTablaProductos() {
         const tbody = document.querySelector("#tablaProductos tbody");
         tbody.innerHTML = ''; // Limpiar contenido previo
         data.productos.forEach(producto => {
-            const row = document.createElement("tr");
-            row.setAttribute("data-id", producto.id);
-            row.innerHTML = `
-                <td class="nombretipoProducto capitalize">${producto.tipo_producto.nombre}</td>
-                <td class="nombreProducto">${producto.nombre}</td>
-                <td>
-                    <button class="btnEditarProducto">✏️</button>
-                    <button class="btnEliminarProducto">❌</button>
-                </td>
-            `;
-            tbody.appendChild(row);
+            agregarElementoTablaProductos(producto);
         });
-        agregarEventosProductos(); // Asegurarse de que los eventos se asignen aquí
     }).catch(error => console.error("Error al listar productos:", error));
 }
 
-// Función para agregar eventos a los botones de edición y eliminación de productos
-function agregarEventosProductos() {
-    document.querySelectorAll(".btnEditarProducto").forEach(button => {
-        button.addEventListener("click", editarProducto);
-    });
-    document.querySelectorAll(".btnEliminarProducto").forEach(button => {
-        button.addEventListener("click", eliminarProducto);
-    });
+function agregarElementoTablaProductos(producto) {
+    const tbody = document.querySelector("#tablaProductos tbody");
+    const row = document.createElement("tr");
+
+    row.setAttribute("data-id", producto.id);
+    row.innerHTML = `
+        <td class="nombretipoProducto capitalize">${producto.tipo_producto.nombre}</td>
+        <td class="nombreProducto">${producto.nombre}</td>
+        <td>
+            <ul class="lista-horizontal">
+                <li><button class="btnEditarProducto">✏️</button></li>
+                <li><button class="btnEliminarProducto">❌</button></li>
+            </ul>
+        </td>
+    `;
+    tbody.appendChild(row);
+
+    row.querySelector(".btnEditarProducto").addEventListener("click", editarProducto);
+    row.querySelector(".btnEliminarProducto").addEventListener("click", eliminarProducto);
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     var btnAgregarProducto = document.querySelector('#btnAgregarProducto');
     if (btnAgregarProducto) {
@@ -39,33 +40,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 nombre: nombreProducto,
                 tipo_producto_id: tipoProductoId
             }).then(function(response) {
-                if (response.success) {
-                    refrescarTablaProductos();
+                if (response.status == "success") {
+                    agregarElementoTablaProductos(response.data);
+                    document.getElementById("agregarProducto").value = ""; // Limpiar el campo de nombre
                 } else {
                     console.error('Error al agregar producto:', response.message);
+                    alert(data.message);
                 }
             });
         });
     }
 
-    if (document.querySelector('#tablaProductos')) {
-        refrescarTablaProductos();
-    }
-});
-
-// Función para agregar un nuevo producto
-document.getElementById("btnAgregarProducto").addEventListener("click", () => {
-    const nombre = document.getElementById("agregarProducto").value;
-    const tipoprod_id = document.getElementById("tipoprod").value;
-
-    Productos.create({ nombre, tipoprod_id }).then(data => {
-        if (data.success) {
-            refrescarTablaProductos();
-            document.getElementById("agregarProducto").value = ""; // Limpiar el campo de nombre
-        } else {
-            alert(data.message);
-        }
-    });
+    refrescarTablaProductos();
 });
 
 // Función para editar un producto (usando la misma lógica que la edición en fases)

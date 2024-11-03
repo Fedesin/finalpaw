@@ -521,7 +521,7 @@ colores:
 .admtipopro-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
-    max-width: 400px; /* Limita el ancho máximo del contenedor */
+    max-width: 800px; /* Limita el ancho máximo del contenedor */
 /*    margin: 20px auto auto; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */

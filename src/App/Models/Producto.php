@@ -15,7 +15,7 @@ class Producto extends Model
     ];
 
     // Método para obtener el tipo de producto asociado a este producto
-    public function tipoProducto()
+    public function getTipo_Producto()
     {
         return TipoProducto::getById($this->tipo_producto_id);
     }

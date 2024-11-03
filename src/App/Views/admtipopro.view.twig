@@ -36,8 +36,10 @@
                     <td>{{ producto.tipo_producto.nombre }}</td>
                     <td class="nombreProducto">{{ producto.nombre }}</td>
                     <td>
-                        <button class="btnEditar">✏️</button>
-                        <button class="btnEliminar">❌</button>
+                        <ul class="lista-horizontal">
+                            <li><button class="btnEditar">✏️</button></li>
+                            <li><button class="btnEliminar">❌</button></li>
+                        </ul>
                     </td>
                 </tr>
             {% endfor %}
