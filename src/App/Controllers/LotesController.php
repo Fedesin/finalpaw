@@ -28,22 +28,4 @@ class LotesController extends BaseController
             'data' => $lote
         ]);
     }
-
-    // Método para obtener los usuarios
-    public function getUsers()
-    {
-        return User::all(); // O el método que tengas para obtener todos los usuarios
-    }
-
-    // Método para obtener tipos de productos
-    public function getTipoProductos()
-    {
-        return Producto::getAllTypes(); // O ajusta según tu lógica para obtener tipos
-    }
-
-    // Método para obtener productos por tipo
-    public function getProductosByTipo($tipoId)
-    {
-        return Producto::getByTipo($tipoId); // Ajusta según tu lógica para obtener productos por tipo
-    }
 }

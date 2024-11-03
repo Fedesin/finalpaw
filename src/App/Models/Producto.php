@@ -31,9 +31,4 @@ class Producto extends Model
 
         return $producto;
     }
-
-    // Implementar el método delete si es necesario en el controlador
-    public function delete() {
-        $this->queryBuilder->delete(static::$table, ['id' => $this->id]);
-    }
 }

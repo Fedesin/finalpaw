@@ -12,7 +12,6 @@ class ProductoController extends BaseController
         parent::__construct();
     }
 
-    // Método para mostrar la vista de gestión de productos
     public function index($request) {
         $tipoproductos = TipoProducto::getAll();
         
@@ -21,7 +20,6 @@ class ProductoController extends BaseController
         ]);
     }
 
-    // Método para obtener la lista de productos según el tipo de producto
     public function getProductos() {
         $productos = Producto::getAll();
         $ret = [];
@@ -42,8 +40,6 @@ class ProductoController extends BaseController
         echo json_encode(['status' => 'success', 'productos' => $ret]);
     }
     
-
-    // Método para crear un nuevo producto
     public function createProducto($request) {
         try {
             $nombre = $request->nombre ?? null;
@@ -72,9 +68,6 @@ class ProductoController extends BaseController
         }
     }
     
-    
-
-    // Método para eliminar un producto
     public function deleteProducto($request)
     {
         $productoId = $request->producto_id;
@@ -88,7 +81,6 @@ class ProductoController extends BaseController
         }
     }
 
-    // Método para actualizar un producto
     public function updateProducto($request)
     {
         $producto = Producto::getById($request->producto_id);
@@ -107,5 +99,10 @@ class ProductoController extends BaseController
         } else {
             echo json_encode(['success' => false, 'message' => 'Producto no encontrado']);
         }
+    }
+
+    public function getTipoProductos()
+    {
+        return TipoProducto::getAll();
     }
 }

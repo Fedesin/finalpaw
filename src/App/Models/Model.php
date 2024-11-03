@@ -149,4 +149,8 @@ class Model
             }
         }
     }
+    
+    public function delete() {
+        $this->queryBuilder->delete(static::$table, ['id' => $this->id]);
+    }
 }

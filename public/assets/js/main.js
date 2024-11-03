@@ -1,4 +1,4 @@
-// main.js
+ // main.js
 //variables globales
 var roles = [];
 
@@ -167,6 +167,14 @@ var Productos = {
             body: JSON.stringify(args)
         })
         .then(response => response.json());
+    },
+    tipos: function() {
+        return fetch("/api/lotes/tipo-productos", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(response => response.json());
     }
 };
 
@@ -178,30 +186,6 @@ var Lotes = {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(args)
-        }).then(response => response.json());
-    },
-    getUsers: function() {
-        return fetch("/api/lotes/users", {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        }).then(response => response.json());
-    },
-    getTipoProductos: function() {
-        return fetch("/api/lotes/tipo-productos", {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        }).then(response => response.json());
-    },
-    getProductosByTipo: function(tipoId) {
-        return fetch(`/api/lotes/productos/${tipoId}`, {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
         }).then(response => response.json());
     }
 };
@@ -572,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cargar tipos de productos
     const tipoProductoSelect = document.getElementById('tipoProducto');
     if (tipoProductoSelect) {
-        Lotes.getTipoProductos().then(data => {
+        Productos.tipos().then(data => {
             data.forEach(tipo => {
                 let option = document.createElement('option');
                 option.value = tipo.id;
@@ -603,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Cargar usuarios para asignar a los roles de supervisor, encargado de producción y limpieza
-    Lotes.getUsers().then(data => {
+    Users.list().then(data => {
         const supervisorSelect = document.getElementById('supervisor');
         const encargadoProduccionSelect = document.getElementById('encargadoProduccion');
         const encargadoLimpiezaSelect = document.getElementById('encargadoLimpieza');
