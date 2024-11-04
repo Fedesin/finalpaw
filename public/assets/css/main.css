@@ -514,14 +514,16 @@ Vamos ahora con el login
     content: url('../../img/down.svg');
 }
 
-.modify {
-    height: 1.3em;
+.modify{
+    text-decoration: none;
 }
 
-.modify > img {
+.modify::before {
     height: 1.3em;
-    content: url('../../img/modify.svg');
+    content:"✏️";
+    text-decoration: none;
 }
+
 
 .capitalize {
     text-transform: capitalize;
