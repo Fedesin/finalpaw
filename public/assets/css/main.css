@@ -37,11 +37,25 @@ header h1 img {
 }
 
 header {
-    display: grid;
-    grid-template-columns: auto min-content;
+    display: flex;
+    align-items: center ;/* Centra verticalmente los elementos */
     padding: 10px;
     background-color: #eef1ef;
     font-family: var(--font-family);
+    justify-content: space-between;
+}
+
+.logo {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.titulo-subtitulo {
+    display: flex;
+    text-align: left;
+    flex-direction: column; /* Apila el título y subtítulo verticalmente */
+    margin-left: 0.5em;
 }
 
 header a {
@@ -50,6 +64,14 @@ header a {
     height: auto;
     background-size: 100%;
     background-repeat: no-repeat;
+}
+
+.subtitulo {
+    font-size: 1em; /* Ajusta el tamaño a tu gusto */
+    color: var(--primary-blue); /* Color suave para el subtítulo */
+    margin-top: 0;
+    font-weight: bold;
+    
 }
 
 header a:link {
@@ -72,6 +94,7 @@ header a:visited {
 
 header h1 {
     margin: 0;
+    color: var(--primary-green);
 }
 
 .user-profile {
@@ -1182,13 +1205,13 @@ Modo oscuro
         background-color: var(--primary-blue);
     }
     header a:link{
-        color: var(--second-light-green);
+        color: var(--primary-white);  
     }
     header a:hover{
-        color: var(--second-light-green);
+        color: var(--primary-white);
     }
     header a:visited{
-        color: var(--second-light-green);  
+        color: var(--primary-white);  
     }
     .user-profile {
         color: var(--second-light-green);
@@ -1466,5 +1489,13 @@ Modo oscuro
     }
     .admtipopro-container .btnEliminarProducto {
         background-color: var(--second-grey);
+    }
+
+    header h1{
+        color: var(--primary-white);
+    }
+
+    .subtitulo {
+        color: var(--second-light-green); /* Color suave para el subtítulo */
     }
  }
