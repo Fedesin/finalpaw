@@ -509,21 +509,43 @@ Vamos ahora con el login
 
 .up{
     text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    padding-left: 0.2em;
+    padding-top: 0.5em;
+    border-radius: 5px;
 }
 .up::before {
     content: "⬆️"; /* Emoji de flecha hacia arriba */
     font-size: 1.3em;
 }
+
+.up:hover {
+    background-color: var(--second-light-blue); 
+}
 .down{
     text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    padding-left: 0.2em;
+    padding-top: 0.5em;
+    border-radius: 5px;
 }
 .down::before {
     content: "⬇️"; /* Emoji de flecha hacia abajo */
     font-size: 1.3em;
 }
+.down:hover {
+    background-color: var(--second-light-blue); 
+}
+
 
 .modify{
+    display: flex;
     text-decoration: none;
+    border-radius: 5px;
+    padding-left: 0.2em;
+    padding-top: 0.1em;
+    transform: scaleX(-1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .modify::before {
@@ -531,6 +553,11 @@ Vamos ahora con el login
     content:"✏️";
     text-decoration: none;
 }
+.modify:hover {
+    transform: scale(1.2); 
+    background-color: var(--second-light-blue);
+}
+
 
 
 .capitalize {
@@ -740,8 +767,18 @@ Gestion de Fases
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
 }
 
-.admfases-container .btn-editar-campo{
-    background-color: var(--primary-white);
+
+.admfases-container .btn-editar-campo {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--second-light-green); /* Color de los iconos */
+    transform: scaleX(-1);
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+}
+
+.admfases-container .btn-editar-campo:hover{
+    transform: scale(1.2); 
+    color: var(--second-light-blue); /* Color al pasar el mouse */
 }
 
 #formularioFases{
@@ -828,15 +865,29 @@ Gestion de Fases
     margin-top: 10px;
 }
 
+.admfases-container .btn-editar {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--second-light-green); /* Color de los iconos */
+    transform: scaleX(-1);
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+}
+
+.admfases-container .btn-editar:hover{
+    transform: scale(1.2); 
+    color: var(--second-light-blue); /* Color al pasar el mouse */
+}
+
+
 /* Mejora del diseño para los botones de edición y borrado */
-.admfases-container .btn-editar, .admfases-container .btn-borrar {
+.admfases-container .btn-borrar {
     font-size: 1em; /* Aumenta un poco el tamaño de los iconos */
     background-color: transparent;
     border: none;
     cursor: pointer;
 }
 
-.admfases-container .btn-editar:hover, .admfases-container .btn-borrar:hover {
+.admfases-container .btn-borrar:hover {
     color: var(--second-light-blue); /* Cambia el color al pasar el mouse */
 }
 
@@ -1179,8 +1230,16 @@ main h1{
 }
 
 .admtipopro-container .btnEditarProducto {
+    display: inline-block;
     background-color: var(--primary-white);
+    transform: scaleX(-1);
+    transition: transform 0.3s ease, background-color 0.3s ease; 
 }
+
+.admtipopro-container .btnEditarProducto:hover{
+    transform: scale(1.2); 
+}
+
 
 .admtipopro-container .btnEliminarProducto {
     background-color: var(--primary-white);
@@ -1485,12 +1544,22 @@ Modo oscuro
     }
 
     /* Botones de editar y borrar en modo oscuro */
-    .admfases-container .btn-editar, 
     .admfases-container .btn-borrar {
         color: var(--second-light-green); /* Color de los iconos */
     }
 
-    .admfases-container .btn-editar:hover, 
+    .admfases-container .btn-editar {
+        display: inline-block;
+        color: var(--second-light-green); /* Color de los iconos */
+        transform: scaleX(-1);
+        transition: transform 0.3s ease, background-color 0.3s ease; 
+    }
+    
+    .admfases-container .btn-editar:hover{
+        transform: scale(1.2); 
+        color: var(--second-light-blue); /* Color al pasar el mouse */
+    }
+
     .admfases-container .btn-borrar:hover {
         color: var(--second-light-blue); /* Color al pasar el mouse */
     }
