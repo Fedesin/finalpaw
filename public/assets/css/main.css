@@ -497,21 +497,19 @@ Vamos ahora con el login
     content: url('../../img/logout.svg');
 }
 
-.up {
-    height: 1.3em;
+.up{
+    text-decoration: none;
 }
-
-.up > img {
-    height: 1.3em;
-    content: url('../../img/up.svg');
+.up::before {
+    content: "⬆️"; /* Emoji de flecha hacia arriba */
+    font-size: 1.3em;
 }
-.down {
-    height: 1.3em;
+.down{
+    text-decoration: none;
 }
-
-.down > img {
-    height: 1.3em;
-    content: url('../../img/down.svg');
+.down::before {
+    content: "⬇️"; /* Emoji de flecha hacia abajo */
+    font-size: 1.3em;
 }
 
 .modify{
