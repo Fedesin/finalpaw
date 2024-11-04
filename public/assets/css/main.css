@@ -40,7 +40,7 @@ header {
     display: flex;
     align-items: center ;/* Centra verticalmente los elementos */
     padding: 10px;
-    background-color: #eef1ef;
+    background-color: var(--second-light-grey);
     font-family: var(--font-family);
     justify-content: space-between;
 }
@@ -99,7 +99,7 @@ header h1 {
 
 .user-profile {
     text-align: end;
-    color: var(--primary-green);
+    color: var(--primary-blue);
     display: flex;
     align-items: center;
     height: fit-content;
@@ -484,7 +484,12 @@ Vamos ahora con el login
 }
 
 .logout {
-    height: 1.3em;
+    height:0.8em;
+}
+
+.logout-emoji{
+    display:inline-block;
+    transform: scaleX(-1); 
 }
 
 .logout > img {
@@ -1214,7 +1219,7 @@ Modo oscuro
         color: var(--primary-white);  
     }
     .user-profile {
-        color: var(--second-light-green);
+        color: var(--primary-white);
     }
     .user-profile > button {
         background-color: var(--primary-blue); /* Color de fondo del botón */
