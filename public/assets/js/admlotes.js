@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 option.textContent = tipo.nombre;
                 selectTipoProducto.appendChild(option);
             })
+
+            if(selectTipoProducto.dataset.value)
+                selectTipoProducto.value = selectTipoProducto.dataset.value;
         })
     }else{
         console.log('No se encontro el select Tipo de Producto');
@@ -22,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 option.textContent = producto.nombre;
                 selectProducto.appendChild(option);
             })
+
+            if(selectProducto.dataset.value)
+                selectProducto.value = selectProducto.dataset.value;
         })
     }else{
         console.log('No se encontro el select Producto');
@@ -40,6 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
             selectEncargadoProduccion.appendChild(option.cloneNode(true));
             selectEncargadoLimpieza.appendChild(option.cloneNode(true));
         })
+
+        if(selectSupervisor.dataset.value)
+            selectSupervisor.value = selectSupervisor.dataset.value;
+
+        if(selectEncargadoProduccion.dataset.value)
+            selectEncargadoProduccion.value = selectEncargadoProduccion.dataset.value;
+
+        if(selectEncargadoLimpieza.dataset.value)
+            selectEncargadoLimpieza.value = selectEncargadoLimpieza.dataset.value;
     });
 
 });

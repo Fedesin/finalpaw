@@ -44,7 +44,17 @@ class PageController extends BaseController
 
     public function admlotes ()
     {
-        parent::showView('admlotes.view.twig');
+        $session = Session::getInstance();
+
+        $data = [];
+        if(isset($session->admLotesData)) {
+            $data = $session->admLotesData;
+            unset($session->admLotesData);
+        }
+
+        parent::showView('admlotes.view.twig', [
+            'data' => $data
+        ]);
     }
 
     public function admfases ()
