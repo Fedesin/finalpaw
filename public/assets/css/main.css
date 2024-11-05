@@ -1559,6 +1559,17 @@ Modo oscuro
         transform: scale(1.2); 
         color: var(--second-light-blue); /* Color al pasar el mouse */
     }
+    .admform-container .btn-editar {
+        display: inline-block;
+        color: var(--second-light-green); /* Color de los iconos */
+        transform: scaleX(-1);
+        transition: transform 0.3s ease, background-color 0.3s ease; 
+    }
+    
+    .admform-container .btn-editar:hover{
+        transform: scale(1.2); 
+        color: var(--second-light-blue); /* Color al pasar el mouse */
+    }
 
     .admfases-container .btn-borrar:hover {
         color: var(--second-light-blue); /* Color al pasar el mouse */
