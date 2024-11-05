@@ -82,7 +82,10 @@ class LotesController extends BaseController
             'id' => $lote->fase_actual
         ]);
 
-        var_dump($fase);
-        die();
+        parent::showView('viewcargar.view.twig', [
+            'lote' => $lote,
+            'fase' => $fase,
+            'atributos' => json_decode($fase->atributos, true)
+        ]);
     }
 }

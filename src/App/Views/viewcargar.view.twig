@@ -1,0 +1,24 @@
+
+{% extends 'base.twig' %}
+{% block head %}
+    <script src="/assets/js/cargalotes.js" defer></script>
+{% endblock %}
+
+{% block content %}
+
+<main class="admform-container">
+    <h1 class="capitalize">lote {{ lote.numero }} - {{ fase.nombre }}</h1>
+
+    {% for key, atributo in atributos %}
+        <div>
+            <h2>Atributo {{ key }}</h2>
+            <p>Número de orden: {{ atributo.num_orden }}</p>
+            <p>Tipo: {{ atributo.tipo }}</p>
+            <p>Valor: {{ atributo.valor }}</p>
+        </div>
+    {% endfor %}
+   
+    
+  </main>
+
+{% endblock %}
