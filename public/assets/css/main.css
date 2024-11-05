@@ -540,16 +540,14 @@ Vamos ahora con el login
 
 .modify{
     display: flex;
-    text-decoration: none;
+    padding:0.3em;
     border-radius: 5px;
-    padding-left: 0.2em;
-    padding-top: 0.1em;
+    text-decoration: none;
     transform: scaleX(-1);
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .modify::before {
-    height: 1.3em;
     content:"✏️";
     text-decoration: none;
 }
@@ -767,19 +765,28 @@ Gestion de Fases
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
 }
 
-
-.admfases-container .btn-editar-campo {
+.admfases-container .btn-editar,
+.admfases-container .btn-editar-campo,
+.admform-container .btn-editar,
+.admtipopro-container .btnEditarProducto,
+.admtipopro-container .btn-editar {
     display: inline-block;
-    background-color: transparent;
     color: var(--second-light-green); /* Color de los iconos */
     transform: scaleX(-1);
-    transition: transform 0.3s ease, background-color 0.3s ease; 
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    padding:0.3em;
 }
 
-.admfases-container .btn-editar-campo:hover{
+.admfases-container .btn-editar:hover,
+.admfases-container .btn-editar-campo:hover,
+.admform-container .btn-editar:hover,
+.admtipopro-container .btnEditarProducto:hover,
+.admtipopro-container .btn-editar:hover {
     transform: scale(1.2); 
     color: var(--second-light-blue); /* Color al pasar el mouse */
 }
+
+
 
 #formularioFases{
     display: none;
@@ -865,18 +872,6 @@ Gestion de Fases
     margin-top: 10px;
 }
 
-.admfases-container .btn-editar {
-    display: inline-block;
-    background-color: transparent;
-    color: var(--second-light-green); /* Color de los iconos */
-    transform: scaleX(-1);
-    transition: transform 0.3s ease, background-color 0.3s ease; 
-}
-
-.admfases-container .btn-editar:hover{
-    transform: scale(1.2); 
-    color: var(--second-light-blue); /* Color al pasar el mouse */
-}
 
 
 /* Mejora del diseño para los botones de edición y borrado */
