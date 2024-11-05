@@ -73,4 +73,16 @@ class LotesController extends BaseController
 
         echo json_encode(['lotes' => $response]);
     }
+
+    function viewCargar($request) {
+        $lote = Lote::getById($request->id);
+
+        $fase = Fases::get([
+            'tipo_producto_id' => $lote->producto->tipo_producto_id,
+            'id' => $lote->fase_actual
+        ]);
+
+        var_dump($fase);
+        die();
+    }
 }

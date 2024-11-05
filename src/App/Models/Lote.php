@@ -4,6 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Database\QueryBuilder;
 use Paw\Core\Database\ConnectionBuilder;
+use Paw\App\Models\Producto;
 
 class Lote extends Model
 {
@@ -18,6 +19,11 @@ class Lote extends Model
         "encargado_limpieza_id" => null,
         "producto_id" => null
     ];
+
+    public function getProducto()
+    {
+        return Producto::getById($this->producto_id);
+    }
 
     // Método para crear un nuevo lote
     public static function create($data) {

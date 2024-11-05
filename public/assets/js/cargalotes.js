@@ -61,32 +61,7 @@ function editarLote(event) {
         .catch(error => console.error("Error en la solicitud para obtener los atributos de la fase:", error));
 }
 
-function mostrarFormularioFase(row, atributos, loteId) {
-    // Crear una fila nueva debajo de la fila seleccionada para mostrar los atributos
-    const faseRow = document.createElement("tr");
-    faseRow.classList.add("fase-form");
-
-    // Generar campos de entrada para cada atributo
-    faseRow.innerHTML = `
-        <td colspan="3">
-            <div>
-                <h3>Atributos de la Fase Actual</h3>
-                ${atributos.map(attr => `
-                    <label>${attr.nombre}:
-                        <input type="text" data-attr-id="${attr.id}" value="${attr.valor || ''}">
-                    </label>
-                `).join('')}
-                <button class="btn-terminar-fase" data-lote-id="${loteId}">Terminar Fase</button>
-            </div>
-        </td>
-    `;
-
-    // Insertar la fila de edición justo debajo de la fila actual
-    row.parentNode.insertBefore(faseRow, row.nextSibling);
-
-    // Agregar evento para el botón "Terminar Fase"
-    faseRow.querySelector(".btn-terminar-fase").addEventListener("click", () => terminarFase(faseRow, loteId));
-}
 
 
-refrescarTablaLotes();
+
+//refrescarTablaLotes();

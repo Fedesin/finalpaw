@@ -111,5 +111,6 @@ if(!isset($session->logged_in)) {
 
     $router->post('/api/lotes', 'LotesController@createLote'); // Para crear un nuevo lote
     $router->get('/api/lotes', 'LotesController@getAll'); // Para crear un nuevo lote
+    $router->get('/lotes/cargar', 'LotesController@viewCargar'); // Para crear un nuevo lote
     $router->get('/api/productos/tipo-productos', 'ProductoController@getTipoProductos'); // Para obtener tipos de productos
 }

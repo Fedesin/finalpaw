@@ -6,6 +6,7 @@ use Paw\App\Models\Roles;
 use Paw\Core\Session;
 use Paw\Core\Validator;
 use Paw\App\Models\TipoProducto;
+use Paw\App\Models\Lote;
 
 class PageController extends BaseController
 {
@@ -64,7 +65,16 @@ class PageController extends BaseController
 
     public function admform ()
     {
-        parent::showView('admform.view.twig');
+        parent::showView('admform.view.twig', [
+            'lotes' => Lote::getAll()
+        ]);
+        /*
+        parent::showView('admform.view.twig', [
+            'lotes' => Lote::get([
+                'encargado_produccion_id' => Session::getInstance()->user_id
+            ])
+        ]);
+        */
     }
 
     public function admalert ()
