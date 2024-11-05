@@ -110,5 +110,6 @@ if(!isset($session->logged_in)) {
     $router->delete('/api/productos', 'ProductoController@deleteProducto'); // API para eliminar producto
 
     $router->post('/api/lotes', 'LotesController@createLote'); // Para crear un nuevo lote
+    $router->get('/api/lotes', 'LotesController@getAll'); // Para crear un nuevo lote
     $router->get('/api/productos/tipo-productos', 'ProductoController@getTipoProductos'); // Para obtener tipos de productos
 }

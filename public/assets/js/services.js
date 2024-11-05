@@ -194,5 +194,14 @@ var Lotes = {
             },
             body: JSON.stringify(args)
         }).then(response => response.json());
+    },
+    list: function() {
+        return fetch("/api/lotes", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+        .then(response => response.json());
     }
 };

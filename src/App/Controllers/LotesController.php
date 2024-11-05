@@ -54,4 +54,23 @@ class LotesController extends BaseController
 
         $this->redirect('/admlotes');
     }
+
+    public function getAll()
+    {
+        $lotes = Lote::getAll();
+        $response = [];
+
+        foreach ($lotes as $lote) {
+            $producto = Producto::getById($lote->producto_id);
+            $response[] = [
+                'id' => $lote->id,
+                'numero' => $lote->numero,
+                'producto' => [
+                    'nombre' => $producto->nombre
+                ]
+            ];
+        }
+
+        echo json_encode(['lotes' => $response]);
+    }
 }

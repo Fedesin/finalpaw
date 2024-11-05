@@ -1,12 +1,25 @@
 
 {% extends 'base.twig' %}
-
+{% block head %}
+    <script src="/assets/js/cargalotes.js" defer></script>
+{% endblock %}
 
 {% block content %}
 
 <main class="admform-container">
     <h1>Carga de datos</h1>
 
+    <table class="tabla-lotes"  >
+          <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Lote Num</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+      </table>
   </main>
 
 {% endblock %}
