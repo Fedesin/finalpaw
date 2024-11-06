@@ -1,6 +1,90 @@
 //variables globales
 var roles = [];
 
+let currentPage = 1;
+let itemsPerPage = 2;
+var totalPages = 0;
+console.log(totalPages);
+
+
+
+
+function actualizarTabla() {
+    const startIndex = (currentPage - 1) * itemsPerPage;  // Índice de inicio de la página
+    const endIndex = startIndex + itemsPerPage;  // Índice de fin para la página
+
+    const rows = document.querySelectorAll('.tabla-usuarios tbody tr');
+    
+    // Mostrar u ocultar filas en función de la página actual
+    rows.forEach((row, index) => {
+        if (index >= startIndex && index < endIndex) {
+            row.style.display = '';  // Mostrar fila
+        } else {
+            row.style.display = 'none';  // Ocultar fila
+        }
+    });
+
+    // Actualizar la visualización de los botones de paginación
+    actualizarPaginacion();
+}
+// Actualizar la paginación (habilitar/deshabilitar botones)
+
+// Función para actualizar los botones de paginación (habilitar/deshabilitar botones)
+function actualizarPaginacion() {
+    const prevButton = document.querySelector('#pagination .button[data-page="prev"]');
+    const nextButton = document.querySelector('#pagination .button[data-page="next"]');
+    const pageNumbersContainer = document.querySelector('#page-numbers');
+
+    console.log("currentPage",currentPage, "totalPages",totalPages);
+    // Deshabilitar el botón "anterior" si estamos en la primera página
+    
+
+    // Deshabilitar el botón "siguiente" si estamos en la última página
+    if (currentPage === totalPages) {
+        nextButton.disabled = true;
+    } else {
+        nextButton.disabled = false;
+    }
+
+    // Limpiar los números de página anteriores
+    pageNumbersContainer.innerHTML = '';
+
+    // Generar números de página dinámicamente
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('li');
+        pageButton.classList.add('button');
+        pageButton.textContent = i;
+        pageButton.dataset.page = i;
+
+        // Marcar el número de página actual
+        if (i === currentPage) {
+            pageButton.classList.add('pag-current');
+        }
+
+        // Agregar evento de clic para cambiar de página
+        pageButton.addEventListener('click', function() {
+            currentPage = i;  // Cambiar a la página seleccionada
+            actualizarTabla();  // Actualizar la tabla con los usuarios de la nueva página
+        });
+
+        pageNumbersContainer.appendChild(pageButton);
+    }
+}
+
+// Iniciar la tabla y la paginación
+actualizarTabla();
+
+document.querySelectorAll('#pagination .button').forEach(button => {
+    button.addEventListener('click', function() {
+        if (this.dataset.page === 'prev' && currentPage > 1) {
+            currentPage--;  // Decrementar la página si es "anterior"
+        } else if (this.dataset.page === 'next') {
+            currentPage++;  // Incrementar la página si es "siguiente"
+        }
+        actualizarTabla();  // Actualizar la tabla con los usuarios de la nueva página
+    });
+});
+
 function toggleStatus(button, userId, newStatus) {
     Users.update({
         userid: userId,
@@ -187,7 +271,9 @@ function agregarManejadoresDeEventos() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    
     agregarManejadoresDeEventos();
+    
 
     var registerButton = document.querySelector('.btn-registrar');
     var tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
@@ -261,7 +347,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });    
     }
 
+    
+
     Roles.list().then(function(ret) {
         roles = ret;
     });
+    actualizarTabla();
 });

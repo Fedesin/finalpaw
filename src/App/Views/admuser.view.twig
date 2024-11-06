@@ -55,6 +55,7 @@
             {% endfor %}
         </tbody>
     </table>
+    <!--
     <ul class="lista-horizontal">
     <li class="button">&lt</li>
     <li class="button">1</li>
@@ -63,6 +64,13 @@
     <li class="button">4</li>
     <li class="button">5</li>
     <li class="button">&gt</li>
+    </ul>
+    -->
+    <ul id="pagination" class="lista-horizontal">
+        <li class="button" data-page="prev">&lt;</li>
+        <!-- Contenedor para los números de página -->
+        <ul id="page-numbers" class="lista-horizontal"></ul>
+        <li class="button" data-page="next">&gt;</li>
     </ul>
 
     <!-- Formulario para Agregar/Editar Usuario -->
