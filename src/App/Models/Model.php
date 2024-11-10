@@ -81,9 +81,9 @@ class Model
         }
     }
 
-    public function load($where, $order_by  = 'id', $direction = 'ASC')
+    public function load($where, $order_by  = 'id', $direction = 'ASC', $limit = 'ALL', $offset = 0)
     {
-        $record = current($this->queryBuilder->select(static::$table, $where, $order_by, $direction));
+        $record = current($this->queryBuilder->select(static::$table, $where, $order_by, $direction, $limit, $offset));
         if ($record == false) {
             return null;
         }
@@ -92,11 +92,11 @@ class Model
         return $this;
     }
 
-    public static function getAll($where = [])
+    public static function getAll($where = [], $order_by = 'id', $direction = 'ASC', $limit = 'ALL', $offset = 0)
     {
         $qb = new QueryBuilder(ConnectionBuilder::getInstance());
 
-        $instances = $qb->select(static::$table, $where);
+        $instances = $qb->select(static::$table, $where, $order_by, $direction, $limit, $offset);
         $collection = [];
 
         foreach ($instances as $instance) {
@@ -110,14 +110,14 @@ class Model
     }
 
 
-    public static function get($where, $order_by = 'id', $direction = 'ASC') {
+    public static function get($where, $order_by = 'id', $direction = 'ASC', $limit = 'ALL', $offset = 0) {
         $qb = new QueryBuilder(ConnectionBuilder::getInstance());
     
         $class = get_called_class();
         $newInstance = new $class;
         $newInstance->setQueryBuilder($qb);
     
-        if ($newInstance->load($where, $order_by, $direction) === null) {
+        if ($newInstance->load($where, $order_by, $direction, $limit, $offset) === null) {
             return null;
         }
     
@@ -126,12 +126,18 @@ class Model
     
 
     public static function getById($id) {
-
         $where = [
             "id" => $id
         ];
 
         return static::get($where);
+    }
+
+    public static function count($where = [])
+    {
+        $qb = new QueryBuilder(ConnectionBuilder::getInstance());
+
+        return $qb->count(static::$table, $where);
     }
 
     public function save()

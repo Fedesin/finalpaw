@@ -16,7 +16,40 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function select($table, $where = [], $order_by = 'id', $direction = 'ASC')
+    public function count($table, $where = [])
+    {
+        $whereStr = "WHERE 1 = 1 ";
+        $operators = ["=", "<", ">", "<=", ">=", "<>","LIKE"];
+
+        foreach ($where as $key => $value) {
+            if(is_array($value)) {
+                $op = $value[0];
+                $val = $value[1];
+
+                if(!in_array($op, $operators))
+                    throw new \Exception($op . " comparador no implementado");
+            } else {
+                $op = "=";
+                $val = $value;
+            }
+
+            $whereStr .= "AND {$key} {$op} :{$key} " ;
+        }
+
+        $query = "SELECT * FROM {$table} {$whereStr}";
+        $sentencia = $this->pdo->prepare($query);
+
+        foreach ($where as $key => $value) {
+            $sentencia->bindValue(":{$key}", is_array($value) ? $value[1] : $value);
+        }
+        
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute(); 
+        
+        return $sentencia->rowCount();
+    }
+
+    public function select($table, $where = [], $order_by = 'id', $direction = 'ASC', $limit = 'ALL', $offset = 0)
     {
         $whereStr = "WHERE 1 = 1 ";
         $operators = ["=", "<", ">", "<=", ">=", "<>","LIKE"];
@@ -37,7 +70,8 @@ class QueryBuilder
         }
 
         // Incorporar order_by y direction (por defecto ASC)
-        $query = "SELECT * FROM {$table} {$whereStr} ORDER BY {$order_by} {$direction}";
+        $query = "SELECT * FROM {$table} {$whereStr} ORDER BY {$order_by} {$direction} LIMIT {$limit} OFFSET {$offset}";
+
         $sentencia = $this->pdo->prepare($query);
 
         foreach ($where as $key => $value) {
