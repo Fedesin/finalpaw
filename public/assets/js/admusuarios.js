@@ -5,10 +5,22 @@ let currentPage = 1;
 let itemsPerPage = 5;
 var totalPages = 0;
 
-function cargarPagina(filtro, pagina) {
-    Users.list(Object.assign({}, filtro, {'limit': itemsPerPage, 'offset': (pagina - 1) * itemsPerPage}))
+function cargarPagina(pagina) {
+    const filtro = document.querySelector('.filtro').value;
+
+    Users.list(
+        Object.assign(
+            {},
+            {'email': filtro},
+            {
+                'limit': itemsPerPage,
+                'offset': (pagina - 1) * itemsPerPage
+            }
+        )
+    )
     .then(data => {
         listarUsuarios(data.usuarios, data.total);
+        actualizarPaginacion(currentPage, Math.ceil(data.total / itemsPerPage));
     })
     .catch(error => {
         console.error('Error al cargar pagina:', filtro, pagina, error);
@@ -38,7 +50,7 @@ function actualizarPaginacion(curPage, totalPages) {
         // Agregar evento de clic para cambiar de página
         pageButton.addEventListener('click', function() {
             currentPage = i;  // Cambiar a la página seleccionada
-            cargarPagina({'email': document.querySelector('.filtro').value}, i);
+            cargarPagina(i);
         });
 
         pageNumbersContainer.appendChild(pageButton);
@@ -47,15 +59,13 @@ function actualizarPaginacion(curPage, totalPages) {
 
 document.querySelectorAll('.paginator .button').forEach(button => {
     button.addEventListener('click', function() {
-        let filtro = document.querySelector('.filtro').value;
-
         if (this.dataset.page === 'prev' && currentPage > 1) {
             currentPage--;  // Decrementar la página si es "anterior"
         } else if (this.dataset.page === 'next') {
             currentPage++;  // Incrementar la página si es "siguiente"
         }
 
-        cargarPagina({'email': filtro}, currentPage);
+        cargarPagina(currentPage);
     });
 });
 
@@ -211,17 +221,13 @@ function listarUsuarios(usuarios, cantUsers) {
         tbody.appendChild(row);
     });
 
-    totalPages = Math.ceil(cantUsers / itemsPerPage);
-    actualizarPaginacion(currentPage, totalPages);
-    
-
     agregarManejadoresDeEventos();
 }
 
 function filtrarUsuarios() {
     const filtro = document.querySelector('.filtro').value;
 
-    cargarPagina({'email': filtro}, 1);
+    cargarPagina(1);
 }
 
 function agregarManejadoresDeEventos() {
@@ -245,7 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     agregarManejadoresDeEventos();
     
-
     var registerButton = document.querySelector('.btn-registrar');
     var tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
     var changePasswordButton = document.querySelector('.change-password-button');
@@ -258,44 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
             var rolId = document.querySelector('.rol-select').value;
             var randomPassword = generateRandomPassword(12);
             registerUser(email, rolId, randomPassword);
-            Users.list().then(function(ret) {
-                tabla_usuarios.innerHTML = ''; 
-                Object.keys(ret).forEach(key => {
-                    let user = ret[key];
-                    let row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${user.id}</td>
-                        <td>${user.email}</td>
-                        <td class="no-padding">
-                            <ul class="lista-horizontal">
-                                <li class="capitalize">${roles[user.rol_id]}</li>
-                                <li>
-                                    <a href="#" 
-                                        class="modify modifyRoleButton"  
-                                        data-id="${user.id}" 
-                                        rol-nombre="${roles[user.rol_id]}">
-                                        <img/>
-                                    </a>
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="lista-horizontal">
-                                <li>
-                                    <a href="#" 
-                                        class="toggleStatusButton ${user.deshabilitado ? 'up' : 'down'}"
-                                        data-id="${user.id}"
-                                        data-status="${user.deshabilitado}">
-                                        <img/>
-                                    </a>
-                                </li>  
-                            </ul>
-                        </td>
-                    `;
-                    tabla_usuarios.appendChild(row);
-                });
-                agregarManejadoresDeEventos();
-            });
+            
+            cargarPagina(currentPage);
         });
     }
 
@@ -320,11 +289,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });    
     }
 
-    
-
     Roles.list().then(function(ret) {
         roles = ret;
     });
 
-    cargarPagina({}, 1);
+    cargarPagina(1);
 });
