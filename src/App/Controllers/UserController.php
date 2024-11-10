@@ -136,12 +136,35 @@ class UserController extends BaseController
         echo json_encode(['status' => 'success']);
     }
 
-    public function getUsers() {
-        $users = User::getAll(); // Asegúrate de que tu modelo User tenga este método
+    public function getUsers($request) {
+        $where = [];
 
-        $ret = [];
+        if(isset($request->email)) {
+            $where = [
+                'email' => [
+                    'LIKE', '%' . $request->email . '%'
+                ]
+            ];
+        }
+
+        $cantUsers = User::count($where);
+
+        $limit = 'ALL';
+        if(isset($request->limit))
+            $limit = $request->limit;
+
+        $offset = 0;
+        if(isset($request->offset))
+            $offset = $request->offset;
+
+        $users = User::getAll($where, limit: $limit, offset: $offset);
+
+        $ret = [
+            'total' => $cantUsers,
+            'usuarios' => []
+        ];
         foreach($users as $user) {
-            $ret[$user->id] = [
+            $ret['usuarios'][] = [
                 "id" => $user->id,
                 "email" => $user->email,
                 "rol_id" => $user->rol_id,
@@ -205,29 +228,6 @@ class UserController extends BaseController
         echo json_encode($data);
         exit;
     }
-
-    public function getUsersViaEmail($request)
-    {
-        $users = User::getAll([
-            'email' => [
-                'LIKE', '%' . $request->email . '%'
-            ]
-        ]);
-
-        $ret = [];
-        foreach($users as $user) {
-            $ret[$user->id] = [
-                "id" => $user->id,
-                "email" => $user->email,
-                "rol_id" => $user->rol_id,
-                "deshabilitado" => $user->deshabilitado
-
-            ];
-        }
-
-        echo json_encode($ret);
-    }
-    
 
     public function changePassword($request)
     {

@@ -370,6 +370,7 @@ footer > ul {
 }
 
 body > main {
+    width: 800px;
     margin: 2em auto auto;
 }
 
@@ -745,7 +746,7 @@ Gestion de Fases
     justify-content: space-between;
     margin-bottom: 1em;
     padding-bottom: 0.5em;
-    border-bottom: 1px solid (var(--primary-white));
+    border-bottom: 1px solid var(--primary-white);
     width: 100%;
 }
 
@@ -1040,13 +1041,21 @@ ul.lista-horizontal{
     text-align: center;
     padding: 0;
 }
-ul.lista-horizontal li{
+ul.lista-horizontal * {
     display: inline-block;
     margin: 0.5ch;
 }
 
-.lista-horizontal > .pag-current {
+.page-numbers .pag-current {
     background-color: var(--second-light-blue);
+}
+
+.paginator .button[data-page="prev"]:has(~ .page-numbers > :first-child.pag-current) {
+    background-color: var(--second-grey);
+}
+
+.page-numbers:has(> :last-child.pag-current) + .button[data-page="next"] {
+    background-color: var(--second-grey);
 }
 
 .filtrador{

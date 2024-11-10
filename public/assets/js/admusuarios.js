@@ -2,49 +2,22 @@
 var roles = [];
 
 let currentPage = 1;
-let itemsPerPage = 2;
+let itemsPerPage = 5;
 var totalPages = 0;
-console.log(totalPages);
 
-
-
-
-function actualizarTabla() {
-    const startIndex = (currentPage - 1) * itemsPerPage;  // Índice de inicio de la página
-    const endIndex = startIndex + itemsPerPage;  // Índice de fin para la página
-
-    const rows = document.querySelectorAll('.tabla-usuarios tbody tr');
-    
-    // Mostrar u ocultar filas en función de la página actual
-    rows.forEach((row, index) => {
-        if (index >= startIndex && index < endIndex) {
-            row.style.display = '';  // Mostrar fila
-        } else {
-            row.style.display = 'none';  // Ocultar fila
-        }
+function cargarPagina(filtro, pagina) {
+    Users.list(Object.assign({}, filtro, {'limit': itemsPerPage, 'offset': (pagina - 1) * itemsPerPage}))
+    .then(data => {
+        listarUsuarios(data.usuarios, data.total);
+    })
+    .catch(error => {
+        console.error('Error al cargar pagina:', filtro, pagina, error);
     });
-
-    // Actualizar la visualización de los botones de paginación
-    actualizarPaginacion();
 }
-// Actualizar la paginación (habilitar/deshabilitar botones)
 
 // Función para actualizar los botones de paginación (habilitar/deshabilitar botones)
-function actualizarPaginacion() {
-    const prevButton = document.querySelector('#pagination .button[data-page="prev"]');
-    const nextButton = document.querySelector('#pagination .button[data-page="next"]');
-    const pageNumbersContainer = document.querySelector('#page-numbers');
-
-    console.log("currentPage",currentPage, "totalPages",totalPages);
-    // Deshabilitar el botón "anterior" si estamos en la primera página
-    
-
-    // Deshabilitar el botón "siguiente" si estamos en la última página
-    if (currentPage === totalPages) {
-        nextButton.disabled = true;
-    } else {
-        nextButton.disabled = false;
-    }
+function actualizarPaginacion(curPage, totalPages) {
+    const pageNumbersContainer = document.querySelector('.paginator .page-numbers');
 
     // Limpiar los números de página anteriores
     pageNumbersContainer.innerHTML = '';
@@ -57,31 +30,32 @@ function actualizarPaginacion() {
         pageButton.dataset.page = i;
 
         // Marcar el número de página actual
-        if (i === currentPage) {
+        if (i === curPage) {
+            console.log(i, curPage);
             pageButton.classList.add('pag-current');
         }
 
         // Agregar evento de clic para cambiar de página
         pageButton.addEventListener('click', function() {
             currentPage = i;  // Cambiar a la página seleccionada
-            actualizarTabla();  // Actualizar la tabla con los usuarios de la nueva página
+            cargarPagina({'email': document.querySelector('.filtro').value}, i);
         });
 
         pageNumbersContainer.appendChild(pageButton);
     }
 }
 
-// Iniciar la tabla y la paginación
-actualizarTabla();
-
-document.querySelectorAll('#pagination .button').forEach(button => {
+document.querySelectorAll('.paginator .button').forEach(button => {
     button.addEventListener('click', function() {
+        let filtro = document.querySelector('.filtro').value;
+
         if (this.dataset.page === 'prev' && currentPage > 1) {
             currentPage--;  // Decrementar la página si es "anterior"
         } else if (this.dataset.page === 'next') {
             currentPage++;  // Incrementar la página si es "siguiente"
         }
-        actualizarTabla();  // Actualizar la tabla con los usuarios de la nueva página
+
+        cargarPagina({'email': filtro}, currentPage);
     });
 });
 
@@ -199,58 +173,55 @@ function changePassword(actualPassword, newPassword) {
     });
 }
 
+function listarUsuarios(usuarios, cantUsers) {
+    let tbody = document.querySelector('.tabla-usuarios > tbody');
+    tbody.innerHTML = ''; 
+    Object.keys(usuarios).forEach(key => {
+        let user = usuarios[key];
+        let row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.email}</td>
+            <td class="no-padding">
+                <ul class="lista-horizontal">
+                    <li class="capitalize">${roles[user.rol_id]}</li>
+                    <li>
+                        <a href="#" 
+                            class="modify modifyRoleButton"  
+                            data-id="${user.id}" 
+                            rol-nombre="${roles[user.rol_id]}">
+                            <img/>
+                        </a>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <ul class="lista-horizontal">
+                    <li>
+                        <a href="#" 
+                            class="toggleStatusButton ${user.deshabilitado ? 'up' : 'down'}"
+                            data-id="${user.id}"
+                            data-status="${user.deshabilitado}">
+                            <img/>
+                        </a>
+                    </li>  
+                </ul>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    totalPages = Math.ceil(cantUsers / itemsPerPage);
+    actualizarPaginacion(currentPage, totalPages);
+    
+
+    agregarManejadoresDeEventos();
+}
+
 function filtrarUsuarios() {
     const filtro = document.querySelector('.filtro').value;
-    fetch('/api/users/filterViaEmail', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: filtro })
-    })
-    .then(response => response.json())
-    .then(data => {
-        let tbody = document.querySelector('.tabla-usuarios > tbody');
-        tbody.innerHTML = ''; 
-        Object.keys(data).forEach(key => {
-            let user = data[key];
-            let row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${user.id}</td>
-                <td>${user.email}</td>
-                <td class="no-padding">
-                    <ul class="lista-horizontal">
-                        <li class="capitalize">${roles[user.rol_id]}</li>
-                        <li>
-                            <a href="#" 
-                                class="modify modifyRoleButton"  
-                                data-id="${user.id}" 
-                                rol-nombre="${roles[user.rol_id]}">
-                                <img/>
-                            </a>
-                        </li>
-                    </ul>
-                </td>
-                <td>
-                    <ul class="lista-horizontal">
-                        <li>
-                            <a href="#" 
-                                class="toggleStatusButton ${user.deshabilitado ? 'up' : 'down'}"
-                                data-id="${user.id}"
-                                data-status="${user.deshabilitado}">
-                                <img/>
-                            </a>
-                        </li>  
-                    </ul>
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
-        agregarManejadoresDeEventos();
-    })
-    .catch(error => {
-        console.error('Error al filtrar usuarios:', error);
-    });
+
+    cargarPagina({'email': filtro}, 1);
 }
 
 function agregarManejadoresDeEventos() {
@@ -278,6 +249,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var registerButton = document.querySelector('.btn-registrar');
     var tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
     var changePasswordButton = document.querySelector('.change-password-button');
+    
+    totalPages = Math.ceil(document.querySelector('.tabla-usuarios').dataset.cantUsers / itemsPerPage);
 
     if (registerButton) {
         registerButton.addEventListener('click', function() {
@@ -352,5 +325,6 @@ document.addEventListener('DOMContentLoaded', function() {
     Roles.list().then(function(ret) {
         roles = ret;
     });
-    actualizarTabla();
+
+    cargarPagina({}, 1);
 });

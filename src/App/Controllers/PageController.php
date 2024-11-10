@@ -84,11 +84,11 @@ class PageController extends BaseController
 
     public function admuser ()
     {
-        $users = User::getAll();
+        $cantUsers = User::count();
         $roles = Roles::getAll();
 
         parent::showView('admuser.view.twig', [
-            "users" => $users,
+            "cantUsers" => $cantUsers,
             "roles" => $roles
         ]);
     }

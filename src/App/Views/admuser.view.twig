@@ -15,7 +15,7 @@
         <button onclick="filtrarUsuarios()">Filtrar</button>
     </div>
     <!-- Tabla de Usuarios -->
-    <table class="tabla-usuarios">
+    <table class="tabla-usuarios" data-cant-users="{{ cantUsers }}">
         <thead>
             <tr>
                 <th>ID</th>
@@ -25,51 +25,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td class="no-padding">
-                    <ul class="lista-horizontal">
-                        <li class="capitalize">{{ user.rol.nombre }}</li>
-                        <li>
-                            <a href="#" 
-                            class="modify modifyRoleButton"  data-id={{ user.id }} rol-nombre={{user.rol.nombre}}>
-                            <img/></a>
-                        </li>
-                    </ul>
-                </td>
-                <td>
-                    <ul class="lista-horizontal">
-                        <li>
-                            <a href="#" 
-                                class="toggleStatusButton {{ user.deshabilitado ? 'up' : 'down' }}"
-                                data-id="{{ user.id }}"
-                                data-status="{{ user.deshabilitado }}">
-                                <img/>
-                            </a>
-                        </li>  
-                    </ul>
-                </td>
-            </tr>
-            {% endfor %}
         </tbody>
     </table>
-    <!--
-    <ul class="lista-horizontal">
-    <li class="button">&lt</li>
-    <li class="button">1</li>
-    <li class="button">2</li>
-    <li class="button pag-current" >3</li>
-    <li class="button">4</li>
-    <li class="button">5</li>
-    <li class="button">&gt</li>
-    </ul>
-    -->
-    <ul id="pagination" class="lista-horizontal">
+
+    <ul class="paginator lista-horizontal">
         <li class="button" data-page="prev">&lt;</li>
         <!-- Contenedor para los números de página -->
-        <ul id="page-numbers" class="lista-horizontal"></ul>
+        <ul class="page-numbers lista-horizontal"></ul>
         <li class="button" data-page="next">&gt;</li>
     </ul>
 
