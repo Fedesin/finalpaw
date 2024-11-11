@@ -10,6 +10,7 @@ class Fases extends Model
     protected static $table = 'fases';
 
     protected $fields = [
+        "id" => null,
         "nombre" => null,
         "tipo_producto_id" => null,
         "atributos" => null,
@@ -46,4 +47,24 @@ class Fases extends Model
 
         return $fase;
     }
+
+    public static function getNextFase($currentFaseId) {
+        // Obtener el orden de la fase actual
+        $fase = self::getById($currentFaseId); // Asumimos que este método obtiene la fase por su ID
+        if (!$fase) {
+            return null; // Si no se encuentra la fase, retornar null
+        }
+
+        // Ahora, buscamos la siguiente fase según el orden
+        $nextFase = self::get([
+            'numero_orden' => ['>', $fase->numero_orden]  // Condición: numero_orden mayor que el de la fase actual
+        ], 'numero_orden', 'ASC', 1); // Ordenamos por numero_orden en orden ascendente y limitamos a 1 resultado
+        
+        if (!$nextFase) {
+            return null; // Si no se encuentra la fase, retornar null
+        }
+
+        return $nextFase;
+    }
+    
 }

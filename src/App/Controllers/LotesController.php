@@ -82,50 +82,120 @@ class LotesController extends BaseController
             'id' => $lote->fase_actual
         ]);
 
+        // Obtener la siguiente fase, si existe
+        $next_fase = Fases::getNextFase($fase->id); // Método que obtiene la siguiente fase
         parent::showView('viewcargar.view.twig', [
+            'next_fase' => $next_fase,
             'lote' => $lote,
             'fase' => $fase,
             'atributos' => json_decode($fase->atributos, true)
         ]);
     }
 
+
+    function pasarFase($request) {
+        $lote = Lote::getById($request->id_lote);
+        var_dump($lote);
+
+        if ($lote) {
+            $lote->fase_actual = $request->next_fase_id;
+            $lote->save();
+            // Establecer el tipo de contenido como JSON
+            header('Content-Type: application/json');
+
+            // Responder con un mensaje de éxito en formato JSON
+            echo json_encode(['success' => true, 'message' => 'Fase actualizada correctamente']);
+            } else {
+            // Si no se encuentra el lote, también responder en formato JSON
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Lote no encontrado']);
+        }
+    }
+
     public function updateAttributes($request) {
+        // Verificar si se ha proporcionado el id_lote
+        if (!isset($request->id_lote)) {
+            echo json_encode(['success' => false, 'message' => 'ID de lote no proporcionado']);
+            return;
+        }
+    
         // Obtener el lote por su ID
         $lote = Lote::getById($request->id_lote);
     
         if ($lote) {
-            // Decodificar los atributos actuales del lote (en formato JSON)
-            $atributos = json_decode($lote->atributos, true);
+            // Decodificar los atributos actuales del lote (en formato JSON), o iniciar con un array vacío si está en null
+            $atributos = $lote->atributos !== null ? json_decode($lote->atributos, true) : [];
     
-            // Recorremos cada atributo enviado en el formulario
-            foreach ($request->atributos as $key => $atributo) {
-                // Verificar si el atributo ya existe en los atributos del lote
-                if (isset($atributos[$key])) {
-                    // Si existe, actualizamos el valor según el tipo
-                    $atributos[$key]['valor'] = $atributo['valor'];
-                } else {
-                    // Si no existe, añadimos un nuevo atributo con la información proporcionada
-                    $atributos[$key] = [
-                        'num_orden' => $atributo['num_orden'],
-                        'tipo' => $atributo['tipo'],
-                        'valor' => $atributo['valor']
-                    ];
+            // Obtener los datos de la fase del request
+            $fase_id = isset($request->id_fase) ? $request->id_fase : null;
+            $fase_nombre = isset($request->fase_nombre) ? $request->fase_nombre : null;
+    
+            // Verificar si los atributos existen en el request y son un array
+            if (isset($request->atributos) && is_array($request->atributos)) {
+    
+                // Buscar si la fase ya existe en el JSON de atributos
+                $fase_existente = false;
+    
+                // Recorrer las fases ya existentes en los atributos
+                foreach ($atributos as &$fase) {
+                    if (isset($fase['id_fase']) && $fase['id_fase'] == $fase_id) {
+                        // Si la fase existe, actualizamos sus atributos
+                        $fase_existente = true;
+                        foreach ($request->atributos as $key => $atributo) {
+                            // Si el atributo ya existe, actualizamos el valor
+                            if (isset($fase['atributos'][$key])) {
+                                $fase['atributos'][$key]['valor'] = $atributo['valor'];
+                            } else {
+                                // Si no existe, agregamos el nuevo atributo
+                                $fase['atributos'][$key] = [
+                                    'num_orden' => $atributo['num_orden'],
+                                    'tipo' => $atributo['tipo'],
+                                    'valor' => $atributo['valor']
+                                ];
+                            }
+                        }
+                        break;
+                    }
                 }
+    
+                // Si la fase no existe, la agregamos como nueva fase
+                if (!$fase_existente) {
+                    $atributos[] = [
+                        'id_fase' => $fase_id,
+                        'nombre_fase' => $fase_nombre,
+                        'atributos' => []
+                    ];
+    
+                    // Agregar los atributos proporcionados
+                    foreach ($request->atributos as $key => $atributo) {
+                        $atributos[count($atributos) - 1]['atributos'][$key] = [
+                            'num_orden' => $atributo['num_orden'],
+                            'tipo' => $atributo['tipo'],
+                            'valor' => $atributo['valor']
+                        ];
+                    }
+                }
+    
+                // Convertir los atributos actualizados a JSON y asignar al lote
+                $lote->atributos = json_encode($atributos);
+    
+                // Guardar los cambios en la base de datos
+                $lote->save();
+    
+                // Responder con un mensaje de éxito
+                echo json_encode(['success' => true, 'message' => 'Atributos actualizados correctamente']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Atributos no proporcionados o formato incorrecto']);
             }
-    
-            // Convertir los atributos actualizados a JSON y guardar en el lote
-            $lote->atributos = json_encode($atributos);
-    
-            // Guardar los cambios en la base de datos
-            $lote->save();
-    
-            // Responder con un mensaje de éxito
-            echo json_encode(['success' => true, 'message' => 'Atributos actualizados correctamente']);
         } else {
             // Responder con un mensaje de error si el lote no se encontró
             echo json_encode(['success' => false, 'message' => 'Lote no encontrado']);
         }
     }
+    
+    
+    
+    
     
 
 }

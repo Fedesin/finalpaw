@@ -17,7 +17,8 @@ class Lote extends Model
         "supervisor_id" => null,
         "encargado_produccion_id" => null,
         "encargado_limpieza_id" => null,
-        "producto_id" => null
+        "producto_id" => null,
+        'atributos' => null
     ];
 
     public function getProducto()

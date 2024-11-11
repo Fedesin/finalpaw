@@ -63,5 +63,23 @@ function editarLote(event) {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+    const forms = document.querySelectorAll(".form-pasar-fase");
 
-//refrescarTablaLotes();
+    forms.forEach(form => {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();  // Evita la acción predeterminada del formulario
+
+            const formData = new FormData(form);
+
+            // Hacer la solicitud AJAX con el método POST
+            fetch('/lotes/pasarFase', {
+                method: 'POST',
+                body: formData
+            }).then(() => {
+                // Recargar la página después de que la solicitud haya sido completada
+                window.location.reload();
+            })
+        });
+    });
+});
