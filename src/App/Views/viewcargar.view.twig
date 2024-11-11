@@ -9,15 +9,34 @@
 <main class="admform-container">
     <h1 class="capitalize">lote {{ lote.numero }} - {{ fase.nombre }}</h1>
 
-    {% for key, atributo in atributos %}
-        <div>
-            <h2>Atributo {{ key }}</h2>
-            <p>Número de orden: {{ atributo.num_orden }}</p>
-            <p>Tipo: {{ atributo.tipo }}</p>
-            <p>Valor: {{ atributo.valor }}</p>
-        </div>
-    {% endfor %}
-   
+    <form action="/update_attributes" method="POST">
+        {% for key, atributo in atributos %}
+            <div>
+                <h2>Atributo {{ key }}</h2>
+                <p>Número de orden: {{ atributo.num_orden }}</p>
+                <p>Tipo: {{ atributo.tipo }}</p>
+                
+                <label for="valor_{{ key }}">Valor:</label>
+
+                {% if atributo.tipo == 'boolean' %}
+                    <!-- Boolean input as checkbox -->
+                    <input type="checkbox" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="1" {{ atributo.valor == '1' ? 'checked' : '' }}>
+                {% elseif atributo.tipo == 'entero' %}
+                    <!-- Integer input as number -->
+                    <input type="number" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
+                {% else %}
+                    <!-- Default text input for other types -->
+                    <input type="text" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
+                {% endif %}
+
+                <!-- Hidden fields to keep track of attribute metadata -->
+                <input type="hidden" name="atributos[{{ key }}][num_orden]" value="{{ atributo.num_orden }}">
+                <input type="hidden" name="atributos[{{ key }}][tipo]" value="{{ atributo.tipo }}">
+            </div>
+        {% endfor %}
+
+        <button type="submit">Guardar cambios</button>
+    </form>
     
   </main>
 

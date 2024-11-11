@@ -88,4 +88,44 @@ class LotesController extends BaseController
             'atributos' => json_decode($fase->atributos, true)
         ]);
     }
+
+    public function updateAttributes($request) {
+        // Obtener el lote por su ID
+        $lote = Lote::getById($request->id_lote);
+    
+        if ($lote) {
+            // Decodificar los atributos actuales del lote (en formato JSON)
+            $atributos = json_decode($lote->atributos, true);
+    
+            // Recorremos cada atributo enviado en el formulario
+            foreach ($request->atributos as $key => $atributo) {
+                // Verificar si el atributo ya existe en los atributos del lote
+                if (isset($atributos[$key])) {
+                    // Si existe, actualizamos el valor según el tipo
+                    $atributos[$key]['valor'] = $atributo['valor'];
+                } else {
+                    // Si no existe, añadimos un nuevo atributo con la información proporcionada
+                    $atributos[$key] = [
+                        'num_orden' => $atributo['num_orden'],
+                        'tipo' => $atributo['tipo'],
+                        'valor' => $atributo['valor']
+                    ];
+                }
+            }
+    
+            // Convertir los atributos actualizados a JSON y guardar en el lote
+            $lote->atributos = json_encode($atributos);
+    
+            // Guardar los cambios en la base de datos
+            $lote->save();
+    
+            // Responder con un mensaje de éxito
+            echo json_encode(['success' => true, 'message' => 'Atributos actualizados correctamente']);
+        } else {
+            // Responder con un mensaje de error si el lote no se encontró
+            echo json_encode(['success' => false, 'message' => 'Lote no encontrado']);
+        }
+    }
+    
+
 }
