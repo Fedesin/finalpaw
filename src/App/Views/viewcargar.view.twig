@@ -8,7 +8,7 @@
 <main class="admform-container">
     <h1 class="capitalize">lote {{ lote.numero }} - {{ fase.nombre }}</h1>
 
-    <form action="/update_attributes" method="POST">
+    <form class="updateForm">
         <!-- Campos ocultos para id_lote y fase -->
         <input type="hidden" name="id_lote" value="{{ lote.id }}">
         <input type="hidden" name="id_fase" value="{{ fase.id }}">
@@ -42,6 +42,8 @@
         <button type="submit">Guardar cambios</button>
     </form>
 
+    <div class="mensaje"></div>
+
     {% if next_fase is not null %}
         <form class="form-pasar-fase" action="/lotes/pasarFase" method="POST">
             <input type="hidden" name="id_lote" value="{{ lote.id }}">
@@ -53,7 +55,6 @@
     {% else %}
         <p>No hay más fases para editar.</p>
     {% endif %}
-
 
 </main>
 

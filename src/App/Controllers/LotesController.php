@@ -75,7 +75,16 @@ class LotesController extends BaseController
     }
 
     function viewCargar($request) {
+
         $lote = Lote::getById($request->id);
+
+        if (!$lote) {
+            throw new \Exception("Lote no encontrado con ID " . $request->id);
+        }
+
+        if (!$lote->producto) {
+            throw new \Exception("Producto no encontrado para el lote con ID " . $request->id);
+        }
 
         $fase = Fases::get([
             'tipo_producto_id' => $lote->producto->tipo_producto_id,
