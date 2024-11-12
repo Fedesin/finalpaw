@@ -15,7 +15,7 @@
         <button onclick="filtrarUsuarios()">Filtrar</button>
     </div>
     <!-- Tabla de Usuarios -->
-    <table class="tabla-usuarios" data-cant-users="{{ cantUsers }}">
+    <table class="tabla-usuarios relative" data-cant-users="{{ cantUsers }}">
         <thead>
             <tr>
                 <th>ID</th>
@@ -28,11 +28,15 @@
         </tbody>
     </table>
 
-    <ul class="paginator lista-horizontal">
+    <ul class="paginator lista-horizontal relative">
+        <li class="button" data-page="first">&lt;&lt;</li>
         <li class="button" data-page="prev">&lt;</li>
+        
         <!-- Contenedor para los números de página -->
         <ul class="page-numbers lista-horizontal"></ul>
+
         <li class="button" data-page="next">&gt;</li>
+        <li class="button" data-page="last">&gt;&gt;</li>
     </ul>
 
     <!-- Formulario para Agregar/Editar Usuario -->

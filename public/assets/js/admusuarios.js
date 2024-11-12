@@ -1,12 +1,20 @@
 //variables globales
 var roles = [];
 
-let currentPage = 1;
-let itemsPerPage = 5;
-var totalPages = 0;
+let currentPage = 0;
+let itemsPerPage = 10;
+var total_pages = 0;
+var spinner = null;
+var tabla_usuarios = null;
 
-function cargarPagina(pagina) {
-    const filtro = document.querySelector('.filtro').value;
+function cargarPagina(pagina, force = false) {
+    if((pagina == currentPage) && (force === false))
+        return;
+
+    currentPage = pagina;
+
+    let filtro = document.querySelector('.filtro').value;
+    tabla_usuarios.parentElement.appendChild(spinner);
 
     Users.list(
         Object.assign(
@@ -20,10 +28,13 @@ function cargarPagina(pagina) {
     )
     .then(data => {
         listarUsuarios(data.usuarios, data.total);
-        actualizarPaginacion(currentPage, Math.ceil(data.total / itemsPerPage));
+        actualizarPaginacion(pagina, Math.ceil(data.total / itemsPerPage));
     })
     .catch(error => {
         console.error('Error al cargar pagina:', filtro, pagina, error);
+    })
+    .finally(() => {
+        tabla_usuarios.parentElement.querySelector('.overlay').remove();
     });
 }
 
@@ -31,25 +42,25 @@ function cargarPagina(pagina) {
 function actualizarPaginacion(curPage, totalPages) {
     const pageNumbersContainer = document.querySelector('.paginator .page-numbers');
 
+    total_pages = totalPages;
+
     // Limpiar los números de página anteriores
     pageNumbersContainer.innerHTML = '';
 
     // Generar números de página dinámicamente
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('li');
+    for (let i = Math.max(1, curPage - 3); i <= Math.min(curPage + 3, totalPages); i++) {
+        let pageButton = document.createElement('li');
+
         pageButton.classList.add('button');
         pageButton.textContent = i;
         pageButton.dataset.page = i;
 
         // Marcar el número de página actual
-        if (i === curPage) {
-            console.log(i, curPage);
+        if (i === curPage)
             pageButton.classList.add('pag-current');
-        }
 
         // Agregar evento de clic para cambiar de página
         pageButton.addEventListener('click', function() {
-            currentPage = i;  // Cambiar a la página seleccionada
             cargarPagina(i);
         });
 
@@ -59,13 +70,19 @@ function actualizarPaginacion(curPage, totalPages) {
 
 document.querySelectorAll('.paginator .button').forEach(button => {
     button.addEventListener('click', function() {
-        if (this.dataset.page === 'prev' && currentPage > 1) {
-            currentPage--;  // Decrementar la página si es "anterior"
-        } else if (this.dataset.page === 'next') {
-            currentPage++;  // Incrementar la página si es "siguiente"
+        let pag = currentPage;
+
+        if(this.dataset.page === 'first') {
+            pag = 1;
+        } else if(this.dataset.page === 'last') {
+            pag = total_pages;
+        } else if (this.dataset.page === 'prev' && pag > 1) {
+            pag--;
+        } else if (this.dataset.page === 'next' && pag < total_pages) {
+            pag++;
         }
 
-        cargarPagina(currentPage);
+        cargarPagina(pag);
     });
 });
 
@@ -90,6 +107,7 @@ function changeAnchorToOptions(button) {
     var parent = button.closest('ul').querySelector('li');
     var userId = button.getAttribute('data-id');
     var currentRoleName = button.getAttribute('rol-nombre');
+
     if (parent.querySelector('select')) {
         parent.innerHTML = currentRoleName; 
         return;
@@ -158,7 +176,7 @@ function registerUser(email, rol_id, password) {
 }
 
 function changePassword(actualPassword, newPassword) {
-    fetch('/api/change-password', {
+        fetch('/api/change-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -184,8 +202,7 @@ function changePassword(actualPassword, newPassword) {
 }
 
 function listarUsuarios(usuarios, cantUsers) {
-    let tbody = document.querySelector('.tabla-usuarios > tbody');
-    tbody.innerHTML = ''; 
+    tabla_usuarios.innerHTML = ''; 
     Object.keys(usuarios).forEach(key => {
         let user = usuarios[key];
         let row = document.createElement('tr');
@@ -218,7 +235,7 @@ function listarUsuarios(usuarios, cantUsers) {
                 </ul>
             </td>
         `;
-        tbody.appendChild(row);
+        tabla_usuarios.appendChild(row);
     });
 
     agregarManejadoresDeEventos();
@@ -248,23 +265,28 @@ function agregarManejadoresDeEventos() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    
+    tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
+
+    spinner = document.createElement('div');
+    spinner.classList.add('overlay');
+
+    let loader = document.createElement('div');
+    loader.classList.add('loader');
+
+    spinner.appendChild(loader);
+
     agregarManejadoresDeEventos();
     
     var registerButton = document.querySelector('.btn-registrar');
-    var tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
     var changePasswordButton = document.querySelector('.change-password-button');
-    
-    totalPages = Math.ceil(document.querySelector('.tabla-usuarios').dataset.cantUsers / itemsPerPage);
 
     if (registerButton) {
         registerButton.addEventListener('click', function() {
             var email = document.querySelector('.email-input').value;
             var rolId = document.querySelector('.rol-select').value;
-            var randomPassword = generateRandomPassword(12);
-            registerUser(email, rolId, randomPassword);
-            
-            cargarPagina(currentPage);
+
+            registerUser(email, rolId, generateRandomPassword(12));
+            cargarPagina(currentPage, true);
         });
     }
 
