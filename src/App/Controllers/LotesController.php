@@ -73,6 +73,29 @@ class LotesController extends BaseController
 
         echo json_encode(['lotes' => $response]);
     }
+    public function viewLote($request)
+    {
+        $lote = Lote::getById($request->id);
+        if (!$lote) {
+            throw new \Exception("Lote no encontrado con ID " . $request->id);
+        }
+        $producto = Producto::getById($lote->producto_id);
+        //var_dump($lote->atributos);
+        //die();
+        $encargado_produccion = User::getById($lote->encargado_produccion_id);
+        $encargado_limpieza = User::getById($lote->encargado_limpieza_id);
+        $supervisor = User::getById($lote->supervisor_id);
+        $fase_actual = Fases::getById($lote->fase_actual);
+        parent::showView('viewDataLote.view.twig', [
+            'lote' => $lote,
+            'producto' => $producto,
+            'atributos'=> json_decode($lote->atributos, true),
+            'encargado_produccion' => $encargado_produccion,
+            'encargado_limpieza' => $encargado_limpieza,
+            'supervisor' => $supervisor,
+            'fase_actual'=> $fase_actual
+        ]);
+    }
 
     function viewCargar($request) {
 
@@ -104,7 +127,7 @@ class LotesController extends BaseController
 
     function pasarFase($request) {
         $lote = Lote::getById($request->id_lote);
-        var_dump($lote);
+        
 
         if ($lote) {
             $lote->fase_actual = $request->next_fase_id;

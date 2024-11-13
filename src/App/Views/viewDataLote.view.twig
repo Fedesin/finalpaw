@@ -1,0 +1,33 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+<main class="admform-container">
+    <h1 class="capitalize">lote {{ lote.numero }} - {{ producto.nombre }}</h1>
+
+    <h2>Fecha: {{lote.fecha}}</h2>
+
+    <h3>Supervisor: {{supervisor.email}}</h3>
+    <h3>Encargado de producción: {{encargado_produccion.email}}</h3>
+    <h3>Encargado de limpieza: {{encargado_limpieza.email}}</h3>
+
+    <h3>Fase actual: {{fase_actual.nombre}}</h3>
+    <form class="updateForm">
+        {% for fase in atributos %}
+        <div>
+            <h3>Fase: {{ fase.nombre_fase }}</h3>
+            
+            <h4>Atributos:</h4>
+            {% for key, atributo in fase.atributos %}
+                <div>
+                    <p>Atributo: {{ key }}</p>
+                    <p>Tipo: {{ atributo.tipo }}</p>
+                    <p>Valor: {{ atributo.valor }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </form>
+</main>
+
+{% endblock %}

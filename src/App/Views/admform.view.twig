@@ -14,7 +14,7 @@
                 <tr>
                     <th>Producto</th>
                     <th>Lote Num</th>
-                    <th>Editar</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,7 +24,8 @@
                     <td>{{ lote.numero }}</td>
                     <td>
                         <a href="/lotes/cargar?id={{ lote.id }}" class="btn-editar" data-id="{{ lote.id }}">✏️</a>
-                    </td>
+                        <a href="/lotes/ver?id={{ lote.id }}" class="btn-editar" data-id="{{ lote.id }}">👁️</a>
+                    </td>                        
                 </tr>
                 {% endfor %}
             </tbody>
