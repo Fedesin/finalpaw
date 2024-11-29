@@ -21,18 +21,17 @@ class FasesController extends BaseController
         ]);
     }
 
-
     public function getFases($request) {
         $params = [];
 
         if (isset($request->tipo_producto_id))
             $params["tipo_producto_id"] = $request->tipo_producto_id;
 
-        $fases = Fases::getAll($params);
+        $fases = Fases::getAll($params, 'numero_orden');
 
         $ret = [];
         foreach($fases as $fase) {
-            $ret[$fase->id] = [
+            $ret[] = [
                 "id" => $fase->id,
                 "nombre" => $fase->nombre,
                 "tipo_producto_id" => $fase->tipo_producto_id,
@@ -79,7 +78,8 @@ class FasesController extends BaseController
         if ($fase) {
             // Actualizar el número de orden de la fase si está presente
             if (isset($request->numero_orden)) {
-                $fase->numero_orden = $request->numero_orden;
+                $fase->updateOrden($request->numero_orden);
+//                $fase->numero_orden = $request->numero_orden;
             }
     
             // Si estamos editando un campo existente

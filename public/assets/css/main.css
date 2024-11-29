@@ -58,6 +58,8 @@ header {
     margin-left: 0.5em;
 }
 
+
+
 header a {
     text-decoration: none;
     display: inline-block;
@@ -95,6 +97,20 @@ header a:visited {
 header h1 {
     margin: 0;
     color: var(--primary-green);
+}
+
+tr.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+  z-index: 1000;
+}
+
+tr[draggable="true"]:not(.dragging) {
+  cursor: grab;
+}
+
+tbody {
+  transition: all 0.3s ease;
 }
 
 .overlay {
@@ -682,7 +698,6 @@ Gestion de Fases
 .admfases-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
-    max-width: 400px; /* Limita el ancho máximo del contenedor */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
@@ -717,7 +732,6 @@ Gestion de Fases
 .admfases-container button {
     background-color: var(--primary-green); /* Color de fondo del botón */
     color: var(--primary-white); /* Color de texto del botón */
-    padding: 10px; /* Relleno interno del botón */
     border: none; /* Sin bordes */
     font-weight: 600;
     border-radius: 5px; /* Bordes redondeados */
@@ -731,7 +745,6 @@ Gestion de Fases
 
 
 .admfases-container table {
-    width: 90%; /* La tabla ocupa todo el ancho del contenedor */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
     margin-top: 0.5vw;
     margin-bottom: 0.5vw;
@@ -796,10 +809,36 @@ Gestion de Fases
 .admtipopro-container .btn-editar {
     display: inline-block;
     color: var(--second-light-green); /* Color de los iconos */
+/*
     transform: scaleX(-1);
     transition: transform 0.3s ease, background-color 0.3s ease;
+*/
     padding:0.3em;
     text-decoration: none;
+}
+
+.btn-editar::before {
+    content:  '✏️';
+}
+
+.btn-editar {
+    height: 2em;
+    width: 2em;
+}
+
+.btn {
+    background-color: var(--primary-green);
+    color: var(--primary-white);
+    padding: 10px;
+    border: none;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+//    transition: background-color 0.3s;
+}
+
+.max-content {
+    width: max-content;
 }
 
 .admfases-container .btn-editar:hover,
@@ -854,6 +893,15 @@ Gestion de Fases
 
 .admfases-container .btn-ok:hover {
     background-color: var(--primary-blue); /* Cambia el color al pasar el mouse */
+}
+
+.btn-delete::before {
+    content: '❌';
+}
+
+.btn-delete {
+    height: 2em;
+    width: 2em;
 }
 
 .admfases-container .btn-delete-campo {
@@ -988,6 +1036,10 @@ Vamos ahora con la gestion de lotes
     background-color: var(--second-light-blue); /* Color de fondo al pasar el ratón por encima */
 }
 
+.collapsed {
+    visibility: collapse;
+}
+
 /*
 Hasta aca es gestion de lotes
 
@@ -1063,15 +1115,20 @@ ul.lista-horizontal{
     margin: 0;
     text-align: center;
     padding: 0;
+    width: max-content;
 }
 
-ul.lista-horizontal * {
+ul.lista-horizontal > * {
     display: inline-block;
     margin: 0.5ch;
 }
 
 .page-numbers .pag-current {
     background-color: var(--second-light-blue);
+}
+
+ul.lista-horizontal.paginator {
+    width: 100%;
 }
 
 .paginator .button[data-page="prev"]:has(~ .page-numbers > :first-child.pag-current) {

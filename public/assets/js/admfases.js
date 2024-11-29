@@ -1,3 +1,29 @@
+/*
+{
+    "status":"success",
+    "data":{
+        "12":{
+            "id":12,
+            "nombre":"Pasteurizaci\u00f3n",
+            "tipo_producto_id":1,
+            "atributos": {
+                "Cant Leche (ml)":"",
+                "Temperatura m\\u00ednima":{
+                    "num_orden":"1",
+                    "tipo":"float",
+                    "valor":""
+                }
+            }
+        },
+        "20":{
+            "id":20,
+            "nombre":"Preparaci\u00f3n del fermento",
+            "tipo_producto_id":1,
+            "atributos":[]
+        }
+    }
+}
+*/
 function refrescarTablaFases() {
     var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
     Fases.list({
@@ -8,11 +34,12 @@ function refrescarTablaFases() {
         tabla_fases.innerHTML = '';
         Object.values(ret.data).forEach(fase => {
             let row = document.createElement('tr');
+
             row.innerHTML = `
                 <td>${fase.nombre}</td>
                 <td>
-                    <button class="btn-editar" data-id="${fase.id}">✏️</button>
-                    <button class="btn-borrar" data-id="${fase.id}">❌</button>
+                    <button class="btn-editar" data-id="${fase.id}"></button>
+                    <button class="btn-borrar btn-delete" data-id="${fase.id}"></button>
                 </td>
             `;
             tabla_fases.appendChild(row);
@@ -25,10 +52,18 @@ function agregarEventosAcciones() {
     document.querySelectorAll('.btn-editar').forEach(button => {
         button.addEventListener('click', function() {
             var faseId = this.getAttribute('data-id');
+
             console.log("Editar fase con ID:", faseId);
             var faseRow = this.closest('tr');
+            let next = faseRow.nextElementSibling;
 
-            if (!faseRow.querySelector('.input-editar')) {
+            if(next && !next.classList.contains("fase")) {
+                if(next.classList.contains("collapsed")) {
+                    next.classList.remove("collapsed");
+                } else {
+                    next.classList.add("collapsed");
+                }
+            } else {
                 Fases.getAttributes({
                     fase_id: faseId
                 }).then(function(ret) {
@@ -46,10 +81,6 @@ function agregarEventosAcciones() {
                     let labelTipoCampo = document.createElement('label');
                     labelTipoCampo.textContent = 'Tipo de dato del campo:';
                     labelTipoCampo.classList.add('label-campo');
-
-                    let labelNumeroOrdenFase = document.createElement('label');
-                    labelNumeroOrdenFase.textContent = 'Número de orden de la fase:';
-                    labelNumeroOrdenFase.classList.add('label-campo');
 
                     let input = document.createElement('input');
                     input.type = 'text';
@@ -69,11 +100,6 @@ function agregarEventosAcciones() {
                     ordenCampoInput.type = 'number';
                     ordenCampoInput.value = 1; 
                     ordenCampoInput.classList.add('input-orden');
-
-                    let ordenFaseInput = document.createElement('input');
-                    ordenFaseInput.type = 'number';
-                    ordenFaseInput.value = ret.numero_orden || 1;
-                    ordenFaseInput.classList.add('input-orden-fase');
 
                     let okButton = document.createElement('button');
                     okButton.textContent = 'Confirmar cambios';
@@ -203,8 +229,6 @@ function agregarEventosAcciones() {
                     newCell.colSpan = 2;
 
                     [
-                        labelNumeroOrdenFase,
-                        ordenFaseInput,
                         labelNuevoCampo,
                         input,
                         divNumeroOrdenCampo,
@@ -225,8 +249,8 @@ function agregarEventosAcciones() {
                         let nuevoCampo = input.value;
                         let nuevoOrdenCampo = ordenCampoInput.value;
                         let tipoCampo = tipoCampoSelect.value;
-                        let nuevoOrdenFase = ordenFaseInput.value;
 
+/*
                         Fases.update({
                             fase_id: faseId,
                             numero_orden: nuevoOrdenFase 
@@ -239,6 +263,7 @@ function agregarEventosAcciones() {
                             }
                         });
 
+*/
                         if (nuevoCampo.trim() !== '') {
                             Fases.update({
                                 fase_id: faseId,
@@ -286,11 +311,27 @@ function agregarEventosAcciones() {
     });
 }
 
+var fases = null;
+
+// Función para actualizar los números de orden
+function actualizarOrden(fase_id, nuevo_orden) {
+    Fases.update({
+        fase_id: fase_id,
+        numero_orden: numero_orden
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    var selectTipo_producto_id = document.querySelector('#tipo_producto_id');
+    let draggedRow = null;
+    let nextRow = null;
+
+    let tabla_fases = document.querySelector('.tabla-fases > tbody');
+    let selectTipo_producto_id = document.querySelector('#tipo_producto_id');
+
     if (selectTipo_producto_id) {
         selectTipo_producto_id.addEventListener('change', function() {
             var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
+
             document.querySelector('.tabla-fases').classList.remove('hidden');
             document.querySelector('#fase-nombre').classList.remove('hidden');
             document.querySelector('.btn-agregar-fase').classList.remove('hidden');
@@ -299,22 +340,157 @@ document.addEventListener('DOMContentLoaded', function() {
                 "tipo_producto_id": tipo_producto_id
             })
             .then(function(ret) {
-                var tabla_fases = document.querySelector('.tabla-fases > tbody');
+                fases = ret.data;
+
                 tabla_fases.innerHTML = '';
+
                 Object.values(ret.data).forEach(fase => {
+                    console.log(fase);
+
                     let row = document.createElement('tr');
+                    row.classList.add('fase');
+                    row.draggable = true;
+                    row.dataset.id = fase.id;
                     row.innerHTML = `
                         <td>${fase.nombre}</td>
                         <td>
-                            <button class="btn-editar" data-id="${fase.id}">✏️</button>
-                            <button class="btn-borrar" data-id="${fase.id}">❌</button>
+                            <button class="btn-editar" data-id="${fase.id}"></button>
+                            <button class="btn-borrar btn-delete" data-id="${fase.id}"></button>
                         </td>
                     `;
                     tabla_fases.appendChild(row);
-                    let option = document.createElement('option');
-                    option.value = fase.id;
-                    option.textContent = fase.nombre;
+
+                    row.addEventListener('dragstart', (e) => {
+                        draggedRow = row;
+                        nextRow = row.nextSibling;
+                        row.classList.add('dragging');
+                        nextRow.classList.add('dragging');
+                    });
+
+                    row.addEventListener('dragend', () => {
+                        draggedRow.classList.remove('dragging');
+                        nextRow.classList.remove('dragging');
+                        draggedRow = null;
+                        newRow = null;
+
+                        const filas = Array.from(tabla_fases.querySelectorAll('tr.fase'));
+                        const targetIndex = filas.indexOf(row);
+
+                        //actualizarOrden(row.dataset.id, targetIndex + 1);
+                        Fases.update({
+                            fase_id: row.dataset.id,
+                            numero_orden: targetIndex + 1
+                        });
+                    });
+
+                    row.addEventListener('dragover', (e) => {
+                        e.preventDefault(); // Necesario para permitir el drop
+                        e.dataTransfer.dropEffect = 'move';
+                    });
+
+                    row.addEventListener('dragenter', (e) => {
+                        e.preventDefault();
+
+                        const filas = Array.from(tabla_fases.querySelectorAll('tr'));
+                        const draggedIndex = filas.indexOf(draggedRow);
+                        const targetIndex = filas.indexOf(row);
+
+                        if (draggedIndex < targetIndex) {
+                            row.parentNode.insertBefore(nextRow, row.nextSibling.nextSibling);
+                            row.parentNode.insertBefore(draggedRow, row.nextSibling.nextSibling);
+                            
+                        } else {
+                            row.parentNode.insertBefore(draggedRow, row);
+                            row.parentNode.insertBefore(nextRow, row.nextSibling)
+                        }
+                    });
+
+                    let labelCamposActuales = document.createElement('label');
+                    labelCamposActuales.textContent = 'Campos actuales';
+
+                    let campos_table = document.createElement('table');
+                    campos_table.classList.add('max-content');
+                    
+                    let campos_body = document.createElement('tbody');
+                    campos_table.appendChild(campos_body);
+
+                    let atributos = JSON.parse(fase.atributos);
+
+                    if (atributos.length > 0) {
+                        atributos.forEach(function(attr) {
+                            let campoRow = document.createElement('tr');
+                            let campoNombre = document.createElement('td');
+
+                            campoNombre.textContent = attr.nombre;
+                            campoRow.appendChild(campoNombre);
+
+                            let campoAcciones = document.createElement('td');
+                            let listaAcciones = document.createElement('ul');
+
+                            campoRow.appendChild(campoAcciones);
+
+                            listaAcciones.classList.add('lista-horizontal');
+
+                            let editLi = document.createElement('li');
+                            let deleteLi = document.createElement('li');
+
+                            campoAcciones.appendChild(listaAcciones);
+                            
+                            // Botón de editar
+                            let editButton = document.createElement('button');
+                            editButton.classList.add('btn-editar');
+
+                            // Botón de eliminar
+                            let deleteButton = document.createElement('button');
+                            deleteButton.classList.add('btn-delete');
+
+                            editLi.appendChild(editButton);
+                            deleteLi.appendChild(deleteButton);
+
+                            listaAcciones.appendChild(editLi);
+                            listaAcciones.appendChild(deleteLi);
+
+                            // Evento para eliminar el campo
+                            deleteButton.addEventListener('click', function() {
+                                Fases.deleteCampo({
+                                    fase_id: faseId,
+                                    campo: attr.nombre
+                                }).then(function(ret) {
+                                    if (ret.success) {
+                                        campoRow.remove();
+                                        console.log('Campo eliminado correctamente');
+                                    } else {
+                                        console.error('Error al eliminar el campo:', ret.message);
+                                    }
+                                });
+                            });
+
+                            campos_body.appendChild(campoRow);
+                        });
+                    };
+
+                    // Añadir elementos a la fila de edición
+                    let newRow = document.createElement('tr');
+                    let newCell = document.createElement('td');
+                    newCell.colSpan = 2;
+
+                    let agregarAttr = document.createElement('button');
+                    agregarAttr.textContent = 'Agregar atributo';
+                    agregarAttr.classList.add('btn');
+
+                    [
+                        labelCamposActuales,
+                        campos_table,
+                        agregarAttr
+                    ].forEach(nodo => {
+                        newCell.appendChild(nodo);
+                    });
+
+                    newRow.classList.add("collapsed");
+                    newRow.appendChild(newCell);
+                    row.after(newRow);
                 });
+
                 agregarEventosAcciones();
             });
         });
@@ -325,13 +501,10 @@ document.addEventListener('DOMContentLoaded', function() {
         addFasesButton.addEventListener('click', function() {
             var fase_nombre = document.querySelector('#fase-nombre').value;
             var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
-            var numero_orden_element = document.querySelector('#numero_orden');
-            var numero_orden = (numero_orden_element && numero_orden_element.value) ? numero_orden_element.value : 1;
 
             Fases.create({
                 fase_nombre: fase_nombre,
-                tipo_producto_id: tipo_producto_id,
-                numero_orden: numero_orden
+                tipo_producto_id: tipo_producto_id
             }).then(function(ret) {
                 console.log(ret.data);
                 refrescarTablaFases();
