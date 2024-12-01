@@ -805,6 +805,7 @@ Gestion de Fases
 .admfases-container .btn-editar,
 .admfases-container .btn-editar-campo,
 .admform-container .btn-editar,
+.admform-container .btn-editar-ver,
 .admtipopro-container .btnEditarProducto,
 .admtipopro-container .btn-editar {
     display: inline-block;
@@ -820,8 +821,11 @@ Gestion de Fases
 .btn-editar::before {
     content:  '✏️';
 }
+.btn-editar-ver::before {
+    content:  '👁️';
+}
 
-.btn-editar {
+.btn-editar ,.btn-editar-ver{
     height: 2em;
     width: 2em;
 }
@@ -1664,7 +1668,8 @@ Modo oscuro
         transition: transform 0.3s ease, background-color 0.3s ease; 
     }
     
-    .admform-container .btn-editar:hover{
+    .admform-container .btn-editar:hover,
+    .admform-container .btn-editar-ver:hover{
         transform: scale(1.2); 
         color: var(--second-light-blue); /* Color al pasar el mouse */
     }
