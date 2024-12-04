@@ -83,5 +83,13 @@ class Fases extends Model
         $this->numero_orden = $nuevo_orden;
         $this->save();
     }
-    
+
+    public function addAtributo($atributo) {
+        $atributos = json_decode($this->atributos);
+
+        $atributos[] = $atributo;
+
+        $this->atributos = json_encode($atributos);
+        $this->save();
+    }
 }

@@ -722,10 +722,10 @@ Gestion de Fases
 .admfases-container input[type="number"],
 .admfases-container select {
     padding: 0.5em; /* Aumentar padding */
-    margin-bottom: 0.8em; /* Añadir espacio entre los elementos */
+/*    margin-bottom: 0.8em; /* Añadir espacio entre los elementos */
     border-radius: 5px;
     border: 1px solid #ccc;
-    width: 100%; /* Ajustar el tamaño de los inputs al 100% del contenedor */
+/*    width: 100%; /* Ajustar el tamaño de los inputs al 100% del contenedor */
     max-width: 200px; /* Evitar que crezca demasiado */
 }
 
@@ -900,6 +900,17 @@ Gestion de Fases
 }
 
 .btn-delete {
+    height: 2em;
+    width: 2em;
+}
+
+.btn-confirmar::before {
+    content: '✔️';
+    color: transparent;  
+    text-shadow: 0 0 0 red;
+}
+
+.btn-confirmar {
     height: 2em;
     width: 2em;
 }

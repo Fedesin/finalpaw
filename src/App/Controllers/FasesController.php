@@ -51,8 +51,7 @@ class FasesController extends BaseController
                 "id" => $fase->id,
                 "nombre" => $fase->nombre,
                 "tipo_producto_id" => $fase->tipo_producto_id,
-                "atributos" => $fase->atributos,
-                "numero_orden" => $fase->numero_orden // Añadimos el número de orden al resultado
+                "atributos" => $fase->atributos
             ];
             echo json_encode(['status' => 'success', 'data' => $ret]);
         } else {
@@ -152,6 +151,25 @@ class FasesController extends BaseController
         $fase = Fases::getById($faseId);
         if ($fase) {
             echo json_encode(['success' => true, 'atributos' => json_decode($fase->atributos, true), 'numero_orden' => $fase->numero_orden]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
+        }
+    }
+
+    public function addAttribute($request)
+    {
+        $faseId = $request->fase_id;
+
+        $fase = Fases::getById($faseId);
+        if ($fase) {
+            $fase->addAtributo([
+                "nombre" => $request->nombre,
+                "tipo" => $request->tipo,
+                "valor" => ""
+            ]);
+
+            $campos = json_decode($fase->atributos);
+            echo json_encode(['success' => true, 'atributos' => end($campos)]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
         }

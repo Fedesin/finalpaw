@@ -96,6 +96,8 @@ if(!isset($session->logged_in)) {
     
     $router->get('/api/fases/atributos', 'FasesController@getAttributes');
 
+    $router->post('/api/fases/atributos', 'FasesController@addAttribute');
+
     $router->delete('/api/fases/deleteCampo', 'FasesController@deleteCampo');
 
     $router->delete('/api/fases', 'FasesController@deleteFase');
