@@ -93,19 +93,29 @@ class PageController extends BaseController
         $session = Session::getInstance();
         $user = User::getById($session->user_id);
         $userId= $user->id;
-
-        $where = [
-            'OR' => [
-                ['supervisor_id', '=', $userId],
-                ['encargado_produccion_id', '=', $userId],
-                ['encargado_limpieza_id', '=', $userId],
-            ]
-        ];
-
-        parent::showView('admform.view.twig', [
-            'lotes' => Lote::getAll($where),
-            'user' => $user
-        ]);
+        if ($user->rol_id == 1 || $user->rol_id == 2) {
+            //si el usuario activo es rol usuario o rol supervisor entonces
+            //solo muestro los lotes en los cuales el 
+            //es un integrante
+            $where = [
+                'OR' => [
+                    ['supervisor_id', '=', $userId],
+                    ['encargado_produccion_id', '=', $userId],
+                    ['encargado_limpieza_id', '=', $userId],
+                ]
+            ];
+    
+            parent::showView('admform.view.twig', [
+                'lotes' => Lote::getAll($where),
+                'user' => $user
+            ]);
+        } else {
+            //si el usuario es administrador que pueda ver todos los lotes
+            parent::showView('admform.view.twig', [
+                'lotes' => Lote::getAll(),
+                'user' => $user
+            ]);
+        }
     }
 
     public function admalert ()
