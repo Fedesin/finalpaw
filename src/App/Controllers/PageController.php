@@ -92,8 +92,18 @@ class PageController extends BaseController
     {
         $session = Session::getInstance();
         $user = User::getById($session->user_id);
+        $userId= $user->id;
+
+        $where = [
+            'OR' => [
+                ['supervisor_id', '=', $userId],
+                ['encargado_produccion_id', '=', $userId],
+                ['encargado_limpieza_id', '=', $userId],
+            ]
+        ];
+
         parent::showView('admform.view.twig', [
-            'lotes' => Lote::getAll(),
+            'lotes' => Lote::getAll($where),
             'user' => $user
         ]);
     }
