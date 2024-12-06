@@ -284,11 +284,16 @@ document.addEventListener('DOMContentLoaded', function() {
         registerButton.addEventListener('click', function() {
             var email = document.querySelector('.email-input').value;
             var rolId = document.querySelector('.rol-select').value;
+            //aca tengo que llamar a la funcion enviar mail
+            //luego tengo que registrar al usuario cuando este confirma el mail
 
-            registerUser(email, rolId, generateRandomPassword(12));
-            cargarPagina(currentPage, true);
+            enviarCorreoVerificacion(email, rolId);
+            //registerUser(email, rolId, generateRandomPassword(12));
+            //cargarPagina(currentPage, true);
         });
     }
+
+
 
     if (changePasswordButton) {
         changePasswordButton.addEventListener('click', function() {
@@ -317,3 +322,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cargarPagina(1);
 });
+
+function enviarCorreoVerificacion(email, rol_id) {
+    const token = btoa(JSON.stringify({ email, rol_id, timestamp: Date.now() }));
+    const verificationLink = `http://localhost:8080/api/verify?token=${token}`;
+
+    const params = {
+        email: email,
+        verification_link: verificationLink,
+    };
+
+    emailjs.send('service_ixstcji', 'template_uyoal4l', params)
+        .then(response => {
+            console.log('Correo enviado:', response.status, response.text);
+            document.querySelector('.login-error').innerHTML = `<p class="success-message">Correo de verificación enviado.</p>`;
+        })
+        .catch(error => {
+            console.error('Error al enviar correo:', error);
+            document.querySelector('.login-error').innerHTML = `<p class="error-message">Error al enviar el correo.</p>`;
+        });
+}
+
+emailjs.init('P2ymE0jXezSM_YMnM');

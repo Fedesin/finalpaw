@@ -114,4 +114,6 @@ if(!isset($session->logged_in)) {
     $router->get('/api/productos/tipo-productos', 'ProductoController@getTipoProductos'); // Para obtener tipos de productos
     $router->post('/update_attributes', 'LotesController@updateAttributes');
     $router->post('/lotes/pasarFase', 'LotesController@pasarFase');
+
+    $router->get('/api/verify', 'UserController@verifyEmail'); // Endpoint para verificar usuarios
 }

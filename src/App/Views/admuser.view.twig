@@ -2,6 +2,17 @@
 {% extends 'base.twig' %}
 
 {% block head %}
+    <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+    (function () {
+        emailjs.init({
+        publicKey: 'P2ymE0jXezSM_YMnM',
+        });
+    })();
+    </script>
     <script src="/assets/js/admusuarios.js" defer></script>
 {% endblock %}
 
