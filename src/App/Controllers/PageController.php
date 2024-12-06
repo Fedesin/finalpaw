@@ -43,9 +43,11 @@ class PageController extends BaseController
         if ($user->rol_id == 1) {
             $this->redirect("/");
         }
-        $tipo_productos = TipoProducto::getAll(); // Obtiene todos los tipos de productos desde el modelo
+        
+        $tipo_productos = TipoProducto::getAll(); 
         parent::showView('admtipopro.view.twig', [
-            'tipo_productos' => $tipo_productos
+            'tipo_productos' => $tipo_productos,
+            'user' => $user
         ]);    
     }
 
@@ -66,7 +68,8 @@ class PageController extends BaseController
         }
 
         parent::showView('admlotes.view.twig', [
-            'data' => $data
+            'data' => $data,
+            'user' => $user
         ]);
     }
 
@@ -80,14 +83,18 @@ class PageController extends BaseController
         $tipo_productos = TipoProducto::getAll();
         
         parent::showView('admfases.view.twig', [
-            'tipo_productos' => $tipo_productos
+            'tipo_productos' => $tipo_productos,
+            'user' => $user
         ]);
     }
 
     public function admform ()
     {
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
         parent::showView('admform.view.twig', [
-            'lotes' => Lote::getAll()
+            'lotes' => Lote::getAll(),
+            'user' => $user
         ]);
     }
 
@@ -109,7 +116,8 @@ class PageController extends BaseController
 
         parent::showView('admuser.view.twig', [
             "cantUsers" => $cantUsers,
-            "roles" => $roles
+            "roles" => $roles,
+            "user" => $user
         ]);
     }
 }
