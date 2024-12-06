@@ -45,25 +45,27 @@
 
 		<ul>
 			{% block navbar %}
-
-			<li class ="navbarDropOption">
-				<a>Gestion de productos</a>
-				<ul class ="gp">
-					<li><a href="/admtipopro">Administrar productos</a></li>
-					<li><a href="/admlotes">Administrar lotes</a></li>
-					<li><a href="/admfases">Administrar fases</a></li>
-				</ul>
-			</li>
+			{% if user.rol.nombre == 'administrador' or user.rol.nombre == 'supervisor' %}
+				<li class ="navbarDropOption">
+					<a>Gestion de productos</a>
+					<ul class ="gp">
+						<li><a href="/admtipopro">Administrar productos</a></li>
+						<li><a href="/admlotes">Administrar lotes</a></li>
+						<li><a href="/admfases">Administrar fases</a></li>
+					</ul>
+				</li>
+			{% endif %}
 			<li class ="navbarDropOption" >
 				<a href="/admform">Carga de datos</a>
 			</li>
+			{% if user.rol.nombre == 'administrador' %}
 			<li><a href="/admuser">Administrar Usuarios</a></li>
+			
+			{% endif %}
 			{% endblock %}
 		</ul>
-		
 	</nav>
 	
-
 	{% block content %}
 	{% endblock %}
 	

@@ -15,7 +15,7 @@ class FasesController extends BaseController
     public function index($request)
     {
         $tipo_productos = TipoProducto::getAll();
-
+        
         parent::showView('admfases.view.twig', [
             'tipo_productos' => $tipo_productos
         ]);

@@ -70,7 +70,7 @@ if(!isset($session->logged_in)) {
 
     $router->get('/admlotes', 'PageController@admlotes');
 
-    $router->get('/admfases', 'FasesController@index');
+    $router->get('/admfases', 'PageController@admfases');
 
     $router->get('/admform', 'PageController@admform');
 

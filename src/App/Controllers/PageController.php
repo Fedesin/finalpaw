@@ -37,6 +37,12 @@ class PageController extends BaseController
 
     public function admtipopro ()
     {
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+        
+        if ($user->rol_id == 1) {
+            $this->redirect("/");
+        }
         $tipo_productos = TipoProducto::getAll(); // Obtiene todos los tipos de productos desde el modelo
         parent::showView('admtipopro.view.twig', [
             'tipo_productos' => $tipo_productos
@@ -45,6 +51,12 @@ class PageController extends BaseController
 
     public function admlotes ()
     {
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+        
+        if ($user->rol_id == 1) {
+            $this->redirect("/");
+        }
         $session = Session::getInstance();
 
         $data = [];
@@ -60,7 +72,16 @@ class PageController extends BaseController
 
     public function admfases ()
     {
-        parent::showView('admfases.view.twig');
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+        if ($user->rol_id == 1) {
+            $this->redirect("/");
+        }
+        $tipo_productos = TipoProducto::getAll();
+        
+        parent::showView('admfases.view.twig', [
+            'tipo_productos' => $tipo_productos
+        ]);
     }
 
     public function admform ()
@@ -68,13 +89,6 @@ class PageController extends BaseController
         parent::showView('admform.view.twig', [
             'lotes' => Lote::getAll()
         ]);
-        /*
-        parent::showView('admform.view.twig', [
-            'lotes' => Lote::get([
-                'encargado_produccion_id' => Session::getInstance()->user_id
-            ])
-        ]);
-        */
     }
 
     public function admalert ()
@@ -83,7 +97,13 @@ class PageController extends BaseController
     }
 
     public function admuser ()
-    {
+    {   
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+        
+        if ($user->rol_id != 3) {
+            $this->redirect("/");
+        }
         $cantUsers = User::count();
         $roles = Roles::getAll();
 
