@@ -175,30 +175,28 @@ function registerUser(email, rol_id, password) {
     });
 }
 
-function changePassword(actualPassword, newPassword) {
-        fetch('/api/change-password', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            actual_password: actualPassword,
-            new_password: newPassword
+function sendMailPasswordChange(actualPassword, newPassword) {
+    const token = btoa(JSON.stringify({ actual_password: actualPassword, new_password: newPassword, email: userEmail, timestamp: Date.now() }));
+    const verificationLink = `http://localhost:8080/api/verify-password-change?token=${token}`;
+
+    const params = {
+        email: userEmail,
+        verification_link: verificationLink,
+    };
+
+    emailjs.send('service_ixstcji', 'template_e3i7gwm', params) // Cambia `template_password_change` al ID de tu plantilla en EmailJS
+        .then(response => {
+            console.log('Correo enviado:', response.status, response.text);
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = 'Correo de verificación enviado. Revisa tu bandeja de entrada.';
+            messageElement.classList.remove('hidden');
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        const messageElement = document.getElementById('message');
-        if (data.success) {
-            messageElement.textContent = 'Contraseña cambiada con éxito.';
-        } else {
-            messageElement.textContent = data.message;
-        }
-        messageElement.classList.remove('hidden');
-    })
-    .catch(error => {
-        console.error('Error al cambiar la contraseña:', error);
-    });
+        .catch(error => {
+            console.error('Error al enviar correo:', error);
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = 'Error al enviar el correo de verificación.';
+            messageElement.classList.remove('hidden');
+        });
 }
 
 function listarUsuarios(usuarios, cantUsers) {
@@ -312,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 messageElement.classList.remove('hidden'); 
                 return;
             }
-            changePassword(actualPassword, newPassword);
+            sendMailPasswordChange(actualPassword, newPassword);
         });    
     }
 

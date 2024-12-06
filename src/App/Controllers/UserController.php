@@ -229,33 +229,36 @@ class UserController extends BaseController
         exit;
     }
 
-    public function changePassword($request)
-    {
-        $session = Session::getInstance();
-        $userId = $session->user_id;
-        $user = User::getById($userId);
-        $newPassword = $request->new_password;
+    
 
-        if (!$user->verifyPassword($request->actual_password)) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'La contraseña ingresada es incorrecta.'
-            ]);
+    public function verifyPasswordChange($request)
+    {
+        $token = $request->token;
+
+        // Decodificar el token
+        $data = json_decode(base64_decode($token), true);
+
+        if (!isset($data['actual_password'], $data['new_password'], $data['email'], $data['timestamp'])) {
+            echo "Enlace inválido o información incompleta.";
             return;
         }
 
-        if ($user) {
-            $user->updatePassword($newPassword); // Aplicar el cambio de contraseña
-            echo json_encode([
-                'success' => true,
-                'message' => 'Contraseña cambiada con éxito.'
-            ]);
-        } else {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Usuario no encontrado.'
-            ]);
+        // Validar que el enlace no haya expirado (por ejemplo, 1 hora de validez)
+        if (time() - $data['timestamp'] > 3600) {
+            echo "El enlace ha expirado. Por favor, solicita un nuevo cambio de contraseña.";
+            return;
         }
+
+        $user = User::getByEmail($data['email']); // Método para obtener el usuario por email
+
+        if (!$user || !$user->verifyPassword($data['actual_password'])) {
+            echo "Enlace inválido o contraseña actual incorrecta.";
+            return;
+        }
+
+        // Actualizar la contraseña
+        $user->updatePassword($data['new_password']);
+        echo "Tu contraseña ha sido cambiada exitosamente.";
     }
 
     public function sendVerificationEmail($request) {

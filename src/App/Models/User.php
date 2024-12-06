@@ -85,4 +85,46 @@ class User extends Model
     {
         return password_verify($password, $this->fields['password']);
     }
+
+    public function storePasswordChangeToken($token, $newPassword)
+    {
+        // Guarda el token y la nueva contraseña en la base de datos
+        $this->password_change_token = $token;
+        $this->pending_password = password_hash($newPassword, PASSWORD_DEFAULT);
+        $this->save();
+    }
+
+    public static function getByPasswordChangeToken($token)
+    {
+        // Recupera al usuario por el token de cambio de contraseña
+        $user = self::where(['password_change_token' => $token])->first();
+        return $user ?: null;
+    }
+
+    public function getPendingPassword()
+    {
+        return $this->pending_password;
+    }
+
+    public function clearPasswordChangeToken()
+    {
+        $this->password_change_token = null;
+        $this->pending_password = null;
+        $this->save();
+    }
+
+    public static function getByEmail($email)
+    {
+        $where = [
+            "email" => $email
+        ];
+    
+        try {
+            // Usa el método `get` de la clase base para buscar por email
+            return static::get($where);
+        } catch (Exception $e) {
+            // Devuelve null si no se encuentra el usuario
+            return null;
+        }
+    }
 }

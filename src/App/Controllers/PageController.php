@@ -19,9 +19,11 @@ class PageController extends BaseController
     {
         $session = Session::getInstance();
         $user = User::getById($session->user_id);
+        $userEmail= $user->email;
 
         parent::showView('index.view.twig', [
-            "user" => $user
+            "user" => $user,
+            "userMail" => $userEmail
         ]);
     }
 
