@@ -19,14 +19,32 @@
       <input type="number" id="numeroProduccion" name="numero" required {% if data.fields.numero is defined %}value="{{ data.fields.numero }}"{% endif %}>
       
       <label>Supervisor:</label>
-      <select class="supervisor" name="supervisor_id" {% if data.fields.supervisor_id is defined %}data-value="{{ data.fields.supervisor_id }}"{% endif %}></select>
-      
+      <select class="supervisor" name="supervisor_id" {% if data.fields.supervisor_id is defined %}data-value="{{ data.fields.supervisor_id }}"{% endif %}>
+          {% for user in users %}
+              <option value="{{ user.id }}" {% if data.fields.supervisor_id is defined and data.fields.supervisor_id == user.id %}selected{% endif %}>
+                  {{ user.email }}
+              </option>
+          {% endfor %}
+      </select>
+
       <label>Encargado de Producción:</label>
-      <select class="encargadoProduccion" name="encargado_produccion_id" {% if data.fields.encargado_produccion_id is defined %}data-value="{{ data.fields.encargado_produccion_id }}"{% endif %}></select>
-      
+      <select class="encargadoProduccion" name="encargado_produccion_id" {% if data.fields.encargado_produccion_id is defined %}data-value="{{ data.fields.encargado_produccion_id }}"{% endif %}>
+          {% for user in users %}
+              <option value="{{ user.id }}" {% if data.fields.encargado_produccion_id is defined and data.fields.encargado_produccion_id == user.id %}selected{% endif %}>
+                  {{ user.email }}
+              </option>
+          {% endfor %}
+      </select>
+
       <label>Encargado de Limpieza:</label>
-      <select class="encargadoLimpieza" name="encargado_limpieza_id" {% if data.fields.encargado_limpieza_id is defined %}data-value="{{ data.fields.encargado_limpieza_id }}"{% endif %}></select>
-      
+      <select class="encargadoLimpieza" name="encargado_limpieza_id" {% if data.fields.encargado_limpieza_id is defined %}data-value="{{ data.fields.encargado_limpieza_id }}"{% endif %}>
+          {% for user in users %}
+              <option value="{{ user.id }}" {% if data.fields.encargado_limpieza_id is defined and data.fields.encargado_limpieza_id == user.id %}selected{% endif %}>
+                  {{ user.email }}
+              </option>
+          {% endfor %}
+      </select>
+
       <button type="submit">Guardar</button>
     </form>
   </main>

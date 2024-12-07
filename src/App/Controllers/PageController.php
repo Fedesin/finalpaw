@@ -68,10 +68,11 @@ class PageController extends BaseController
             $data = $session->admLotesData;
             unset($session->admLotesData);
         }
-
+        $users = User::getAll();
         parent::showView('admlotes.view.twig', [
             'data' => $data,
-            'user' => $user
+            'user' => $user,
+            'users' => $users
         ]);
     }
 
