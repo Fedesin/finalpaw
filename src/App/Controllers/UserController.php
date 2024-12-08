@@ -316,6 +316,116 @@ class UserController extends BaseController
         $this->createUser($mockRequest);
     }
 
-   
+    public function forgotPassword($request)
+    {
+        $email = $request->email ?? null;
+
+        if (!$email) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'El correo electrónico es obligatorio'], 400);
+            return;
+        }
+
+        try {
+            $user = User::get(['email' => $email]);
+
+            if (!$user) {
+                $this->jsonResponse(['status' => 'error', 'message' => 'Usuario no encontrado'], 404);
+                return;
+            }
+
+            // Generar un token único
+            $token = base64_encode(json_encode([
+                'email' => $email,
+                'timestamp' => time(),
+            ]));
+
+            $resetLink = "http://localhost:8080/user/resetPassword?token={$token}";
+
+            // Devolver los datos al frontend para que use EmailJS
+            $this->jsonResponse([
+                'status' => 'success',
+                'data' => [
+                    'to_email' => $email,
+                    'reset_link' => $resetLink,
+                ],
+            ]);
+        } catch (Exception $e) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()], 500);
+        }
+    }
+
+
+    
+
+    public function showResetPasswordForm()
+    {
+        $token = $_GET['token'] ?? null;
+
+        if (!$token) {
+            echo "Enlace inválido o faltante.";
+            return;
+        }
+
+        // Validar que el token sea válido y no haya expirado
+        $data = json_decode(base64_decode($token), true);
+
+        if (!$data || !isset($data['email'], $data['timestamp']) || (time() - $data['timestamp']) > 3600) {
+            echo "El enlace ha expirado o es inválido.";
+            return;
+        }
+
+        // Renderizar la vista de cambio de contraseña
+        parent::showView('reset_password.view.twig', ['token' => $token]);
+    }
+
+
+    
+    public function resetPassword($request)
+    {
+        // Decodificar el JSON desde php://input manualmente
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!$data || !isset($data['token'], $data['newPassword'])) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'Token y nueva contraseña son obligatorios'], 400);
+            return;
+        }
+
+        $token = $data['token'];
+        $newPassword = $data['newPassword'];
+
+        // Decodificar el token
+        $tokenData = json_decode(base64_decode($token), true);
+
+        if (!$tokenData || !isset($tokenData['email'], $tokenData['timestamp'])) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'Token inválido'], 400);
+            return;
+        }
+
+        // Validar que el token no haya expirado
+        if ((time() - $tokenData['timestamp']) > 3600) { // 1 hora de validez
+            $this->jsonResponse(['status' => 'error', 'message' => 'El token ha expirado'], 400);
+            return;
+        }
+
+        try {
+            // Buscar el usuario en la base de datos
+            $user = User::getByEmail($tokenData['email']);
+            if (!$user) {
+                $this->jsonResponse(['status' => 'error', 'message' => 'Usuario no encontrado'], 404);
+                return;
+            }
+
+            // Actualizar la contraseña del usuario
+            $user->updatePassword($newPassword);
+
+            // Respuesta de éxito
+            $this->jsonResponse(['status' => 'success', 'message' => 'Contraseña actualizada correctamente']);
+        } catch (Exception $e) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()], 500);
+        }
+    }
+
+
+
     
 }

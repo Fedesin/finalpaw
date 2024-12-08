@@ -57,6 +57,9 @@ if(!isset($session->logged_in)) {
 
     $router->get('/login', 'PageController@login');
     $router->post('/login', 'UserController@login');
+    $router->post('/user/forgotPassword', 'UserController@forgotPassword');
+    $router->get('/user/resetPassword', 'UserController@showResetPasswordForm');
+    $router->post('/user/resetPassword', 'UserController@resetPassword');
 } else {
     $router->get('/logout', 'UserController@logout');
 
@@ -116,4 +119,7 @@ if(!isset($session->logged_in)) {
     $router->post('/lotes/pasarFase', 'LotesController@pasarFase');
 
     $router->get('/api/verify', 'UserController@verifyEmail'); // Endpoint para verificar usuarios
+
+    
+
 }
