@@ -31,7 +31,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     if (data.status === 'success') {
                         // Usar EmailJS para enviar el correo con el enlace
-                        emailjs.send('service_ixstcji', 'template_e3i7gwm', data.data)
+                        emailjs.send('service_ixstcji', 'template_e3i7gwm', {
+                                to_email: data.data.to_email,
+                                reset_link: data.data.reset_link,
+                            })
                             .then(response => {
                                 loginErrorElement.textContent = 'Se ha enviado un correo con el enlace para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.';
                                 loginErrorElement.classList.remove('error-message');
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             })
                             .catch(error => {
                                 console.error('Error al enviar el correo:', error);
-                                loginErrorElement.textContent = 'Error al enviar el correo. Inténtalo nuevamente.';
+                                loginErrorElement.textContent = 'Error al enviar el correo. Inténtalo nuevamente. ';
                                 loginErrorElement.classList.add('error-message');
                             });
                     } else {

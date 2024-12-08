@@ -180,7 +180,7 @@ function sendMailPasswordChange(actualPassword, newPassword) {
     const verificationLink = `http://localhost:8080/api/verify-password-change?token=${token}`;
 
     const params = {
-        email: userEmail,
+        to_email: userEmail,
         verification_link: verificationLink,
     };
 
@@ -326,7 +326,7 @@ function enviarCorreoVerificacion(email, rol_id) {
     const verificationLink = `http://localhost:8080/api/verify?token=${token}`;
 
     const params = {
-        email: email,
+        to_email: email,
         verification_link: verificationLink,
     };
 
