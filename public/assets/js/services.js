@@ -142,6 +142,19 @@ var Fases = {
         .then(function(ret) {
             return ret.json();
         })
+    },
+    updateAttribute: function(args) {
+        return fetch("/api/fases/atributos", {
+            method: "PUT",
+            body: JSON.stringify(args),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(function(ret) {
+            return ret.json();
+        })
     }
 }
 

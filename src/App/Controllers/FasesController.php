@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\Fases;
 use Paw\App\Models\TipoProducto;
+use Paw\Core\Exceptions\ModelNotFoundException;
 
 class FasesController extends BaseController
 {
@@ -123,7 +124,7 @@ class FasesController extends BaseController
     
     public function deleteCampo($request) {
         $faseId = $request->fase_id;
-        $campo = $request->campo;
+        $attrIndex = $request->attrIndex;
     
         // Obtener la fase por su ID
         $fase = Fases::getById($faseId);
@@ -131,13 +132,8 @@ class FasesController extends BaseController
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
             return;
         }
-    
-        // Eliminar el campo del JSON
-        $atributos = json_decode($fase->atributos, true) ?? [];
-        if (isset($atributos[$campo])) {
-            unset($atributos[$campo]);
-            $fase->atributos = json_encode($atributos); // Guardar el nuevo JSON sin el campo
-            $fase->save();
+
+        if($fase->deleteAtributo($attrIndex)) {
             echo json_encode(['success' => true, 'message' => 'Campo eliminado correctamente']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Campo no encontrado']);
@@ -172,6 +168,25 @@ class FasesController extends BaseController
             echo json_encode(['success' => true, 'atributos' => end($campos)]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
+        }
+    }
+
+    public function updateAttribute($request) {
+        $fase = Fases::getById($request->fase_id);
+
+        if (!$fase) {
+            echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
+            return;
+        }
+
+        if($fase->updateAtributo(
+            $request->attrIndex,
+            $request->nombre,
+            $request->tipo)) {
+
+            echo json_encode(['success' => true, 'message' => 'Campo actualizado correctamente']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Campo no encontrado']);
         }
     }
 }

@@ -92,4 +92,34 @@ class Fases extends Model
         $this->atributos = json_encode($atributos);
         $this->save();
     }
+
+    public function deleteAtributo($attrIndex) {
+        $atributos = json_decode($this->atributos) ?? [];
+
+        if (isset($atributos[$attrIndex])) {
+            unset($atributos[$attrIndex]);
+            $this->atributos = json_encode(array_values($atributos));
+            $this->save();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function updateAtributo($attrIndex, $nombre, $tipo) {
+        $atributos = json_decode($this->atributos, true) ?? [];
+
+        if($attrIndex < count($atributos)) {
+            $atributos[$attrIndex]['nombre'] = $nombre;
+            $atributos[$attrIndex]['tipo'] = $tipo;
+
+            $this->atributos = json_encode(array_values($atributos));
+            $this->save();
+
+            return true;
+        }
+
+        return false;
+    }
 }

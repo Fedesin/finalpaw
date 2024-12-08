@@ -318,12 +318,120 @@ let nextRow = null;
 let tabla_fases = null;
 let selectTipo_producto_id = null;
 
-function agregarFilaAtributos(tabla_body, atributos) {
+function actualizarFila(fila, nombre, tipo) {
+    let campos = fila.querySelectorAll('td');
+
+    campos[0].textContent = nombre;
+    campos[1].textContent = tipo;
+}
+
+function agregarFilaEdicionAtributo(referenceNode, fase_id, atributos) {
     let campoRow = document.createElement('tr');
+
+    campoRow.classList.add('hidden');
+    let campoNombre = document.createElement('td');
+
+    inputNombre = document.createElement('input');
+    inputNombre.type = 'text';
+    inputNombre.placeholder = atributos.nombre;
+    inputNombre.value = ''; //atributos.nombre;
+
+    campoNombre.appendChild(inputNombre);
+    campoRow.appendChild(campoNombre);
+
+    campoTipo = document.createElement('td');
+
+    let tipoCampoActualSelect = document.createElement('select');
+    tipoCampoActualSelect.classList.add('input-tipo-campo');
+    ["entero", "string", "float", "boolean"].forEach(tipo => {
+        let option = document.createElement('option');
+
+        option.value = tipo;
+        option.textContent = tipo;
+
+        tipoCampoActualSelect.appendChild(option);
+    });
+
+    tipoCampoActualSelect.value = atributos.tipo;
+
+    campoTipo.appendChild(tipoCampoActualSelect);
+    campoRow.appendChild(campoTipo);
+
+    let campoAcciones = document.createElement('td');
+    let listaAcciones = document.createElement('ul');
+
+    campoRow.appendChild(campoAcciones);
+
+    listaAcciones.classList.add('lista-horizontal');
+
+    let confirmarLi = document.createElement('li');
+    let cancelLi = document.createElement('li');
+
+    campoAcciones.appendChild(listaAcciones);
+    
+    let confirmButton = document.createElement('button');
+    confirmButton.classList.add('btn-confirmar');
+
+    // Botón de eliminar
+    let cancelButton = document.createElement('button');
+    cancelButton.classList.add('btn-delete');
+
+    confirmarLi.appendChild(confirmButton);
+    cancelLi.appendChild(cancelButton);
+
+    listaAcciones.appendChild(confirmarLi);
+    listaAcciones.appendChild(cancelLi);
+
+    referenceNode.after(campoRow);
+
+    confirmButton.addEventListener('click', function() {
+        const filas = Array.from(confirmButton.closest('tbody').querySelectorAll('tr'));
+        const currentRow = confirmButton.closest('tr');
+        const attrIndex = filas.indexOf(currentRow) * 0.5;
+        const nombre = currentRow.querySelector('input[type=text]').value;
+        const tipo = tipoCampoActualSelect.value;
+
+        Fases.updateAttribute({
+            fase_id: fase_id,
+            attrIndex: attrIndex,
+            nombre: nombre,
+            tipo: tipo
+        }).then(function(ret) {
+            if (ret.success) {
+                actualizarFila(campoRow.previousSibling, nombre, tipo);
+                campoRow.classList.add('hidden');
+                campoRow.previousSibling.classList.remove('hidden');
+
+                console.log('Campo actualizado correctamente');
+            } else {
+                console.error('Error al actualizar el campo:', ret.message);
+            }
+        });
+    });
+
+    cancelButton.addEventListener('click', function() {
+        let tr = cancelButton.closest('tr');
+
+        tr.previousSibling.classList.remove('hidden');
+        tr.classList.add('hidden');
+
+        tr.querySelector('input[type=text]').value = atributos.nombre;
+        tr.querySelector('select').value = atributos.tipo;
+    });
+}
+
+function agregarFilaAtributos(tabla_body, fase_id, atributos) {
+    let campoRow = document.createElement('tr');
+    campoRow.classList.add('attribute');
+
     let campoNombre = document.createElement('td');
 
     campoNombre.textContent = atributos.nombre;
     campoRow.appendChild(campoNombre);
+
+    let campoTipo = document.createElement('td');
+    campoTipo.textContent = atributos.tipo;
+    campoRow.appendChild(campoTipo);
 
     let campoAcciones = document.createElement('td');
     let listaAcciones = document.createElement('ul');
@@ -351,11 +459,13 @@ function agregarFilaAtributos(tabla_body, atributos) {
     listaAcciones.appendChild(editLi);
     listaAcciones.appendChild(deleteLi);
 
-    // Evento para eliminar el campo
     deleteButton.addEventListener('click', function() {
+        const filas = Array.from(tabla_body.querySelectorAll('tr.attribute'));
+        const attrIndex = filas.indexOf(deleteButton.closest('tr'));
+
         Fases.deleteCampo({
-            fase_id: faseId,
-            campo: atributos.nombre
+            fase_id: fase_id,
+            attrIndex: attrIndex
         }).then(function(ret) {
             if (ret.success) {
                 campoRow.remove();
@@ -367,6 +477,13 @@ function agregarFilaAtributos(tabla_body, atributos) {
     });
 
     tabla_body.appendChild(campoRow);
+
+    agregarFilaEdicionAtributo(campoRow, fase_id, atributos);
+
+    editButton.addEventListener('click', function() {
+        editButton.closest('tr').classList.add('hidden');
+        editButton.closest('tr').nextSibling.classList.remove('hidden');
+    });    
 }
 
 function addFase(fase) {
@@ -445,7 +562,7 @@ function addFase(fase) {
 
     if (atributos.length > 0) {
         atributos.forEach(function(attr) {
-            agregarFilaAtributos(campos_body, attr);
+            agregarFilaAtributos(campos_body, fase.id, attr);
         });
     };
 
@@ -523,7 +640,7 @@ function addFase(fase) {
             .then(function(ret) {
                 campoRow.remove();
 
-                agregarFilaAtributos(campos_body, ret.atributos)
+                agregarFilaAtributos(campos_body, fase.id, ret.atributos)
             })
         });
 
