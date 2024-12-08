@@ -258,7 +258,8 @@ class UserController extends BaseController
 
         // Actualizar la contraseña
         $user->updatePassword($data['new_password']);
-        echo "Tu contraseña ha sido cambiada exitosamente.";
+        // mostrar pantalla la cual va a decir que la contraseña se ha cambiad
+        parent::showView('passwordChange.view.twig');
     }
 
     public function sendVerificationEmail($request) {
@@ -314,6 +315,9 @@ class UserController extends BaseController
     
         // Llamar a createUser para delegar la creación del usuario
         $this->createUser($mockRequest);
+
+        // Redirigir a la vista de login
+        parent::showView('login.view.twig');
     }
 
     public function forgotPassword($request)
