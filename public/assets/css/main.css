@@ -1227,6 +1227,14 @@ vamos con los datos del usuario en el index
     margin-right:2vw;
 }
 
+/* Mensaje al finalizar fases */
+.no-fase-message {
+    color: #a1d6e2;
+    text-align: center;
+    font-style: italic;
+    margin-top: 20px;
+}
+
 
 @media (max-width:850px) {
     .admform-container {

@@ -5,57 +5,58 @@
 
 {% block content %}
 
-<main class="admform-container">
-    <h1 class="capitalize">lote {{ lote.numero }} - {{ fase.nombre }}</h1>
+<main class="index-container">
+    <div class="index-form">
+        <h1 class="capitalize">Lote {{ lote.numero }} - {{ fase.nombre }}</h1>
 
-    <form class="updateForm">
-        <!-- Campos ocultos para id_lote y fase -->
-        <input type="hidden" name="id_lote" value="{{ lote.id }}">
-        <input type="hidden" name="id_fase" value="{{ fase.id }}">
-        <input type="hidden" name="fase_nombre" value="{{ fase.nombre }}">
-
-        {% for key, atributo in atributos %}
-        <div>
-            <h2>Atributo {{ key }}</h2>
-            <p>Número de orden: {{ atributo.num_orden }}</p>
-            <p>Tipo: {{ atributo.tipo }}</p>
-
-            <label for="valor_{{ key }}">Valor:</label>
-
-            {% if atributo.tipo == 'boolean' %}
-                <!-- Boolean input as checkbox -->
-                <input type="checkbox" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="1" {{ atributo.valor == '1' ? 'checked' : '' }}>
-            {% elseif atributo.tipo == 'entero' %}
-                <!-- Integer input as number -->
-                <input type="number" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
-            {% else %}
-                <!-- Default text input for other types -->
-                <input type="text" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
-            {% endif %}
-
-            <!-- Hidden fields to keep track of attribute metadata -->
-            <input type="hidden" name="atributos[{{ key }}][num_orden]" value="{{ atributo.num_orden }}">
-            <input type="hidden" name="atributos[{{ key }}][tipo]" value="{{ atributo.tipo }}">
-        </div>
-        {% endfor %}
-
-        <button type="submit">Guardar cambios</button>
-    </form>
-
-    <div class="mensaje"></div>
-
-    {% if next_fase is not null %}
-        <form class="form-pasar-fase" action="/lotes/pasarFase" method="POST">
+        <form class="updateForm">
+            <!-- Campos ocultos para id_lote y fase -->
             <input type="hidden" name="id_lote" value="{{ lote.id }}">
-            <input type="hidden" name="next_fase_id" value="{{ next_fase.id }}">
-            <button type="submit">
-                Terminar fase
-            </button>
-        </form>
-    {% else %}
-        <p>No hay más fases para editar.</p>
-    {% endif %}
+            <input type="hidden" name="id_fase" value="{{ fase.id }}">
+            <input type="hidden" name="fase_nombre" value="{{ fase.nombre }}">
 
+            {% for key, atributo in atributos %}
+            <div class="attribute-section">
+                <h2 class="attribute-title">Atributo {{ key }}</h2>
+                <p class="attribute-detail">Número de orden: {{ atributo.num_orden }}</p>
+                <p class="attribute-detail">Tipo: {{ atributo.tipo }}</p>
+
+                <label class="attribute-label" for="valor_{{ key }}">Valor:</label>
+
+                {% if atributo.tipo == 'boolean' %}
+                    <!-- Boolean input as checkbox -->
+                    <input class="attribute-input" type="checkbox" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="1" {{ atributo.valor == '1' ? 'checked' : '' }}>
+                {% elseif atributo.tipo == 'entero' %}
+                    <!-- Integer input as number -->
+                    <input class="attribute-input" type="number" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
+                {% else %}
+                    <!-- Default text input for other types -->
+                    <input class="attribute-input" type="text" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
+                {% endif %}
+
+                <!-- Hidden fields to keep track of attribute metadata -->
+                <input type="hidden" name="atributos[{{ key }}][num_orden]" value="{{ atributo.num_orden }}">
+                <input type="hidden" name="atributos[{{ key }}][tipo]" value="{{ atributo.tipo }}">
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="index-button">Guardar cambios</button>
+        </form>
+
+        <div class="mensaje"></div>
+
+        {% if next_fase is not null %}
+            <form class="form-pasar-fase" action="/lotes/pasarFase" method="POST">
+                <input type="hidden" name="id_lote" value="{{ lote.id }}">
+                <input type="hidden" name="next_fase_id" value="{{ next_fase.id }}">
+                <button type="submit" class="index-button">
+                    Terminar fase
+                </button>
+            </form>
+        {% else %}
+            <p class="no-fase-message">No hay más fases para editar.</p>
+        {% endif %}
+    </div>
 </main>
 
 {% endblock %}
