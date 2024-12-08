@@ -14,7 +14,7 @@ class Fases extends Model
         "nombre" => null,
         "tipo_producto_id" => null,
         "atributos" => null,
-        "numero_orden" => null // Añadir este campo
+        "numero_orden" => null
     ];
 
     // Relación con el tipo de producto
@@ -27,12 +27,12 @@ class Fases extends Model
         $fase = new Fases();
         
         // Inicializamos los atributos como un JSON vacío
-        $fase->atributos = json_encode([]);
+        $fase->atributos = "[]";
 
         if (is_null($numero_orden)) {
             // Obtener el número de orden más alto para el tipo de producto
             $qb = new QueryBuilder(ConnectionBuilder::getInstance());
-            $maxOrder = $qb->select('fases', ['tipo_producto_id' => $tipo_producto_id], 'numero_orden', 'DESC');
+            $maxOrder = $qb->select('fases', ['tipo_producto_id' => $tipo_producto_id], 'numero_orden', 'DESC', 1);
             
             // Si hay fases, se asigna el siguiente número de orden, de lo contrario 1
             $fase->numero_orden = isset($maxOrder[0]) ? $maxOrder[0]['numero_orden'] + 1 : 1;
@@ -66,5 +66,60 @@ class Fases extends Model
 
         return $nextFase;
     }
-    
+
+    public function updateOrden($nuevo_orden) {
+        if($this->numero_orden > $nuevo_orden) {
+            $this->queryBuilder->increment(static::$table, 'numero_orden', [
+                ['numero_orden', '>=', $nuevo_orden],
+                ['numero_orden', '<', $this->numero_orden]
+            ]);
+        } else if ($this->numero_orden < $nuevo_orden) {
+            $this->queryBuilder->decrement(static::$table, 'numero_orden', [
+                ['numero_orden', '<=', $nuevo_orden],
+                ['numero_orden', '>', $this->numero_orden]
+            ]);
+        }
+
+        $this->numero_orden = $nuevo_orden;
+        $this->save();
+    }
+
+    public function addAtributo($atributo) {
+        $atributos = json_decode($this->atributos);
+
+        $atributos[] = $atributo;
+
+        $this->atributos = json_encode($atributos);
+        $this->save();
+    }
+
+    public function deleteAtributo($attrIndex) {
+        $atributos = json_decode($this->atributos) ?? [];
+
+        if (isset($atributos[$attrIndex])) {
+            unset($atributos[$attrIndex]);
+            $this->atributos = json_encode(array_values($atributos));
+            $this->save();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function updateAtributo($attrIndex, $nombre, $tipo) {
+        $atributos = json_decode($this->atributos, true) ?? [];
+
+        if($attrIndex < count($atributos)) {
+            $atributos[$attrIndex]['nombre'] = $nombre;
+            $atributos[$attrIndex]['tipo'] = $tipo;
+
+            $this->atributos = json_encode(array_values($atributos));
+            $this->save();
+
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -23,8 +23,8 @@
                     <td>{{ lote.producto.nombre }}</td>
                     <td>{{ lote.numero }}</td>
                     <td>
-                        <a href="/lotes/cargar?id={{ lote.id }}" class="btn-editar" data-id="{{ lote.id }}">✏️</a>
-                        <a href="/lotes/ver?id={{ lote.id }}" class="btn-editar" data-id="{{ lote.id }}">👁️</a>
+                        <a href="/lotes/cargar?id={{ lote.id }}" class="btn-editar" data-id="{{ lote.id }}"></a>
+                        <a href="/lotes/ver?id={{ lote.id }}" class="btn-editar-ver" data-id="{{ lote.id }}"></a>
                     </td>                        
                 </tr>
                 {% endfor %}

@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\Fases;
 use Paw\App\Models\TipoProducto;
+use Paw\Core\Exceptions\ModelNotFoundException;
 
 class FasesController extends BaseController
 {
@@ -21,18 +22,17 @@ class FasesController extends BaseController
         ]);
     }
 
-
     public function getFases($request) {
         $params = [];
 
         if (isset($request->tipo_producto_id))
             $params["tipo_producto_id"] = $request->tipo_producto_id;
 
-        $fases = Fases::getAll($params);
+        $fases = Fases::getAll($params, 'numero_orden');
 
         $ret = [];
         foreach($fases as $fase) {
-            $ret[$fase->id] = [
+            $ret[] = [
                 "id" => $fase->id,
                 "nombre" => $fase->nombre,
                 "tipo_producto_id" => $fase->tipo_producto_id,
@@ -52,8 +52,7 @@ class FasesController extends BaseController
                 "id" => $fase->id,
                 "nombre" => $fase->nombre,
                 "tipo_producto_id" => $fase->tipo_producto_id,
-                "atributos" => $fase->atributos,
-                "numero_orden" => $fase->numero_orden // Añadimos el número de orden al resultado
+                "atributos" => $fase->atributos
             ];
             echo json_encode(['status' => 'success', 'data' => $ret]);
         } else {
@@ -79,7 +78,8 @@ class FasesController extends BaseController
         if ($fase) {
             // Actualizar el número de orden de la fase si está presente
             if (isset($request->numero_orden)) {
-                $fase->numero_orden = $request->numero_orden;
+                $fase->updateOrden($request->numero_orden);
+//                $fase->numero_orden = $request->numero_orden;
             }
     
             // Si estamos editando un campo existente
@@ -124,7 +124,7 @@ class FasesController extends BaseController
     
     public function deleteCampo($request) {
         $faseId = $request->fase_id;
-        $campo = $request->campo;
+        $attrIndex = $request->attrIndex;
     
         // Obtener la fase por su ID
         $fase = Fases::getById($faseId);
@@ -132,13 +132,8 @@ class FasesController extends BaseController
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
             return;
         }
-    
-        // Eliminar el campo del JSON
-        $atributos = json_decode($fase->atributos, true) ?? [];
-        if (isset($atributos[$campo])) {
-            unset($atributos[$campo]);
-            $fase->atributos = json_encode($atributos); // Guardar el nuevo JSON sin el campo
-            $fase->save();
+
+        if($fase->deleteAtributo($attrIndex)) {
             echo json_encode(['success' => true, 'message' => 'Campo eliminado correctamente']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Campo no encontrado']);
@@ -154,6 +149,44 @@ class FasesController extends BaseController
             echo json_encode(['success' => true, 'atributos' => json_decode($fase->atributos, true), 'numero_orden' => $fase->numero_orden]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
+        }
+    }
+
+    public function addAttribute($request)
+    {
+        $faseId = $request->fase_id;
+
+        $fase = Fases::getById($faseId);
+        if ($fase) {
+            $fase->addAtributo([
+                "nombre" => $request->nombre,
+                "tipo" => $request->tipo,
+                "valor" => ""
+            ]);
+
+            $campos = json_decode($fase->atributos);
+            echo json_encode(['success' => true, 'atributos' => end($campos)]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
+        }
+    }
+
+    public function updateAttribute($request) {
+        $fase = Fases::getById($request->fase_id);
+
+        if (!$fase) {
+            echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
+            return;
+        }
+
+        if($fase->updateAtributo(
+            $request->attrIndex,
+            $request->nombre,
+            $request->tipo)) {
+
+            echo json_encode(['success' => true, 'message' => 'Campo actualizado correctamente']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Campo no encontrado']);
         }
     }
 }
