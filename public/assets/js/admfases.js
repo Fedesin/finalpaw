@@ -690,16 +690,21 @@ document.addEventListener('DOMContentLoaded', function() {
     var addFasesButton = document.querySelector('.btn-agregar-fase');
     if (addFasesButton) {
         addFasesButton.addEventListener('click', function() {
+            var inputFase = document.querySelector('#fase-nombre');
             var fase_nombre = document.querySelector('#fase-nombre').value;
             var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
 
+            if (!fase_nombre){
+                alert('Por favor, ingrese un nombre para la fase antes de agregarla.');
+                return;
+            }
             Fases.create({
                 fase_nombre: fase_nombre,
                 tipo_producto_id: tipo_producto_id
             }).then(function(ret) {
                 addFase(ret.data);
 
-                fase_nombre.value = '';
+                inputFase.value = '';
             });
         });
     }
