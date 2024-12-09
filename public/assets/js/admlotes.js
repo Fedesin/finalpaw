@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     var selectTipoProducto = document.querySelector('.selectTipoProducto');
+    var numeroProduccionInput = document.querySelector('#numeroProduccion');
     if(selectTipoProducto){
         Productos.tipos().then(data => {
             Object.values(data.data).forEach(tipo => {
@@ -18,6 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var selectProducto = document.querySelector('.selectProducto');
     if(selectProducto){
+        // Agregar opción inicial deshabilitada
+        let defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.textContent = "Escoja un producto";
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        selectProducto.appendChild(defaultOption);
         Productos.list().then(data => {
             Object.values(data.productos).forEach(producto => {
                 let option = document.createElement('option');
@@ -28,33 +36,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if(selectProducto.dataset.value)
                 selectProducto.value = selectProducto.dataset.value;
+                
+             // Evento change para el select de Producto
+            selectProducto.addEventListener('change', function () {
+                var productoId = selectProducto.value;
+                console.log('Producto seleccionado ID:', productoId); // Log para verificar selección
+
+                if (productoId) {
+                    fetch(`/api/lotes/ultima-produccion?producto_id=${productoId}`)
+                        .then(response => {
+                            console.log('Respuesta de la API:', response); // Log de la respuesta
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Datos del endpoint:', data); // Log de los datos
+                            // Asignar el número de producción +1 al input
+                            numeroProduccionInput.value = (data.ultimo_numero || 0) + 1;
+                        })
+                        .catch(error => console.error('Error al obtener la última producción:', error));
+                } else {
+                    console.warn('No se seleccionó un producto.');
+                }
+            });
         })
     }else{
         console.log('No se encontro el select Producto');
     }
     
-
-    var selectSupervisor = document.querySelector('.supervisor');
-    var selectEncargadoProduccion = document.querySelector('.encargadoProduccion');
-    var selectEncargadoLimpieza = document.querySelector('.encargadoLimpieza');
-    Users.list().then(data => {
-        Object.values(data).forEach(usuario => {
-            let option = document.createElement('option');
-            option.value = usuario.id;
-            option.textContent = usuario.email;
-            selectSupervisor.appendChild(option);
-            selectEncargadoProduccion.appendChild(option.cloneNode(true));
-            selectEncargadoLimpieza.appendChild(option.cloneNode(true));
-        })
-
-        if(selectSupervisor.dataset.value)
-            selectSupervisor.value = selectSupervisor.dataset.value;
-
-        if(selectEncargadoProduccion.dataset.value)
-            selectEncargadoProduccion.value = selectEncargadoProduccion.dataset.value;
-
-        if(selectEncargadoLimpieza.dataset.value)
-            selectEncargadoLimpieza.value = selectEncargadoLimpieza.dataset.value;
-    });
 
 });

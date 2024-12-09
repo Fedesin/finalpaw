@@ -125,6 +125,6 @@ if(!isset($session->logged_in)) {
 
     $router->get('/api/verify', 'UserController@verifyEmail'); // Endpoint para verificar usuarios
 
-    
+    $router->get('/api/lotes/ultima-produccion', 'LotesController@getUltimaProduccion');
 
 }

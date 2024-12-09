@@ -181,4 +181,34 @@ class LotesController extends BaseController
             echo json_encode(['success' => false, 'message' => 'Lote no encontrado']);
         }
     }
+
+    public function getUltimaProduccion($request) {
+        // Validar si el producto_id está presente en la solicitud
+        if (!isset($request->producto_id)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'El ID del producto no fue proporcionado.'
+            ]);
+            return;
+        }
+    
+        $productoId = $request->producto_id;
+    
+        // Buscar el último lote asociado al producto por su número, ordenado de manera descendente
+        $ultimoLote = Lote::get(['producto_id' => $productoId], 'numero', 'DESC');
+    
+        if ($ultimoLote) {
+            // Devolver el último número de producción encontrado
+            echo json_encode([
+                'success' => true,
+                'ultimo_numero' => $ultimoLote->numero
+            ]);
+        } else {
+            // Si no se encontró ningún lote, devolver 0 como número inicial
+            echo json_encode([
+                'success' => true,
+                'ultimo_numero' => 0
+            ]);
+        }
+    }
 }
