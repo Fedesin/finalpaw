@@ -841,7 +841,6 @@ Gestion de Fases
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
-//    transition: background-color 0.3s;
 }
 
 .max-content {
@@ -1007,7 +1006,6 @@ Vamos ahora con la gestion de lotes
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
     color: var(--primary-black); /* Cambia el color de texto para mejor contraste */
     text-align: left; /* Alinea el texto a la izquierda */
-    
 }
 
 .admlotes-container h1 {
@@ -1040,6 +1038,7 @@ Vamos ahora con la gestion de lotes
 }
 
 .admlotes-container button {
+    display: block;
     background-color: var(--primary-green); /* Color de fondo del botón */
     color: var(--primary-white); /* Color de texto del botón */
     padding: 10px; /* Relleno interno del botón */
@@ -1048,6 +1047,7 @@ Vamos ahora con la gestion de lotes
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cursor de mano al pasar sobre el botón */
     transition: background-color 0.3s; /* Efecto suave al cambiar color de fondo */
+    grid-column: 1 / -1; /* Hace que el botón ocupe todo el ancho del contenedor */
 }
 
 .admlotes-container button:hover {

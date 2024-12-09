@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Object.values(data.data).forEach(tipo => {
                 let option = document.createElement('option');
                 option.value = tipo.id;
-                option.textContent = tipo.nombre;
+                option.textContent = tipo.nombre.charAt(0).toUpperCase()+ tipo.nombre.slice(1).toLowerCase();
                 selectTipoProducto.appendChild(option);
             })
 
