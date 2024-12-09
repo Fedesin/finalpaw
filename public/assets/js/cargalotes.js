@@ -35,6 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    document.querySelectorAll('input[type=checkbox]').forEach(function(input) {
+        input.addEventListener('change', function(e) {
+            e.target.value = e.target.checked ? 1 : 0;
+        });
+    });
+
     const forms = document.querySelectorAll(".form-pasar-fase");
 
     forms.forEach(form => {

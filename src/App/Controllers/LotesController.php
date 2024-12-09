@@ -109,29 +109,19 @@ class LotesController extends BaseController
             throw new \Exception("Producto no encontrado para el lote con ID " . $request->id);
         }
 
-        $fase = Fases::get([
-            'tipo_producto_id' => $lote->producto->tipo_producto_id,
-            'id' => $lote->fase_actual
-        ]);
-
-        // Obtener la siguiente fase, si existe
-        $next_fase = Fases::getNextFase($fase->id); // Método que obtiene la siguiente fase
         parent::showView('viewcargar.view.twig', [
-            'next_fase' => $next_fase,
             'lote' => $lote,
-            'fase' => $fase,
-            'atributos' => json_decode($fase->atributos, true)
+            'next_fase' => $lote->fase->next_fase
         ]);
     }
 
 
     function pasarFase($request) {
         $lote = Lote::getById($request->id_lote);
-        
 
         if ($lote) {
-            $lote->fase_actual = $request->next_fase_id;
-            $lote->save();
+            $lote->pasarFase();
+
             // Establecer el tipo de contenido como JSON
             header('Content-Type: application/json');
 
@@ -164,7 +154,7 @@ class LotesController extends BaseController
                     'tipo' => $ele['tipo'],
                     'valor' => $request->{str_replace(" ", "_", $ele['nombre'])}
                 ];
-            }, json_decode($lote->fase->atributos, true));
+            }, $atributos[$lote->fase->nombre]);
 
             $atributos[$request->fase_nombre] = $atributosActualizados;
 

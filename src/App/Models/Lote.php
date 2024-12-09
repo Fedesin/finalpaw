@@ -38,6 +38,12 @@ class Lote extends Model
         $lote->numero = $data['numero'];
         $lote->fecha = date('Y-m-d H:i:s'); // Por ejemplo, guardamos la fecha actual
         $lote->fase_actual = $data['fase_actual'] ?? null; // Ajustar según sea necesario
+
+        if($lote->fase_actual)
+            $lote->atributos = json_encode([
+                $lote->fase->nombre => json_decode($lote->fase->atributos, true)
+            ]);
+
         $lote->supervisor_id = $data['supervisor_id'];
         $lote->encargado_produccion_id = $data['encargado_produccion_id'];
         $lote->encargado_limpieza_id = $data['encargado_limpieza_id'];
@@ -45,5 +51,15 @@ class Lote extends Model
 
         $lote->save();
         return $lote;
+    }
+
+    public function pasarFase() {
+        $this->fase_actual = $this->fase->next_fase->id;
+
+        $atributos = json_decode($this->atributos, true);
+        $atributos[$this->fase->nombre] = json_decode($this->fase->atributos, true);
+
+        $this->atributos = json_encode($atributos);
+        $this->save();
     }
 }
