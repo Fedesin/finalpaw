@@ -1,3 +1,11 @@
+function validarEntero(e) {
+    var key = e.charCode;
+
+    if((e.target.value == '') && (key == 45))
+        return true;
+
+    return (key >= 48 && key <= 57);
+}
 
 function editarLote(event) {
     const loteId = event.target.getAttribute("data-id");
@@ -19,9 +27,14 @@ function editarLote(event) {
         .catch(error => console.error("Error en la solicitud para obtener los atributos de la fase:", error));
 }
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.attribute-input[type=number].entero').forEach(function(input) {
+        input.addEventListener('keypress', function(e) {
+            if(!validarEntero(e))
+                e.preventDefault();
+        });
+    });
+
     const forms = document.querySelectorAll(".form-pasar-fase");
 
     forms.forEach(form => {

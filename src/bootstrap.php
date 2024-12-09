@@ -29,6 +29,9 @@ $request = new Request;
 $loader = new FilesystemLoader(__DIR__ . "/App/Views/");
 $twig = new \Twig\Environment($loader);
 $twig->addFilter(new \Twig_SimpleFilter('ucfirst', 'ucfirst'));
+$twig->addFilter(new \Twig_Filter('json_decode', function($string) {
+    return json_decode($string, true);
+}));
 
 // Define the path for the cache directory
 $cachePath = __DIR__ . "/App/Views/cache";

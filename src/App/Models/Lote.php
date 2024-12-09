@@ -5,6 +5,7 @@ namespace Paw\App\Models;
 use Paw\Core\Database\QueryBuilder;
 use Paw\Core\Database\ConnectionBuilder;
 use Paw\App\Models\Producto;
+use Paw\App\Models\Fases;
 
 class Lote extends Model
 {
@@ -24,6 +25,11 @@ class Lote extends Model
     public function getProducto()
     {
         return Producto::getById($this->producto_id);
+    }
+
+    public function getFase()
+    {
+        return Fases::getById($this->fase_actual);
     }
 
     // Método para crear un nuevo lote

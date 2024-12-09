@@ -15,30 +15,35 @@
             <input type="hidden" name="id_fase" value="{{ fase.id }}">
             <input type="hidden" name="fase_nombre" value="{{ fase.nombre }}">
 
-            {% for key, atributo in atributos %}
             <div class="attribute-section">
-                <h2 class="attribute-title">Atributo {{ key }}</h2>
-                <p class="attribute-detail">Número de orden: {{ atributo.num_orden }}</p>
-                <p class="attribute-detail">Tipo: {{ atributo.tipo }}</p>
 
-                <label class="attribute-label" for="valor_{{ key }}">Valor:</label>
+            <table>
+                <tbody>
+            {% for key, atributo in atributos %}
+                <tr>
+                <td><label class="attribute-detail">{{ atributo.nombre }}:</label></td>
 
+                <td>
                 {% if atributo.tipo == 'boolean' %}
                     <!-- Boolean input as checkbox -->
-                    <input class="attribute-input" type="checkbox" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="1" {{ atributo.valor == '1' ? 'checked' : '' }}>
+                    <input class="attribute-input" type="checkbox" name="{{ atributo.nombre }}" {{ lote.atributos | json_decode[fase.nombre][key].valor == '1' ? 'value="1" checked' : 'value="0"' }}>
                 {% elseif atributo.tipo == 'entero' %}
                     <!-- Integer input as number -->
-                    <input class="attribute-input" type="number" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
+                    <input class="attribute-input entero" type="number" name="{{ atributo.nombre }}" value="{{ lote.atributos | json_decode[fase.nombre][key].valor }}">
+                {% elseif atributo.tipo == 'float' %}
+                    <!-- Integer input as number -->
+                    <input class="attribute-input" type="number" step="0.001" name="{{ atributo.nombre }}" value="{{ lote.atributos | json_decode[fase.nombre][key].valor }}">
                 {% else %}
                     <!-- Default text input for other types -->
-                    <input class="attribute-input" type="text" id="valor_{{ key }}" name="atributos[{{ key }}][valor]" value="{{ atributo.valor }}">
+                    <input class="attribute-input" type="text" name="{{ atributo.nombre }}" value="{{ lote.atributos | json_decode[fase.nombre][key].valor }}">
                 {% endif %}
-
-                <!-- Hidden fields to keep track of attribute metadata -->
-                <input type="hidden" name="atributos[{{ key }}][num_orden]" value="{{ atributo.num_orden }}">
-                <input type="hidden" name="atributos[{{ key }}][tipo]" value="{{ atributo.tipo }}">
-            </div>
+                </td>
+                </tr>
             {% endfor %}
+
+                </tbody>
+            </table>
+            </div>
 
             <button type="submit" class="index-button">Guardar cambios</button>
         </form>

@@ -58,7 +58,10 @@ header {
     margin-left: 0.5em;
 }
 
-
+.index-container .attribute-section td {
+    border: none;
+    text-align: start;
+}
 
 header a {
     text-decoration: none;
@@ -1235,7 +1238,7 @@ vamos con los datos del usuario en el index
 }
 
 .index-form input {
-    padding: 10px; /* Espacio interno en campos */
+    padding: 5px; /* Espacio interno en campos */
     border: 1px solid #ccc; /* Bordes suaves */
     border-radius: 5px; /* Bordes redondeados */
     font-size: 14px; /* Ajuste de fuente */
