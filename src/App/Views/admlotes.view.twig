@@ -44,7 +44,12 @@
               </option>
           {% endfor %}
       </select>
-
+    
+        <p class="lote-message">
+            {% if data.message %}
+                {{ data.message }}
+            {% endif %}
+        </p>
       <button type="submit">Guardar</button>
     </form>
   </main>
