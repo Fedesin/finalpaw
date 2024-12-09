@@ -178,7 +178,10 @@ function registerUser(email, rol_id, password) {
 function sendMailPasswordChange(actualPassword, newPassword) {
     const token = btoa(JSON.stringify({ actual_password: actualPassword, new_password: newPassword, email: userEmail, timestamp: Date.now() }));
     const domainWithPort = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
-    const verificationLink = `http://${domainWithPort}/api/verify-password-change?token=${token}`;
+    const isLocalhost = window.location.hostname === 'localhost';
+    const protocol = isLocalhost ? 'http' : 'https';
+    const verificationLink = `${protocol}://${domainWithPort}/api/verify-password-change?token=${token}`;
+
 
     const params = {
         to_email: userEmail,
@@ -325,7 +328,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function enviarCorreoVerificacion(email, rol_id) {
     const token = btoa(JSON.stringify({ email, rol_id, timestamp: Date.now() }));
     const domainWithPort = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
-    const verificationLink = `http://${domainWithPort}/api/verify?token=${token}`;
+    const isLocalhost = window.location.hostname === 'localhost';
+    const protocol = isLocalhost ? 'http' : 'https';
+    const verificationLink = `${protocol}://${domainWithPort}/api/verify?token=${token}`;
 
     const params = {
         to_email: email,
