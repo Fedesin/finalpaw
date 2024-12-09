@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const isLocalhost = window.location.hostname === 'localhost';
                         const protocol = isLocalhost ? 'http' : 'https';
                         const resetLink = `${protocol}://${domainWithPort}/user/resetPassword?token=${token}`;
+                        console.log(resetLink);
                         // Usar EmailJS para enviar el correo con el enlace
                         emailjs.send('service_ixstcji', 'template_e3i7gwm', {
                                 to_email: data.data.to_email,
