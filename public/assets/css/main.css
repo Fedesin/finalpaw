@@ -1381,6 +1381,13 @@ main h1{
     background-color: var(--primary-white);
 }
 
+.formulario-producto {
+    display: grid;
+    grid-template-columns: 1fr; /* Una sola columna */
+    row-gap: 10px; /* Espacio entre renglones */
+    margin-bottom: 20px; /* Espacio debajo del formulario */
+}
+
 /*
 -----------------------------
 Vista de impresion

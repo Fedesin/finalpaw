@@ -10,16 +10,18 @@
     <h1>Gestión de productos</h1>
 
     <!-- Formulario para agregar producto -->
-    <label for="tipoprod">Tipo de producto:</label>
-    <select id="tipoprod" name="tipoprod_id" required>
-        {% for tipoprod in tipo_productos %}
-            <option value="{{ tipoprod.id }}">{{ tipoprod.nombre|capitalize }}</option>
-        {% endfor %}
-    </select>
-    <br>
-    <label for="nombre">Nombre del producto:</label>
-    <input type="text" id="agregarProducto" placeholder="Cuartirolo">
-    <button id="btnAgregarProducto">Agregar Producto</button>
+    <div class="formulario-producto">
+        <label for="tipoprod">Tipo de producto:</label>
+        <select id="tipoprod" name="tipoprod_id" required>
+            {% for tipoprod in tipo_productos %}
+                <option value="{{ tipoprod.id }}">{{ tipoprod.nombre|capitalize }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="nombre">Nombre del producto:</label>
+        <input type="text" id="agregarProducto" placeholder="Cuartirolo">
+        <button id="btnAgregarProducto">Agregar Producto</button>
+    </div>
 
     <!-- Tabla de productos -->
     <table id="tablaProductos">
