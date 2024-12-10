@@ -116,6 +116,10 @@ tbody {
   transition: all 0.3s ease;
 }
 
+section {
+    margin-bottom: 20px;
+}
+
 .overlay {
     position: absolute;
     width: 100%;
@@ -1128,6 +1132,14 @@ Vamos ahora con la gestion de formularios
     text-align: center; /* Alinea el texto a la izquierda */
 }
 
+ul.no-dots {
+    list-style: none;
+}
+
+ul.multi-columns {
+    columns: 3;
+}
+
 ul.lista-horizontal{
     list-style: none;
     margin: 0;
@@ -1209,6 +1221,13 @@ vamos con los datos del usuario en el index
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
 }
+
+.index-container h2 {
+    font-size: 1em; /* Tamaño más grande para el título */
+    color: var(--primary-yellow); /* Color del título */
+    text-align: center; /* Centra el título */
+}
+
 .index-form {
     display: flex;
     flex-direction: column;
@@ -1321,6 +1340,10 @@ vamos con los datos del usuario en el index
 
 .lote-message.error {
     color: red;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 @media (max-width:850px) {

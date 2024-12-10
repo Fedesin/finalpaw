@@ -3,34 +3,49 @@
 {% block content %}
 
 <main class="index-container">
-    <div class="index-form">
-        <h1 class="capitalize">Lote {{ lote.numero }} - {{ producto.nombre }}</h1>
-        <h2>Fecha: {{ lote.fecha }}</h2>
+    <h1 class="capitalize">Lote {{ lote.numero }} - {{ lote.producto.nombre }}</h1>
+    <h2>Fecha: {{ lote.fecha }}</h2>
 
-        <div class="responsables">
-            <h3>Supervisor: {{ supervisor.email }}</h3>
-            <h3>Encargado de producción: {{ encargado_produccion.email }}</h3>
-            <h3>Encargado de limpieza: {{ encargado_limpieza.email }}</h3>
-        </div>
+    <section>
+        <ul class="no-dots">
+            <li>
+                <label class="bold">Supervisor:</label>
+                <span>{{ lote.supervisor.email }}</span>
+            </li>
 
-        <h3>Fase actual: {{ fase_actual.nombre }}</h3>
-        
-        <div class="atributos-container">
-            {% for fase in atributos %}
-            <div class="fase-section">
-                <h3 class="fase-title">Fase: {{ fase.nombre_fase }}</h3>
-                <h4>Atributos:</h4>
-                {% for key, atributo in fase.atributos %}
-                <div class="atributo-detail">
-                    <p><strong>Atributo:</strong> {{ key }}</p>
-                    <p><strong>Tipo:</strong> {{ atributo.tipo }}</p>
-                    <p><strong>Valor:</strong> {{ atributo.valor }}</p>
-                </div>
-                {% endfor %}
-            </div>
+            <li>
+                <label class="bold">Encargado de producción:</label>
+                <span>{{ lote.encargado_produccion.email }}</span>
+            </li>
+
+            <li>
+                <label class="bold">Encargado de limpieza:</label>
+                <span>{{ lote.encargado_limpieza.email }}</span>
+            </li>
+
+            <li>
+                <label class="bold">Fase actual:</label>
+                <span>{{ lote.fase.nombre }}</span>
+            </li>
+        </ul>
+    </section>
+
+    <hr>
+    {% for fase_nombre, atributos in lote.atributos | json_decode %}
+        <section>
+            <h1>{{ fase_nombre }}</h1>
+
+            <ul class="no-dots multi-columns">
+            {% for fase_atributos in atributos %}
+                <li>
+                    <label class="bold">{{ fase_atributos.nombre }}:</label>
+                    <span>{{ fase_atributos.valor }}</span>
+                </li>
             {% endfor %}
-        </div>
-    </div>
+            </ul>
+        </section>
+
+    {% endfor %}
 </main>
 
 {% endblock %}

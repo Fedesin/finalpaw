@@ -95,8 +95,8 @@ class QueryBuilder
         $query = "SELECT * FROM {$table} {$whereStr} ORDER BY {$order_by} {$direction} LIMIT {$limit} OFFSET {$offset}";
     
         // Log para depuración
-        error_log("SQL Generado: {$query}");
-        error_log("Parámetros Vinculados: " . print_r($params, true));
+        //error_log("SQL Generado: {$query}");
+        //error_log("Parámetros Vinculados: " . print_r($params, true));
     
         // Preparar la consulta
         $sentencia = $this->pdo->prepare($query);

@@ -6,6 +6,7 @@ use Paw\Core\Database\QueryBuilder;
 use Paw\Core\Database\ConnectionBuilder;
 use Paw\App\Models\Producto;
 use Paw\App\Models\Fases;
+use Paw\App\Models\User;
 
 class Lote extends Model
 {
@@ -30,6 +31,21 @@ class Lote extends Model
     public function getFase()
     {
         return Fases::getById($this->fase_actual);
+    }
+
+    public function getEncargado_Production()
+    {
+        return User::getById($this->encargado_produccion_id);
+    }
+
+    public function getEncargado_Limpieza()
+    {
+        return User::getById($this->encargado_produccion_id);
+    }
+
+    public function getSupervisor()
+    {
+        return User::getById($this->encargado_produccion_id);
     }
 
     // Método para crear un nuevo lote
