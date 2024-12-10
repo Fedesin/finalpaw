@@ -39,6 +39,10 @@ class PageController extends BaseController
 
     public function admtipopro ()
     {
+
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+        
         $tipo_productos = TipoProducto::getAll(); 
         parent::showView('admtipopro.view.twig', [
             'tipo_productos' => $tipo_productos,
@@ -49,7 +53,8 @@ class PageController extends BaseController
     public function admlotes ()
     {
         $session = Session::getInstance();
-
+        $user = User::getById($session->user_id);
+        
         $data = [];
         if(isset($session->admLotesData)) {
             $data = $session->admLotesData;
@@ -65,6 +70,9 @@ class PageController extends BaseController
 
     public function admfases ()
     {
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+        
         $tipo_productos = TipoProducto::getAll();
         
         parent::showView('admfases.view.twig', [
