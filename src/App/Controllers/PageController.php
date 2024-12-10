@@ -39,13 +39,6 @@ class PageController extends BaseController
 
     public function admtipopro ()
     {
-        $session = Session::getInstance();
-        $user = User::getById($session->user_id);
-        
-        if ($user->rol_id == 1) {
-            $this->redirect("/");
-        }
-        
         $tipo_productos = TipoProducto::getAll(); 
         parent::showView('admtipopro.view.twig', [
             'tipo_productos' => $tipo_productos,
@@ -55,12 +48,6 @@ class PageController extends BaseController
 
     public function admlotes ()
     {
-        $session = Session::getInstance();
-        $user = User::getById($session->user_id);
-        
-        if ($user->rol_id == 1) {
-            $this->redirect("/");
-        }
         $session = Session::getInstance();
 
         $data = [];
@@ -78,11 +65,6 @@ class PageController extends BaseController
 
     public function admfases ()
     {
-        $session = Session::getInstance();
-        $user = User::getById($session->user_id);
-        if ($user->rol_id == 1) {
-            $this->redirect("/");
-        }
         $tipo_productos = TipoProducto::getAll();
         
         parent::showView('admfases.view.twig', [
@@ -127,15 +109,12 @@ class PageController extends BaseController
     }
 
     public function admuser ()
-    {   
+    {
         $session = Session::getInstance();
         $user = User::getById($session->user_id);
-        
-        if ($user->rol_id != 3) {
-            $this->redirect("/");
-        }
         $cantUsers = User::count();
         $roles = Roles::getAll();
+
 
         parent::showView('admuser.view.twig', [
             "cantUsers" => $cantUsers,

@@ -8,6 +8,7 @@ use Paw\Core\Log;
 use Paw\Core\Request;
 use Paw\Core\Session;
 use Paw\Core\Database\ConnectionBuilder;
+use Paw\App\Models\User;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -64,6 +65,19 @@ if(!isset($session->logged_in)) {
     $router->get('/user/resetPassword', 'UserController@showResetPasswordForm');
     $router->post('/user/resetPassword', 'UserController@resetPassword');
 } else {
+    $session = Session::getInstance();
+    $user = User::getById($session->user_id);
+
+    if($user->rol->nombre == 'administrador') {
+        $router->get('/admuser', 'PageController@admuser');
+    }
+
+    if($user->rol->nombre != 'usuario') {
+        $router->get('/admtipopro', 'PageController@admtipopro');
+        $router->get('/admlotes', 'PageController@admlotes');
+        $router->get('/admfases', 'PageController@admfases');
+    }
+
     $router->get('/logout', 'UserController@logout');
 
     $router->get('/', 'PageController@index');
@@ -72,17 +86,9 @@ if(!isset($session->logged_in)) {
     $router->get('/register', 'UserController@showRegisterForm');
     $router->post('/register', 'UserController@register');
 
-    $router->get('/admtipopro', 'PageController@admtipopro');
-
-    $router->get('/admlotes', 'PageController@admlotes');
-
-    $router->get('/admfases', 'PageController@admfases');
-
     $router->get('/admform', 'PageController@admform');
 
     $router->get('/admalert', 'PageController@admalert');
-
-    $router->get('/admuser', 'PageController@admuser');
     
     $router->get('/api/users', 'UserController@getUsers');
 
