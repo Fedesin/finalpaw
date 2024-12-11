@@ -20,36 +20,34 @@
 
 {% block content %}
 
-  <main class="index-container">
-    <form class="index-form" action="" method="post">
-        <h1>Datos del usuario</h1>
-        <div class="index-dataname">
-        <h2 for="username">Usuario:</h2>
-        {% if user.email %}
-          <h3>{{ user.email }}</h3> 
-        {% endif %}
-        </div>
-        <div class="index-dataname">
-        <h2 for="rol">Rol:</h2>
-        {% if user.rol %}
-          <h3 class="capitalize">{{ user.rol.nombre }}</h3> 
-        {% endif %}
-        </div>
-        <h1>Cambiar contraseña</h1>
-        <label for="actual-password">Contraseña actual:</label>
-        <input type="password" class="actual-password" name="actual-password" required>
+  <main class="index-container" itemscope itemtype="http://schema.org/Person">
+      <form class="index-form" action="" method="post" itemprop="potentialAction" itemscope itemtype="http://schema.org/Action">
+          <h1>Datos del usuario</h1>
+          <section class="index-dataname" itemprop="name">
+              <h2>Usuario:</h2>
+              {% if user.email %}
+              <h3 itemprop="email">{{ user.email }}</h3>
+              {% endif %}
+          </section>
+          <section class="index-dataname" itemprop="role">
+              <h2>Rol:</h2>
+              {% if user.rol %}
+              <h3 class="capitalize">{{ user.rol.nombre }}</h3>
+              {% endif %}
+          </section>
+          <h1>Cambiar contraseña</h1>
+          <label for="actual-password">Contraseña actual:</label>
+          <input type="password" id="actual-password" class="actual-password" name="actual-password" required>
 
-        <label for="new-password">Contraseña nueva:</label>
-        <input type="password" class="new-password" name="new-password" required>
+          <label for="new-password">Contraseña nueva:</label>
+          <input type="password" id="new-password" class="new-password" name="new-password" required>
 
-        <label for="repeat-password">Repita la contraseña:</label>
-        <input type="password" class="repeat-password" name="repeat-password" required>
-        <p id="message" class="hidden"></p>
-        <button type="button" class="change-password-button">Cambiar contraseña</button>
-
-
-        
-    </form>
+          <label for="repeat-password">Repita la contraseña:</label>
+          <input type="password" id="repeat-password" class="repeat-password" name="repeat-password" required>
+          
+          <p id="message" class="hidden" itemprop="description"></p>
+          <button type="button" class="change-password-button" itemprop="target">Cambiar contraseña</button>
+      </form>
   </main>
 
 {% endblock %}
