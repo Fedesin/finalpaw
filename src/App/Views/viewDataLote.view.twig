@@ -2,50 +2,50 @@
 
 {% block content %}
 
-<main class="index-container">
-    <h1 class="capitalize">Lote {{ lote.numero }} - {{ lote.producto.nombre }}</h1>
-    <h2>Fecha: {{ lote.fecha }}</h2>
+<main class="index-container" itemscope itemtype="http://schema.org/WebPage">
+    <h1 class="capitalize" itemprop="headline">Lote {{ lote.numero }} - {{ lote.producto.nombre }}</h1>
+    <h2 itemprop="dateCreated">Fecha: {{ lote.fecha }}</h2>
 
-    <section>
+    <section itemscope itemtype="http://schema.org/Person">
         <ul class="no-dots">
             <li>
-                <label class="bold">Supervisor:</label>
-                <span>{{ lote.supervisor.email }}</span>
+                <label class="bold" itemprop="jobTitle">Supervisor:</label>
+                <span itemprop="email">{{ lote.supervisor.email }}</span>
             </li>
 
             <li>
-                <label class="bold">Encargado de producción:</label>
-                <span>{{ lote.encargado_produccion.email }}</span>
+                <label class="bold" itemprop="jobTitle">Encargado de producción:</label>
+                <span itemprop="email">{{ lote.encargado_produccion.email }}</span>
             </li>
 
             <li>
-                <label class="bold">Encargado de limpieza:</label>
-                <span>{{ lote.encargado_limpieza.email }}</span>
+                <label class="bold" itemprop="jobTitle">Encargado de limpieza:</label>
+                <span itemprop="email">{{ lote.encargado_limpieza.email }}</span>
             </li>
 
             <li>
                 <label class="bold">Fase actual:</label>
-                <span>{{ lote.fase.nombre }}</span>
+                <span itemprop="name">{{ lote.fase.nombre }}</span>
             </li>
         </ul>
     </section>
 
     <hr>
     {% for fase_nombre, atributos in lote.atributos | json_decode %}
-        <section>
-            <h1>{{ fase_nombre }}</h1>
+        <section itemscope itemtype="http://schema.org/CreativeWork">
+            <h1 itemprop="headline">{{ fase_nombre }}</h1>
 
             <ul class="no-dots multi-columns">
-            {% for fase_atributos in atributos %}
-                <li>
-                    <label class="bold">{{ fase_atributos.nombre }}:</label>
-                    <span>{{ fase_atributos.valor }}</span>
+                {% for fase_atributos in atributos %}
+                <li itemscope itemtype="http://schema.org/PropertyValue">
+                    <label class="bold" itemprop="name">{{ fase_atributos.nombre }}:</label>
+                    <span itemprop="value">{{ fase_atributos.valor }}</span>
                 </li>
-            {% endfor %}
+                {% endfor %}
             </ul>
         </section>
-
     {% endfor %}
 </main>
+
 
 {% endblock %}
