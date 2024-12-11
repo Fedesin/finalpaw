@@ -6,25 +6,25 @@
 
 {% block content %}
 
-<main class="admtipopro-container">
-    <h1>Gestión de productos</h1>
+<main class="admtipopro-container" itemscope itemtype="http://schema.org/WebPage">
+    <h1 itemprop="headline">Gestión de productos</h1>
 
     <!-- Formulario para agregar producto -->
-    <div class="formulario-producto">
+    <section class="formulario-producto" itemscope itemtype="http://schema.org/Form">
         <label for="tipoprod">Tipo de producto:</label>
-        <select id="tipoprod" name="tipoprod_id" required>
+        <select id="tipoprod" name="tipoprod_id" required itemprop="object.category">
             {% for tipoprod in tipo_productos %}
                 <option value="{{ tipoprod.id }}">{{ tipoprod.nombre|capitalize }}</option>
             {% endfor %}
         </select>
         
         <label for="nombre">Nombre del producto:</label>
-        <input type="text" id="agregarProducto" placeholder="Cuartirolo">
-        <button class="btn" id="btnAgregarProducto">Agregar Producto</button>
-    </div>
+        <input type="text" id="agregarProducto" placeholder="Cuartirolo" itemprop="object.name">
+        <button class="btn" id="btnAgregarProducto" itemprop="potentialAction">Agregar Producto</button>
+    </section>
 
     <!-- Tabla de productos -->
-    <table id="tablaProductos">
+    <table id="tablaProductos" itemscope itemtype="http://schema.org/Table">
         <thead>
             <tr>
                 <th>Tipo de producto</th>
@@ -34,13 +34,13 @@
         </thead>
         <tbody>
             {% for producto in productos %}
-                <tr data-id="{{ producto.id }}">
-                    <td>{{ producto.tipo_producto.nombre }}</td>
-                    <td class="nombreProducto">{{ producto.nombre }}</td>
+                <tr data-id="{{ producto.id }}" itemscope itemtype="http://schema.org/Product">
+                    <td itemprop="category">{{ producto.tipo_producto.nombre }}</td>
+                    <td class="nombreProducto" itemprop="name">{{ producto.nombre }}</td>
                     <td>
                         <ul class="lista-horizontal">
-                            <li><button class="btnEditar">✏️</button></li>
-                            <li><button class="btnEliminar">❌</button></li>
+                            <li><button class="btnEditar" itemprop="potentialAction">✏️</button></li>
+                            <li><button class="btnEliminar" itemprop="potentialAction">❌</button></li>
                         </ul>
                     </td>
                 </tr>
@@ -48,5 +48,6 @@
         </tbody>
     </table>
 </main>
+
 
 {% endblock %}
