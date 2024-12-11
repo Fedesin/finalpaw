@@ -403,6 +403,7 @@ footer {
     color: var(--second-light-grey);
     text-align: center;
     font-size: smaller;
+    margin-top: 1em;
 }
 
 footer ul {
@@ -1009,7 +1010,7 @@ Vamos ahora con la gestion de lotes
     grid-template-columns: 1fr 1fr;
     grid-gap: 0ch;
     align-items: center;
-    gap: 20px; /* Espacio entre los elementos del formulario */
+    gap: 2vw;
 }
 
 .admlotes-container label {
@@ -1087,20 +1088,6 @@ Vamos ahora con la gestion de formularios
     font-size: 14px; /* Ajusta el tamaño de la fuente */
 }
 
-.admform-container button {
-    background-color: var(--primary-green); /* Color de fondo del botón */
-    color: var(--primary-white); /* Color de texto del botón */
-    padding: 10px; /* Relleno interno del botón */
-    border: none; /* Sin bordes */
-    font-weight: 600;
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
-    transition: background-color 0.3s; /* Efecto suave al cambiar color de fondo */
-}
-
-.admform-container button:hover {
-    background-color: var(--second-light-blue); /* Color de fondo al pasar el ratón por encima */
-}
 
 .admform-container table {
     width: 100%; /* La tabla ocupa todo el ancho del contenedor */
@@ -1336,6 +1323,10 @@ vamos con los datos del usuario en el index
     .index-container {
         margin: 1em;
     }
+    
+    .tabla-usuarios td {
+        padding: 0.5em;
+    }
 }
 
 @media (max-width:700px) {
@@ -1359,6 +1350,30 @@ vamos con los datos del usuario en el index
     }
     .index-container {
         margin: 0.5em;
+    }
+    .tabla-usuarios thead {
+        display: none;
+    }
+
+    .tabla-usuarios tr {
+        display: block;
+        margin-bottom: 0.5em;
+        border: none
+        padding: 1ch;
+    }
+
+    .tabla-usuarios td {
+        display: flex;
+        justify-content:space-between;
+        padding: 1em;
+        border: solid 1px --primary-black;
+        align-items: center;
+    }
+
+    .tabla-usuarios td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: var(--primary-green);
     }
 }
 
@@ -1411,6 +1426,12 @@ Modo oscuro
 @media (prefers-color-scheme: dark) {
     body {
         background-color: var(--primary-black);
+    }
+    .tabla-usuarios td::before {
+        color: var(--primary-yellow);
+    }
+    .tabla-usuarios thead th {
+        color: var(--primary-yellow);
     }
     header{
         background-color: var(--primary-blue);

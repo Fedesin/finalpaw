@@ -210,9 +210,9 @@ function listarUsuarios(usuarios, cantUsers) {
         let user = usuarios[key];
         let row = document.createElement('tr');
         row.innerHTML = `
-            <td>${user.id}</td>
-            <td>${user.email}</td>
-            <td class="no-padding">
+            <td data-label="ID">${user.id}</td>
+            <td data-label="Email">${user.email}</td>
+            <td data-label="Rol" class="no-padding">
                 <ul class="lista-horizontal">
                     <li class="capitalize">${roles[user.rol_id]}</li>
                     <li>
@@ -225,7 +225,7 @@ function listarUsuarios(usuarios, cantUsers) {
                     </li>
                 </ul>
             </td>
-            <td>
+            <td data-label="Estado">
                 <ul class="lista-horizontal">
                     <li>
                         <a href="#" 
