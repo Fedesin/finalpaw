@@ -52,6 +52,7 @@ function actualizarPaginacion(curPage, totalPages) {
         let pageButton = document.createElement('li');
 
         pageButton.classList.add('button');
+        pageButton.classList.add('btn');
         pageButton.textContent = i;
         pageButton.dataset.page = i;
 
