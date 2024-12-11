@@ -75,18 +75,23 @@ class LotesController extends BaseController
     }
     public function viewLote($request)
     {
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
         $lote = Lote::getById($request->id);
         if (!$lote) {
             throw new \Exception("Lote no encontrado con ID " . $request->id);
         }
 
         parent::showView('viewDataLote.view.twig', [
-            'lote' => $lote
+            'lote' => $lote,
+            'user' => $user
         ]);
     }
 
     function viewCargar($request) {
 
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
         $lote = Lote::getById($request->id);
 
         if (!$lote) {
@@ -99,7 +104,8 @@ class LotesController extends BaseController
 
         parent::showView('viewcargar.view.twig', [
             'lote' => $lote,
-            'next_fase' => $lote->fase->next_fase
+            'next_fase' => $lote->fase->next_fase,
+            'user' => $user
         ]);
     }
 
