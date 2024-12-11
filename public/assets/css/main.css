@@ -49,6 +49,8 @@ header {
     margin-right: 10px;
     display: flex;
     align-items: center;
+    margin-left: 0;
+    margin-bottom: 0;
 }
 
 .titulo-subtitulo {
@@ -158,6 +160,7 @@ section {
     height: fit-content;
     width: fit-content;
     align-self: end;
+    margin-bottom: 0;
 }
 
 .user-profile > h3 {

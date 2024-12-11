@@ -16,29 +16,30 @@
 
 <body>
 	<!--header-->
-	<header>
-		<div class="logo">
-			<a href="/">
-			 <img src="/img/logo.png" width="96px" height="96px" alt="Logo">
-			 </a>
-			<div class="titulo-subtitulo">
-				<h1>Planta Piloto UNLu</h1>
-				<p class="subtitulo">Sistema de gestión de producción</p>
-			</div>
-		</div>
+	<header itemscope itemtype="http://schema.org/WPHeader">
+		<figure class="logo" itemprop="image">
+			<a href="/" itemprop="url">
+				<img src="/img/logo.png" width="96px" height="96px" alt="Logo">
+			</a>
+			<figcaption class="titulo-subtitulo">
+				<h1 itemprop="headline">Planta Piloto UNLu</h1>
+				<p class="subtitulo" itemprop="description">Sistema de gestión de producción</p>
+			</figcaption>
+		</figure>
 		{% if logged_in %}
-		<div class="user-profile">
-			<h3>{{ email }}</h3>
-			<a class="logout" href="/logout">
+		<section class="user-profile" itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h3 itemprop="email">{{ email }}</h3>
+			<a class="logout" href="/logout" itemprop="url">
 				<span class="logout-emoji">🚪🚶🏼</span>
 			</a>
-		</div>
+		</section>
 		{% endif %}
 	</header>
+
 	<!--header-->
 
 	<!--navbar-->
-	<nav>
+	<nav itemscope itemtype="http://schema.org/SiteNavigationElement">
 		{% block hamburgerMenu %}
 		<input id="hamburgerMenu" type="checkbox" name="">
 		<label for="hamburgerMenu" class="hamburgerMenu"></label>
@@ -47,21 +48,28 @@
 		<ul>
 			{% block navbar %}
 			{% if user.rol.nombre == 'administrador' or user.rol.nombre == 'supervisor' %}
-				<li class ="navbarDropOption">
-					<a>Gestion de productos</a>
-					<ul class ="gp">
-						<li><a href="/admtipopro">Administrar productos</a></li>
-						<li><a href="/admlotes">Administrar lotes</a></li>
-						<li><a href="/admfases">Administrar fases</a></li>
-					</ul>
-				</li>
+			<li class="navbarDropOption" itemprop="name">
+				<a href="#" itemprop="url">Gestión de productos</a>
+				<ul class="gp">
+					<li itemprop="name">
+						<a href="/admtipopro" itemprop="url">Administrar productos</a>
+					</li>
+					<li itemprop="name">
+						<a href="/admlotes" itemprop="url">Administrar lotes</a>
+					</li>
+					<li itemprop="name">
+						<a href="/admfases" itemprop="url">Administrar fases</a>
+					</li>
+				</ul>
+			</li>
 			{% endif %}
-			<li class ="navbarDropOption" >
-				<a href="/admform">Carga de datos</a>
+			<li class="navbarDropOption" itemprop="name">
+				<a href="/admform" itemprop="url">Carga de datos</a>
 			</li>
 			{% if user.rol.nombre == 'administrador' %}
-			<li><a href="/admuser">Administrar Usuarios</a></li>
-			
+			<li itemprop="name">
+				<a href="/admuser" itemprop="url">Administrar Usuarios</a>
+			</li>
 			{% endif %}
 			{% endblock %}
 		</ul>
