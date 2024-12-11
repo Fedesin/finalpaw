@@ -17,14 +17,13 @@
 {% endblock %}
 
 {% block content %}
-<main class="admform-container">
-    <h1>Gestión de Usuarios</h1>
-
+<main class="admform-container" itemscope itemtype="http://schema.org/WebPage">    <h1 itemprop="headline">Gestión de Usuarios</h1>
     <!-- Filtro de Usuarios -->
-    <div class="filtrador">
-        <input type="text" class="filtro" placeholder="Filtrar por nombre">
+    <section class="filtrador" itemscope itemtype="http://schema.org/SearchAction">
+        <meta itemprop="target" content="/search?query={query}" />
+        <input type="text" class="filtro" placeholder="Filtrar por nombre" itemprop="query-input">
         <button class="btn" onclick="filtrarUsuarios()">Filtrar</button>
-    </div>
+    </section>
     <!-- Tabla de Usuarios -->
     <table class="tabla-usuarios relative" data-cant-users="{{ cantUsers }}">
         <thead>
@@ -68,8 +67,8 @@
             <p class="login-error"></p>
         {% endif %}
         
-        <button class="btn-registrar" type="button">Registrar Usuario</button>
-    </form>
+        <button class="btn-registrar" type="button" itemprop="potentialAction">Registrar Usuario</button>    
+        </form>
   </main>
 
 {% endblock %}
