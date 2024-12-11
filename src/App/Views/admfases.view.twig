@@ -7,35 +7,35 @@
 
 {% block content %}
 
-  <main class="admfases-container">
-    <h1>Gestión de Fases</h1>
+  <main class="admfases-container" itemscope itemtype="http://schema.org/WebPage">
+    <h1 itemprop="headline">Gestión de Fases</h1>
     
-    <div class="contenedor_lista_tipo_producto">
-      <label for="tipoprod">Tipo de producto:</label>
-          <select id="tipo_producto_id" name="tipoprod_id" required>
-              <option value="" disabled selected>Seleccione una opción</option>
-              {% for tipo_producto in tipo_productos %}
+    <section class="contenedor_lista_tipo_producto" itemscope itemtype="http://schema.org/Form">
+        <label for="tipoprod">Tipo de producto:</label>
+        <select id="tipo_producto_id" name="tipoprod_id" required itemprop="object.category">
+            <option value="" disabled selected>Seleccione una opción</option>
+            {% for tipo_producto in tipo_productos %}
                 <option value="{{ tipo_producto.id }}">{{ tipo_producto.nombre }}</option>
-              {% endfor %}
-          </select>
-      </form>
-    </div>
+            {% endfor %}
+        </select>
+    </section>
 
-    <div class="contenedor_agregar_fases">
-      <input id="fase-nombre" class="hidden" type="text" placeholder="Pasteurización">
-      <button class="btn btn-agregar-fase hidden" type="submit">Agregar Fase</button>
-    </div>
+    <section class="contenedor_agregar_fases" itemscope itemtype="http://schema.org/Form">
+        <input id="fase-nombre" class="hidden" type="text" placeholder="Pasteurización" itemprop="name">
+        <button class="btn btn-agregar-fase hidden" type="submit" itemprop="potentialAction">Agregar Fase</button>
+    </section>
       
-      <table class="tabla-fases hidden max-content"  >
-          <thead>
-                <tr>
-                    <th>Fases</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-      </table>
-  </main>
+    <table class="tabla-fases hidden max-content" itemscope itemtype="http://schema.org/Table">
+        <thead>
+            <tr>
+                <th>Fases</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</main>
+
 
 {% endblock %}
