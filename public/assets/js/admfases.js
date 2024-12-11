@@ -38,8 +38,8 @@ function refrescarTablaFases() {
             row.innerHTML = `
                 <td>${fase.nombre}</td>
                 <td>
-                    <button class="btn-editar" data-id="${fase.id}"></button>
-                    <button class="btn-borrar btn-delete" data-id="${fase.id}"></button>
+                    <button class="btn-editar btn-editarver" data-id="${fase.id}"></button>
+                    <button class="btn-borrar btn-delete btn-editarver" data-id="${fase.id}"></button>
                 </td>
             `;
             tabla_fases.appendChild(row);
@@ -448,10 +448,11 @@ function agregarFilaAtributos(tabla_body, fase_id, atributos) {
     // Botón de editar
     let editButton = document.createElement('button');
     editButton.classList.add('btn-editar');
-
+    editButton.classList.add('btn-editarver');
     // Botón de eliminar
     let deleteButton = document.createElement('button');
     deleteButton.classList.add('btn-delete');
+    deleteButton.classList.add('btn-editarver');
 
     editLi.appendChild(editButton);
     deleteLi.appendChild(deleteButton);
@@ -495,8 +496,8 @@ function addFase(fase) {
     row.innerHTML = `
         <td>${fase.nombre}</td>
         <td>
-            <button class="btn-editar" data-id="${fase.id}"></button>
-            <button class="btn-borrar btn-delete" data-id="${fase.id}"></button>
+            <button class="btn-editar btn-editarver" data-id="${fase.id}"></button>
+            <button class="btn-borrar btn-delete btn-editarver" data-id="${fase.id}"></button>
         </td>
     `;
     tabla_fases.appendChild(row);

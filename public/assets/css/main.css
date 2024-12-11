@@ -657,20 +657,8 @@ colores:
     font-size: 14px; /* Ajusta el tamaño de la fuente */
 }
 
-.admtipopro-container button {
-    background-color: var(--primary-green); /* Color de fondo del botón */
-    color: var(--primary-white); /* Color de texto del botón */
-    padding: 10px; /* Relleno interno del botón */
-    border: none; /* Sin bordes */
-    font-weight: 600;
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
-    transition: background-color 0.3s; /* Efecto suave al cambiar color de fondo */
-}
 
-.admtipopro-container button:hover {
-    background-color: var(--second-light-blue); /* Color de fondo al pasar el ratón por encima */
-}
+
 
 .admtipopro-container table {
     width: 100%; /* La tabla ocupa todo el ancho del contenedor */
@@ -727,19 +715,7 @@ Gestion de Fases
     max-width: 200px; /* Evitar que crezca demasiado */
 }
 
-.admfases-container button {
-    background-color: var(--primary-green); /* Color de fondo del botón */
-    color: var(--primary-white); /* Color de texto del botón */
-    border: none; /* Sin bordes */
-    font-weight: 600;
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
-    transition: background-color 0.3s; /* Efecto suave al cambiar color de fondo */
-}
 
-.admfases-container button:hover {
-    background-color: var(--second-light-blue); /* Color de fondo al pasar el ratón por encima */
-}
 
 
 .admfases-container table {
@@ -800,26 +776,7 @@ Gestion de Fases
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
 }
 
-.admform-container .btn-editar,
-.admform-container .btn-editar-ver,
-.admform-container .btn-editar::before,
-.admtipopro-container .btnEditarProducto,
-.admtipopro-container .btnEliminarProducto,
-.admfases-container .btn-editar,
-.admfases-container .btn-delete,
-.btn-editar,
-.btnEditarProducto,
-.modify,
-.modifyRoleButton {
-    padding:0.2em;
-    display: inline-flex;
-    text-decoration: none;
-    color: var(--second-light-blue);
-    transform: scaleX(-1);
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    background: none;
-    border-radius: 5px;
-}
+
 
 .btn-editar::before {
     content:  '✏️';
@@ -841,22 +798,35 @@ Gestion de Fases
     cursor: pointer;
 }
 
-.max-content {
-    width: max-content;
+.btn:hover {
+    background-color: var(--second-light-blue);
 }
-.admform-container .btn-editar-ver:hover,
-.admtipopro-container .btnEditarProducto,
-.admtipopro-container .btnEliminarProducto:hover,
-.admfases-container .btn-editar:hover,
-.admfases-container .btn-borrar:hover,
-.admfases-container .btn-delete:hover,
-.btn-editar:hover,
-.modify:hover,
-.btnEditarProducto:hover,
-.modifyRoleButton:hover {
+
+.btn-editarver{
+    padding:0.2em;
+    display: inline-flex;
+    text-decoration: none;
+    color: var(--second-light-blue);
+    transform: scaleX(-1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.btn-editarflecha{
+    padding:0.5em;
+    display: inline-flex;
+}
+
+.btn-editarver:hover{
     transform: scale(1.2);
     background-color: var(--second-light-blue);
     transition: transform 0.3s ease, background-color 0.3s ease; 
+}
+
+.max-content {
+    width: max-content;
 }
 
 
@@ -964,16 +934,6 @@ Gestion de Fases
 
 
 
-/* Mejora del diseño para los botones de edición y borrado */
-.admfases-container .btn-borrar {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.admfases-container .btn-borrar:hover {
-    color: var(--second-light-blue); /* Cambia el color al pasar el mouse */
-}
 
 /* Mejora del espaciado de la tabla */
 .admfases-container table {
@@ -1383,16 +1343,6 @@ main h1{
     margin-top: 0;
 }
 
-.admtipopro-container .btnEditarProducto {
-    display: inline-block;
-    background-color: var(--primary-white);
-    transform: scaleX(-1);
-    transition: transform 0.3s ease, background-color 0.3s ease; 
-}
-
-.admtipopro-container .btnEditarProducto:hover{
-    transform: scale(1.2); 
-}
 
 
 

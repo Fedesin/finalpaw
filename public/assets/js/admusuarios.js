@@ -216,7 +216,7 @@ function listarUsuarios(usuarios, cantUsers) {
                     <li class="capitalize">${roles[user.rol_id]}</li>
                     <li>
                         <a href="#" 
-                            class="modify modifyRoleButton"  
+                            class="modify modifyRoleButton btn-editarver"  
                             data-id="${user.id}" 
                             rol-nombre="${roles[user.rol_id]}">
                             <img/>
@@ -228,7 +228,7 @@ function listarUsuarios(usuarios, cantUsers) {
                 <ul class="lista-horizontal">
                     <li>
                         <a href="#" 
-                            class="toggleStatusButton ${user.deshabilitado ? 'up' : 'down'}"
+                            class="toggleStatusButton btn-editarflecha ${user.deshabilitado ? 'up' : 'down'}"
                             data-id="${user.id}"
                             data-status="${user.deshabilitado}">
                             <img/>

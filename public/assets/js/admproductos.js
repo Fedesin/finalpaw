@@ -18,8 +18,8 @@ function agregarElementoTablaProductos(producto) {
         <td class="nombreProducto">${producto.nombre}</td>
         <td>
             <ul class="lista-horizontal">
-                <li><button class="btnEditarProducto">✏️</button></li>
-                <li><button class="btnEliminarProducto">❌</button></li>
+                <li><button class="btnEditarProducto btn-editarver">✏️</button></li>
+                <li><button class="btnEliminarProducto btn-editarver">❌</button></li>
             </ul>
         </td>
     `;
@@ -71,6 +71,7 @@ function editarProducto() {
         const guardarButton = document.createElement("button");
         guardarButton.textContent = "Guardar cambios";
         guardarButton.classList.add("btn-guardar-producto");
+        guardarButton.classList.add("btn");
 
         // Reemplaza el contenido de la celda con el input y botón de guardar
         nombreProducto.innerHTML = '';
