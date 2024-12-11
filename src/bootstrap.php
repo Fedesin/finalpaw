@@ -82,6 +82,7 @@ if(!isset($session->logged_in)) {
 
     $router->get('/', 'PageController@index');
     $router->get('/index', 'PageController@index');
+    $router->get('/help', 'PageController@help');
 
     $router->get('/register', 'UserController@showRegisterForm');
     $router->post('/register', 'UserController@register');

@@ -130,4 +130,13 @@ class PageController extends BaseController
             "user" => $user
         ]);
     }
+    
+    public function help()
+    {   
+        $session = Session::getInstance();
+        $user = User::getById($session->user_id);
+        return $this->showView('help.view.twig',[
+            "user" => $user
+        ]);
+    }
 }

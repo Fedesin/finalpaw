@@ -211,6 +211,7 @@ var Productos = {
     }
 };
 
+
 var Lotes = {
     create: function(args) {
         return fetch("/api/lotes", {
