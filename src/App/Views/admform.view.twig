@@ -6,30 +6,31 @@
 
 {% block content %}
 
-<main class="admform-container">
-    <h1>Carga de datos</h1>
+<main class="admform-container" itemscope itemtype="http://schema.org/WebPage">
+    <h1 itemprop="headline">Carga de datos</h1>
 
-    <table class="tabla-lotes"  >
-          <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Lote Num</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lote in lotes %}
-                <tr>    
-                    <td>{{ lote.producto.nombre }}</td>
-                    <td>{{ lote.numero }}</td>
-                    <td>
-                        <a href="/lotes/cargar?id={{ lote.id }}" class="btn-editar btn-editarver" data-id="{{ lote.id }}"></a>
-                        <a href="/lotes/ver?id={{ lote.id }}" class="btn-editar-ver btn-editarver" data-id="{{ lote.id }}"></a>
-                    </td>                        
-                </tr>
-                {% endfor %}
-            </tbody>
-      </table>
-  </main>
+    <table class="tabla-lotes" itemscope itemtype="http://schema.org/Table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Lote Num</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lote in lotes %}
+            <tr itemscope itemtype="http://schema.org/Thing">
+                <td itemprop="name">{{ lote.producto.nombre }}</td>
+                <td itemprop="identifier">{{ lote.numero }}</td>
+                <td>
+                    <a href="/lotes/cargar?id={{ lote.id }}" class="btn-editar btn-editarver" data-id="{{ lote.id }}" itemprop="potentialAction"></a>
+                    <a href="/lotes/ver?id={{ lote.id }}" class="btn-editar-ver btn-editarver" data-id="{{ lote.id }}" itemprop="potentialAction"></a>
+                </td>                        
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
 
 {% endblock %}
