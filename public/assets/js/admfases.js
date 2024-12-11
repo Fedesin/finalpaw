@@ -375,6 +375,7 @@ function agregarFilaEdicionAtributo(referenceNode, fase_id, atributos) {
     // Botón de eliminar
     let cancelButton = document.createElement('button');
     cancelButton.classList.add('btn-delete');
+    cancelButton.classList.add('btn-editarver');
 
     confirmarLi.appendChild(confirmButton);
     cancelLi.appendChild(cancelButton);
@@ -620,6 +621,8 @@ function addFase(fase) {
         // Botón de eliminar
         let deleteButton = document.createElement('button');
         deleteButton.classList.add('btn-delete');
+        deleteButton.classList.add('btn-editarver');
+
 
         confirmarLi.appendChild(confirmButton);
         deleteLi.appendChild(deleteButton);

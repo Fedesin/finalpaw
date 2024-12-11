@@ -814,6 +814,24 @@ Gestion de Fases
     border: none;
     cursor: pointer;
 }
+.btn-confirmar{
+    padding:0.1em;
+    display: inline-flex;
+    text-decoration: none;
+    color: var(--second-light-blue);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-confirmar:hover{
+    transform: scale(1.2);
+    background-color: var(--second-light-blue);
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+}
+
 .btn-editarflecha{
     padding:0.5em;
     display: inline-flex;
@@ -886,10 +904,7 @@ Gestion de Fases
     text-shadow: 0 0 0 red;
 }
 
-.btn-confirmar {
-    height: 2em;
-    width: 2em;
-}
+
 
 .admfases-container .btn-delete-campo {
     background-color: var(--primary-white); /* Color de fondo para el botón de eliminar */
@@ -1492,10 +1507,7 @@ Modo oscuro
     .admtipopro-container a {
         color: var(--second-light-grey); /* Color del enlace similar al esquema */
     }
-    .admtipopro-container button {
-        background-color: var(--primary-blue); /* Color de fondo similar */
-        color: var(--second-light-grey); /* Color de texto blanco */
-    }
+    
     .admtipopro-container th,
     .admtipopro-container td {
         border: 1px solid var(--primary-black); /* Bordes suaves */
@@ -1514,10 +1526,7 @@ Modo oscuro
         color: var(--primary-yellow);
     }
 
-    .admlotes-container button {
-        background-color: var(--primary-blue); /* Color de fondo similar */
-        color: var(--second-light-grey); /* Color de texto blanco */
-    }
+    
 
     .admform-container h1{
         color: var(--second-light-green);
@@ -1528,10 +1537,7 @@ Modo oscuro
         color: var(--primary-yellow);
     }
 
-    .admform-container button {
-        background-color: var(--primary-blue); /* Color de fondo similar */
-        color: var(--second-light-grey); /* Color de texto blanco */
-    }
+    
 
     .admform-container th {
         background-color: var(--primary-blue); /* Color de fondo de la cabecera */
@@ -1561,10 +1567,7 @@ Modo oscuro
         color: var(--second-light-grey); /* Color del enlace similar al esquema */
     }
 
-    .admfases-container button {
-        background-color: var(--primary-blue); /* Color de fondo similar */
-        color: var(--second-light-grey); /* Color de texto blanco */
-    }
+    
 
     .admfases-container th,
     .admfases-container td {
@@ -1622,24 +1625,24 @@ Modo oscuro
         background-color: var(--second-grey);
     }
 
-    /* Botones en modo oscuro */
-    .admfases-container .btn-ok {
-        background-color: var(--primary-blue);
-        color: var(--second-light-grey);
+    .admlotes-container button {
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
     }
 
-    .admfases-container .btn-ok:hover {
-        background-color: var(--second-light-blue); /* Color al pasar el mouse */
+    .btn{
+        background-color: var(--primary-blue); /* Color de fondo similar */
+        color: var(--second-light-grey); /* Color de texto blanco */
+    }
+    
+    .btn-editarver{
+
+    }
+    .btn-editarver:hover{
+
     }
 
-    .admfases-container .btn-delete-campo {
-        background-color: var(--second-grey); /* Fondo del botón de eliminar */
-        color: var(--primary-white); /* Color de texto del botón de eliminar */
-    }
 
-    .admfases-container .btn-delete-campo:hover {
-        background-color: var(--second-light-blue); /* Color al pasar el mouse */
-    }
 
     .admfases-container input.input-editar,
     .admfases-container input[type="number"] {
@@ -1653,48 +1656,6 @@ Modo oscuro
     }
 
     /* Botones de editar y borrar en modo oscuro */
-    .admfases-container .btn-borrar {
-        color: var(--second-light-green); /* Color de los iconos */
-    }
-
-    .admfases-container .btn-editar {
-        display: inline-block;
-        color: var(--second-light-green); /* Color de los iconos */
-        transform: scaleX(-1);
-        transition: transform 0.3s ease, background-color 0.3s ease; 
-    }
-    
-    .admfases-container .btn-editar:hover{
-        transform: scale(1.2); 
-        color: var(--second-light-blue); /* Color al pasar el mouse */
-    }
-    .admform-container .btn-editar {
-        display: inline-block;
-        color: var(--second-light-green); /* Color de los iconos */
-        transform: scaleX(-1);
-        transition: transform 0.3s ease, background-color 0.3s ease; 
-    }
-    
-    .admform-container .btn-editar:hover,
-    .admform-container .btn-editar-ver:hover{
-        transform: scale(1.2); 
-        color: var(--second-light-blue); /* Color al pasar el mouse */
-    }
-
-    .admfases-container .btn-borrar:hover {
-        color: var(--second-light-blue); /* Color al pasar el mouse */
-    }
-
-    .admfases-container .btn-editar-campo{
-        background-color: var(--second-grey);
-    }
-
-    .admtipopro-container .btnEditarProducto {
-        background-color: var(--second-grey);
-    }
-    .admtipopro-container .btnEliminarProducto {
-        background-color: var(--second-grey);
-    }
 
     header h1{
         color: var(--primary-white);
