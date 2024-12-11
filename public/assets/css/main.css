@@ -1054,12 +1054,13 @@ Vamos ahora con la gestion de formularios
 
 .admform-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
-    padding: 1vw; /* Agrega un relleno interno para dar espacio dentro del contenedor */
+    padding: 2vw; /* Agrega un relleno interno para dar espacio dentro del contenedor */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
     border-radius: 10px; /* Añade bordes redondeados */
     font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor lectura */
     color: var(--primary-black); /* Cambia el color de texto para mejor contraste */
     text-align: left; /* Alinea el texto a la izquierda */
+
 }
 
 .admform-container h1 {
@@ -1318,10 +1319,16 @@ vamos con los datos del usuario en el index
 
 @media (max-width:850px) {
     .admform-container {
-        margin: 1em;
+        margin-right: 1em;
+        margin-left: 1em;
     }
     .index-container {
-        margin: 1em;
+        margin-right: 1em;
+        margin-left: 1em;
+    }
+    .admtipopro-container{
+        margin-right: 1em;
+        margin-left: 1em;
     }
     
     .tabla-usuarios td {
@@ -1330,9 +1337,6 @@ vamos con los datos del usuario en el index
 }
 
 @media (max-width:700px) {
-    .admform-container {
-        margin: 0.5em;
-    }
     .index-container {
         margin: 0.5em;
     }
@@ -1345,9 +1349,6 @@ vamos con los datos del usuario en el index
         padding: 0.2em;
     }
 
-    .admform-container {
-        margin: 0.5em;
-    }
     .index-container {
         margin: 0.5em;
     }
