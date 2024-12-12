@@ -81,4 +81,11 @@ class Config
         return self::getVar("RECAPTCHA_VERIFY_URL", "https://www.google.com/recaptcha/api/siteverify");
     }
     
+
+    public static function getPublicKeyEmailjs()
+    {
+        return self::getVar("EMAILJS_PUBLIC_KEY", "");
+    }
+
+
 }
