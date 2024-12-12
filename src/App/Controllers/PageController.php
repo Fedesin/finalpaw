@@ -19,20 +19,25 @@ class PageController extends BaseController
     public function index()
     {
         $session = Session::getInstance();
+        
         $user = User::getById($session->user_id);
         $userEmail= $user->email;
-
+        $emailjskey = Config::getPublicKeyEmailjs();
         parent::showView('index.view.twig', [
             "user" => $user,
+            "emailjskey" => $emailjskey,
             "userMail" => $userEmail
+            
         ]);
     }
 
     public function login ()
     {
+        $emailjskey = Config::getPublicKeyEmailjs();
         $sitekey = Config::getPublicKeyCaptcha();
         parent::showView('login.view.twig', [
-            "sitekey" => $sitekey
+            "sitekey" => $sitekey,
+            "emailjskey" => $emailjskey
             ]);
     }
 
@@ -111,6 +116,7 @@ class PageController extends BaseController
 
     public function admuser ()
     {
+        $emailjskey = Config::getPublicKeyEmailjs();
         $session = Session::getInstance();
         $user = User::getById($session->user_id);
         $cantUsers = User::count();
@@ -119,7 +125,8 @@ class PageController extends BaseController
         parent::showView('admuser.view.twig', [
             "cantUsers" => $cantUsers,
             "roles" => $roles,
-            "user" => $user
+            "user" => $user,
+            "emailjskey" => $emailjskey
         ]);
     }
     

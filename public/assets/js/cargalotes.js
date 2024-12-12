@@ -92,19 +92,3 @@ Array.from(forms).forEach(form => {
 });
 
 
-// Función para mostrar mensajes dinámicos
-function mostrarMensaje(texto, tipo) {
-    mensaje.style.display = 'block';
-    mensaje.innerText = texto;
-
-    if (tipo === 'success') {
-        mensaje.style.color = 'green';
-    } else {
-        mensaje.style.color = 'red';
-    }
-
-    // Ocultar el mensaje después de unos segundos (opcional)
-    setTimeout(() => {
-        mensaje.style.display = 'none';
-    }, 3000);
-}

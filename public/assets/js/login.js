@@ -73,4 +73,5 @@ function onSubmit(token) {
 }
 
 
-emailjs.init('P2ymE0jXezSM_YMnM');
+
+emailjs.init(EMAILJSKEY);

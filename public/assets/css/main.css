@@ -1389,7 +1389,7 @@ h3 {
     .tabla-usuarios tr {
         display: block;
         margin-bottom: 0.5em;
-        border: none
+        border: none;
         padding: 1ch;
     }
 
@@ -1399,7 +1399,7 @@ h3 {
         padding: 1em;
         border: solid 1px --primary-black;
         align-items: center;
-    }render=explicit
+    }
 
     .tabla-usuarios td::before {
         content: attr(data-label);
