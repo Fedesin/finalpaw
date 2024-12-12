@@ -72,7 +72,6 @@ class PageController extends BaseController
     {
         $session = Session::getInstance();
         $user = User::getById($session->user_id);
-        
         $tipo_productos = TipoProducto::getAll();
         
         parent::showView('admfases.view.twig', [
@@ -85,30 +84,20 @@ class PageController extends BaseController
     {
         $session = Session::getInstance();
         $user = User::getById($session->user_id);
-        $userId= $user->id;
-        if ($user->rol_id == 1 || $user->rol_id == 2) {
-            //si el usuario activo es rol usuario o rol supervisor entonces
-            //solo muestro los lotes en los cuales el 
-            //es un integrante
-            $where = [
-                'OR' => [
-                    ['supervisor_id', '=', $userId],
-                    ['encargado_produccion_id', '=', $userId],
-                    ['encargado_limpieza_id', '=', $userId],
-                ]
-            ];
-    
-            parent::showView('admform.view.twig', [
-                'lotes' => Lote::getAll($where),
-                'user' => $user
-            ]);
+
+        //si el usuario activo es rol usuario o rol supervisor entonces
+        //solo muestro los lotes en los cuales el 
+        //es un integrante
+        if ($user->rol->nombre == 'usuario' || $user->rol->nombre == 'supervisor') {    
+            $lotes = Lote::filtrarPorUsuario($user->id);
         } else {
-            //si el usuario es administrador que pueda ver todos los lotes
-            parent::showView('admform.view.twig', [
-                'lotes' => Lote::getAll(),
-                'user' => $user
-            ]);
+            $lotes = Lote::getAll();
         }
+
+        parent::showView('admform.view.twig', [
+            'lotes' => $lotes,
+            'user' => $user
+        ]);
     }
 
     public function admalert ()
@@ -122,7 +111,6 @@ class PageController extends BaseController
         $user = User::getById($session->user_id);
         $cantUsers = User::count();
         $roles = Roles::getAll();
-
 
         parent::showView('admuser.view.twig', [
             "cantUsers" => $cantUsers,

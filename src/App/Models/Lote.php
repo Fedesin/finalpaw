@@ -78,4 +78,16 @@ class Lote extends Model
         $this->atributos = json_encode($atributos);
         $this->save();
     }
+
+    public static function filtrarPorUsuario($user_id) {
+        $where = [
+            'OR' => [
+                ['supervisor_id', '=', $user_id],
+                ['encargado_produccion_id', '=', $user_id],
+                ['encargado_limpieza_id', '=', $user_id]
+            ]
+        ];
+
+        return self::getAll($where);
+    }
 }
