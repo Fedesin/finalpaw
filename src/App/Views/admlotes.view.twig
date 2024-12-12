@@ -45,11 +45,11 @@
           {% endfor %}
       </select>
     
-        <p class="lote-message" itemprop="result">
+        <output class="lote-message" itemprop="result">
             {% if data.message %}
                 {{ data.message }}
             {% endif %}
-        </p>
+        </output>
       <button type="submit" itemprop="potentialAction">Guardar</button>
     </form>
 </main>
