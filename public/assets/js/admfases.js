@@ -200,10 +200,12 @@ function agregarFilaAtributos(tabla_body, fase_id, atributos) {
     let editButton = document.createElement('button');
     editButton.classList.add('btn-editar');
     editButton.classList.add('btn-editarver');
+    editButton.title = 'Editar el nombre y el tipo de dato del campo';
     // Botón de eliminar
     let deleteButton = document.createElement('button');
     deleteButton.classList.add('btn-delete');
     deleteButton.classList.add('btn-editarver');
+    deleteButton.title = 'Eliminar el campo';
 
     editLi.appendChild(editButton);
     deleteLi.appendChild(deleteButton);
@@ -247,8 +249,8 @@ function addFase(fase) {
     row.innerHTML = `
         <td>${fase.nombre}</td>
         <td>
-            <button class="btn-editar btn-editarver" data-id="${fase.id}"></button>
-            <button class="btn-borrar btn-delete btn-editarver" data-id="${fase.id}"></button>
+            <button class="btn-editar btn-editarver" data-id="${fase.id}" title="Editar campos de la fase"></button>
+            <button class="btn-borrar btn-delete btn-editarver" data-id="${fase.id}" title="Borrar la fase"></button>
         </td>
     `;
     tabla_fases.appendChild(row);
