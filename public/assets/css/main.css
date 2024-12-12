@@ -1414,7 +1414,9 @@ main h1{
     margin-top: 0;
 }
 
-
+.admform-container h2{
+    margin-top: 0;
+}
 
 
 .formulario-producto {
@@ -1587,6 +1589,9 @@ Modo oscuro
     
 
     .admform-container h1{
+        color: var(--second-light-green);
+    }
+    .admform-container h2{
         color: var(--second-light-green);
     }
 

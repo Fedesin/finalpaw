@@ -23,8 +23,8 @@
                 <td itemprop="name">{{ lote.producto.nombre }}</td>
                 <td itemprop="identifier">{{ lote.numero }}</td>
                 <td>
-                    <a href="/lotes/cargar?id={{ lote.id }}" class="btn-editar btn-editarver" data-id="{{ lote.id }}" itemprop="potentialAction"></a>
-                    <a href="/lotes/ver?id={{ lote.id }}" class="btn-editar-ver btn-editarver" data-id="{{ lote.id }}" itemprop="potentialAction"></a>
+                    <a href="/lotes/cargar?id={{ lote.id }}" class="btn-editar btn-editarver" data-id="{{ lote.id }}" itemprop="potentialAction" title="Editar los valores de cada fase del lote"></a>
+                    <a href="/lotes/ver?id={{ lote.id }}" class="btn-editar-ver btn-editarver" data-id="{{ lote.id }}" itemprop="potentialAction" title="Ver los valores de todas las fases del lote"></a>
                 </td>                        
             </tr>
             {% endfor %}
