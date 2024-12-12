@@ -1419,7 +1419,7 @@ h3 {
         padding: 1em;
         border: solid 1px --primary-black;
         align-items: center;
-    }
+    }render=explicit
 
     .tabla-usuarios td::before {
         content: attr(data-label);
@@ -1460,6 +1460,7 @@ main h1{
     font-weight: bold;
     color: var(--primary-green);
 }
+
 
 /*
 -----------------------------
