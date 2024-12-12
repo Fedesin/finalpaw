@@ -13,7 +13,8 @@
         });
     })();
     </script>
-    <script src="https://www.google.com/recaptcha/api.js?render={{sitekey}}"></script>
+   
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit}"></script>
     <script src="/assets/js/login.js" defer></script>
 {% endblock %}
 
@@ -37,9 +38,9 @@
         
         <button class="g-recaptcha" type="submit" itemprop="potentialAction"
                 data-sitekey={{ sitekey }} 
-                data-callback='onSubmit' 
+                data-callback='onSubmit'
+                data-badge="bottomleft"
                 data-action='submit'>Acceder</button>
-
         <output class="login-error" itemprop="result">{% if status %}{{ status }}{% endif %}</output>
 
         <a href="#" class="forgot-password-link" itemprop="url">Olvidé mi contraseña</a>
