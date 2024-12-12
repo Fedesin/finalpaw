@@ -29,6 +29,16 @@ class User extends Model
         return Roles::getById($this->rol_id);
     }
 
+    public function setRol($rol_id) {
+        $this->rol_id = $rol_id;
+        $this->save();
+    }
+
+    public function setStatus($status) {
+        $this->deshabilitado = $status;
+        $this->save();
+    }
+
     public static function valid($user, $password, $touch_login)
     {
         $where = [
@@ -52,20 +62,16 @@ class User extends Model
         return $model;
     }
 
-
     public function register($username, $password, $rol_id)
     {
-        // Verificar si el QueryBuilder está inicializado
-        if (!$this->queryBuilder) {
-            throw new Exception("QueryBuilder no inicializado en User.");
-        }
+        $user = new self();
 
-        $this->email = $username;
-        $this->password = password_hash($password, PASSWORD_BCRYPT);
-        $this->rol_id = $rol_id;
-        $this->last_login = date('Y-m-d H:i:s');
+        $user->email = $username;
+        $user->password = password_hash($password, PASSWORD_BCRYPT);
+        $user->rol_id = $rol_id;
+        $user->last_login = date('Y-m-d H:i:s');
 
-        return $this->save();
+        return $user->save();
     }
 
     public function updatePassword($newPassword)
@@ -126,5 +132,38 @@ class User extends Model
             // Devuelve null si no se encuentra el usuario
             return null;
         }
+    }
+
+    public static function exists($email) {
+        $user = self::get(['email' => $email]);
+        return $user !== null;
+    }
+
+    public static function countUsersLikeEmail($email) {
+        $where = [];
+
+        if(isset($email)) {
+            $where = [
+                'email' => [
+                    'LIKE', '%' . $email . '%'
+                ]
+            ];
+        }
+
+        return self::count($where);
+    }
+
+    public static function getUsersLikeEmail($email, $limit, $offset) {
+        $where = [];
+
+        if($email) {
+            $where = [
+                'email' => [
+                    'LIKE', '%' . $email . '%'
+                ]
+            ];
+        }
+
+        return User::getAll($where, limit: $limit ? $limit : 'ALL', offset: $offset ? $offset : 0);
     }
 }

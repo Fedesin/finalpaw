@@ -23,7 +23,6 @@ class UserController extends BaseController
         parent::showView('index.view.twig');
     }
 
-
     public function login()
     {
         $data = $_POST;        
@@ -84,30 +83,17 @@ class UserController extends BaseController
         ]);
     }
 
-    private function emailExists($email) {
-        $user = User::get(['email' => $email]); // Usar el método `get` del modelo `User`
-        return $user !== null; // Si devuelve un usuario, entonces existe
-    }
-
     public function register($request)
     {
         header('Content-Type: application/json');
         
         $email = $request->username;
-
-        // Verifica si el correo ya está registrado
-        if ($this->emailExists($email)) {
-            echo json_encode(['status' => 'error', 'message' => 'Ya existe un usuario registrado con ese email.']);
-            return;
-        }
-
         $password = $request->password;
         $rol_id = $request->rol_id;
         
         try {
             // Registrar el nuevo usuario
-            $user = new User();
-            $user->register($email, $password, $rol_id);
+            $user = User::register($email, $password, $rol_id);
 
             // Respuesta exitosa
             echo json_encode(['status' => 'success', 'message' => 'Usuario registrado correctamente']);
@@ -120,8 +106,7 @@ class UserController extends BaseController
     public function setStatus($request) {
         // Lógica para actualizar el estado del usuario en la base de datos.
         $user = User::getById($request->userid);
-        $user->deshabilitado = $request->status;
-        $user->save();
+        $user->status = $request->status;
 
         // Enviar una respuesta exitosa al cliente
         echo json_encode(['status' => 'success']);
@@ -129,35 +114,15 @@ class UserController extends BaseController
 
     public function changeRole($request) {
         $user = User::getById($request->user_id);
-        $user->rol_id = $request->rol_id;
-        $user->save();
+        $user->rol = $request->rol_id;
 
         // Enviar una respuesta exitosa al cliente
         echo json_encode(['status' => 'success']);
     }
 
     public function getUsers($request) {
-        $where = [];
-
-        if(isset($request->email)) {
-            $where = [
-                'email' => [
-                    'LIKE', '%' . $request->email . '%'
-                ]
-            ];
-        }
-
-        $cantUsers = User::count($where);
-
-        $limit = 'ALL';
-        if(isset($request->limit))
-            $limit = $request->limit;
-
-        $offset = 0;
-        if(isset($request->offset))
-            $offset = $request->offset;
-
-        $users = User::getAll($where, limit: $limit, offset: $offset);
+        $cantUsers = User::countUsersLikeEmail($request->email);
+        $users = User::getUsersLikeEmail($request->email, limit: $request->limit, offset: $request->offset);
 
         $ret = [
             'total' => $cantUsers,
@@ -200,20 +165,12 @@ class UserController extends BaseController
         header('Content-Type: application/json');
         
         $email = $request->username;
-
-        // Verifica si el correo ya está registrado
-        if ($this->emailExists($email)) {
-            echo json_encode(['status' => 'error', 'message' => 'Ya existe un usuario registrado con ese email.']);
-            return;
-        }
-
         $password = $request->password;
         $rol_id = $request->rol_id;
         
         try {
             // Registrar el nuevo usuario
-            $user = new User();
-            $user->register($email, $password, $rol_id);
+            $user = User::register($email, $password, $rol_id);
 
             // Respuesta exitosa
             echo json_encode(['status' => 'success', 'message' => 'Usuario registrado correctamente']);
@@ -222,14 +179,13 @@ class UserController extends BaseController
             echo json_encode(['status' => 'error', 'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()]);
         }
     }
+
     private function jsonResponse($data, $status = 200) {
         http_response_code($status);
         header('Content-Type: application/json');
         echo json_encode($data);
         exit;
     }
-
-    
 
     public function verifyPasswordChange($request)
     {
@@ -358,9 +314,6 @@ class UserController extends BaseController
         }
     }
 
-
-    
-
     public function showResetPasswordForm()
     {
         $token = $_GET['token'] ?? null;
@@ -381,8 +334,6 @@ class UserController extends BaseController
         // Renderizar la vista de cambio de contraseña
         parent::showView('reset_password.view.twig', ['token' => $token]);
     }
-
-
     
     public function resetPassword($request)
     {
@@ -427,9 +378,5 @@ class UserController extends BaseController
         } catch (Exception $e) {
             $this->jsonResponse(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()], 500);
         }
-    }
-
-
-
-    
+    } 
 }
