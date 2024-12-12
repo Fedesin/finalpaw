@@ -1499,6 +1499,16 @@ Modo oscuro
         color: var(--second-light-green);
     }
 
+    .index-container h1{
+        color: var(--second-light-green);
+    }
+    .index-container h2{
+        color: var(--second-light-green);
+    }
+    .index-container h3{
+        color: var(--primary-yellow);
+    }
+
     .login-container{
         background-color: var(--second-grey);
         color: var(--primary-yellow);
