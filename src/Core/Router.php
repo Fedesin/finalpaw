@@ -88,14 +88,18 @@ class Router
         } catch (RouteNotFoundException $e) {
             list($controller, $method) = $this->getController($this->notFound, "GET");       
             $this->logger->debug('Status Code: 404 - Route Not Found', ["ERROR" => $e]);
-        } catch (ModelNotFoundException $e) {
-            list($controller, $method) = $this->getController($this->notFound, "GET");       
-            $this->logger->debug('Status Code: 404 - Model Not Found', ["ERROR" => $e]);
         } catch (Exception $e) {
             list($controller, $method) = $this->getController($this->internalError, "GET");       
             $this->logger->error('Status Code: 500 - Internal Server Error', ["ERROR" => $e]);
         } finally {
-            $this->call($controller, $method, $request);
+            //try {
+                $this->call($controller, $method, $request);
+            /*} catch (ModelNotFoundException $e) {
+                list($controller, $method) = $this->getController($this->notFound, "GET");       
+                $this->logger->debug('Status Code: 404 - Model Not Found', ["ERROR" => $e]);
+
+                $this->call($controller, $method, $request);
+            }*/
         }
     }
 }

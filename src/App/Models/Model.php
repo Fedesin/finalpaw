@@ -119,7 +119,7 @@ class Model
         $newInstance->setQueryBuilder($qb);
     
         if ($newInstance->load($where, $order_by, $direction, $limit, $offset) === null) {
-            throw new ModelNotFoundException();
+            return null;
         }
     
         return $newInstance;
@@ -131,7 +131,12 @@ class Model
             "id" => $id
         ];
 
-        return static::get($where);
+        $model = static::get($where);
+
+        if($model === null)
+            throw new ModelNotFoundException('Modelo no encontrado');
+
+        return $model;
     }
 
     public static function count($where = [])
