@@ -33,19 +33,19 @@ class Lote extends Model
         return Fases::getById($this->fase_actual);
     }
 
-    public function getEncargado_Production()
+    public function getEncargado_Produccion()
     {
         return User::getById($this->encargado_produccion_id);
     }
 
     public function getEncargado_Limpieza()
     {
-        return User::getById($this->encargado_produccion_id);
+        return User::getById($this->encargado_limpieza_id);
     }
 
     public function getSupervisor()
     {
-        return User::getById($this->encargado_produccion_id);
+        return User::getById($this->supervisor_id);
     }
 
     // Método para crear un nuevo lote

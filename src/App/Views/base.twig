@@ -19,7 +19,7 @@
 	<header itemscope itemtype="http://schema.org/WPHeader">
 		<figure class="logo" itemprop="image">
 			<a href="/" itemprop="url">
-				<img src="/img/logo.png" width="96px" height="96px" alt="Logo">
+				<img src="/img/logo.png" alt="Logo" />
 			</a>
 			<figcaption class="titulo-subtitulo">
 				<h1 itemprop="headline">Planta Piloto UNLu</h1>
@@ -41,7 +41,7 @@
 	<!--navbar-->
 	<nav itemscope itemtype="http://schema.org/SiteNavigationElement">
 		{% block hamburgerMenu %}
-		<input id="hamburgerMenu" type="checkbox" name="">
+		<input id="hamburgerMenu" type="checkbox">
 		<label for="hamburgerMenu" class="hamburgerMenu"></label>
 		{% endblock %}
 
@@ -80,20 +80,18 @@
 	
 	<!--footer-->
 	<footer itemscope itemtype="http://schema.org/WPFooter">
-		<section itemprop="description">
-		<p>Sistema desarrollado por los estudiantes de la asignatura Programación en ambiente web</p>
-			<ul>
-				<li itemprop="author" itemscope itemtype="http://schema.org/Person">
-					<span itemprop="name">Torres Patricio 🧑‍💻</span>
-				</li>
-				<li itemprop="author" itemscope itemtype="http://schema.org/Person">
-					<span itemprop="name">Simone Federico 🧑‍💻</span>
-				</li>
-			</ul>
-		</section>
+		<p itemprop="description">Sistema desarrollado por los estudiantes de la asignatura Programación en ambiente web</p>
 		<a class="help" href="/help">
 			<span class="help-emoji" title="Ayuda"></span>
 		</a>
+		<ul>
+			<li itemprop="author" itemscope itemtype="http://schema.org/Person">
+				<span itemprop="name">Torres Patricio 🧑‍💻</span>
+			</li>
+			<li itemprop="author" itemscope itemtype="http://schema.org/Person">
+				<span itemprop="name">Simone Federico 🧑‍💻</span>
+			</li>
+		</ul>
 	</footer>
 	<!--footer-->
 

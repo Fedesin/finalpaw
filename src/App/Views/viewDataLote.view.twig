@@ -3,29 +3,25 @@
 {% block content %}
 
 <main class="index-container" itemscope itemtype="http://schema.org/WebPage">
-    <h1 class="capitalize" itemprop="headline">Lote {{ lote.numero }} - {{ lote.producto.nombre }}</h1>
-    <h2 itemprop="dateCreated">Fecha: {{ lote.fecha }}</h2>
-
     <section itemscope itemtype="http://schema.org/Person">
+        <h2 class="capitalize" itemprop="headline">Lote {{ lote.numero }} - {{ lote.producto.nombre }}</h2>
+        <h3 itemprop="dateCreated">Fecha: {{ lote.fecha }}</h3>
+
         <ul class="no-dots">
             <li>
-                <label class="bold" itemprop="jobTitle">Supervisor:</label>
-                <span itemprop="email">{{ lote.supervisor.email }}</span>
+                <span><strong itemprop="jobTitle">Supervisor:</strong> <em itemprop="email">{{ lote.supervisor.email }}</em></span>
             </li>
 
             <li>
-                <label class="bold" itemprop="jobTitle">Encargado de producción:</label>
-                <span itemprop="email">{{ lote.encargado_produccion.email }}</span>
+                <span><strong itemprop="jobTitle">Encargado de producción:</strong> <em itemprop="email">{{ lote.encargado_produccion.email }}</em></span>
             </li>
 
             <li>
-                <label class="bold" itemprop="jobTitle">Encargado de limpieza:</label>
-                <span itemprop="email">{{ lote.encargado_limpieza.email }}</span>
+                <span><strong itemprop="jobTitle">Encargado de limpieza:</strong> <em itemprop="email">{{ lote.encargado_limpieza.email }}</em></span>
             </li>
 
             <li>
-                <label class="bold">Fase actual:</label>
-                <span itemprop="name">{{ lote.fase.nombre }}</span>
+                <span><strong itemprop="jobTitle">Fase actual:</strong> <em itemprop="email">{{ lote.fase.nombre }}</em></span>
             </li>
         </ul>
     </section>
@@ -33,7 +29,7 @@
     <hr>
     {% for fase_nombre, atributos in lote.atributos | json_decode %}
         <section itemscope itemtype="http://schema.org/CreativeWork">
-            <h1 itemprop="headline">{{ fase_nombre }}</h1>
+            <h2 itemprop="headline">{{ fase_nombre }}</h2>
 
             <ul class="no-dots multi-columns">
                 {% for fase_atributos in atributos %}
