@@ -13,7 +13,7 @@
         });
     })();
     </script>
-    <script src="https://www.google.com/recaptcha/api.js?render='{{sitekey}}'" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{sitekey}}"></script>
     <script src="/assets/js/login.js" defer></script>
 {% endblock %}
 
@@ -34,10 +34,10 @@
 
         <label for="password" itemprop="object.password">Contraseña:</label>
         <input type="password" id="password" name="password" title="Ingrese su contraseña" required>
-
-        <button class="g-recaptcha"
+        
+        <button class="g-recaptcha" type="submit" itemprop="potentialAction"
                 data-sitekey={{ sitekey }} 
-                data-callback='onClick' 
+                data-callback='onSubmit' 
                 data-action='submit'>Acceder</button>
 
         <output class="login-error" itemprop="result">{% if status %}{{ status }}{% endif %}</output>

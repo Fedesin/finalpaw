@@ -3,6 +3,7 @@
 namespace Paw\App\Controllers;
 use Paw\Core\Validator;
 use Paw\Core\Session;
+use Paw\Core\Config;
 use Paw\App\Models\User;
 use Paw\App\Models\Roles;
 use Paw\Core\Exceptions\ModelNotFoundException;
@@ -27,9 +28,9 @@ class UserController extends BaseController
     public function login($request)
     {
         // verifica el token de recaptcha v3
-        $recaptchaToken = $request->g_recaptcha_response;
-        $secretKey = getPrivateKeyCaptcha();
-        $verifyUrl = getUrlCaptcha();
+        $recaptchaToken = $request->{'g-recaptcha-response'};
+        $secretKey = Config::getPrivateKeyCaptcha();
+        $verifyUrl = Config::getUrlCaptcha();
 
         // realiza la solicitud a la API de reCAPTCHA
         $response = file_get_contents($verifyUrl . '?secret=' . $secretKey . '&response=' . $recaptchaToken);
@@ -38,26 +39,28 @@ class UserController extends BaseController
         if (!$responseKeys['success'] || $responseKeys['score'] < 0.5) {
             $error = 'La verificación de reCAPTCHA falló. Por favor, inténtalo nuevamente.';
             parent::showView('login.view.twig', [
-                "email" => $request->email,
-                "status" => $error
+                "email" => $request->username,
+                "status" => $error,
+                "sitekey" => Config::getPublicKeyCaptcha()
             ]);
             return;
         }
         
         try {
-            $user = User::valid($request->email, $request->password, true);
+            $user = User::valid($request->username, $request->password, true);
             // Iniciar la sesión y almacenar el email del usuario
             $session = Session::getInstance();
             $session->logged_in = true;
-            $session->email = $user->email;
+            $session->email = $user->username;
             $session->user_id = $user->id; // Guardar el ID del usuario
 
             $this->redirect("/");
         } catch(ModelNotFoundException $e) {
             $error = 'Usuario o contraseña incorrecto';
             parent::showView('login.view.twig', [
-                "email" => $email,
-                "status" => $error
+                "email" => $request->username,
+                "status" => $error,
+                "sitekey" => Config::getPublicKeyCaptcha()
             ]);
         }
     }
@@ -285,9 +288,7 @@ class UserController extends BaseController
     
         // Llamar a createUser para delegar la creación del usuario
         $this->createUser($mockRequest);
-
-        // Redirigir a la vista de login
-        parent::showView('login.view.twig');
+        $this->redirect("/");
     }
 
     public function forgotPassword($request)

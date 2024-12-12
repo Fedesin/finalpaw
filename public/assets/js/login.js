@@ -68,14 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function onClick(e) {
-    e.preventDefault();
-    grecaptcha.ready(function() {
-        grecaptcha.execute(SITEKEY, {action: 'submit'}).then(function(token) {
-            //aca logica del submit
-            console.log(token);
-        })
-    })
-    document.getElementsByClassName("login-form").submit();
+function onSubmit(token) {
+    document.querySelector(".login-form").submit();
 }
+
 emailjs.init('P2ymE0jXezSM_YMnM');
