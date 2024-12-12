@@ -28,7 +28,7 @@
 		</figure>
 		{% if logged_in %}
 		<section class="user-profile" itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<h3 itemprop="email">{{ email }}</h3>
+			<p class="user-email" itemprop="email">{{ email }}</p>
 			<a class="logout" href="/logout" itemprop="url">
 				<span class="logout-emoji" title="Cerrar sesion"></span>
 			</a>

@@ -1436,6 +1436,11 @@ main h1{
     margin-bottom: 20px; /* Espacio debajo del formulario */
 }
 
+.user-email{
+    font-weight: bold;
+    color: var(--primary-green);
+}
+
 /*
 -----------------------------
 Vista de impresion
@@ -1456,6 +1461,9 @@ Vista de impresion
     }
 
     .user-profile {
+        display: none;
+    }
+    .user-email{
         display: none;
     }
 }
@@ -1504,7 +1512,9 @@ Modo oscuro
     footer{
         background-color: #3b4a5a;
     }
-    
+    .user-email{
+        color: var(--second-light-grey);
+    }
     .index-container p{
         color: var(--primary-white);
     }
@@ -1576,7 +1586,7 @@ Modo oscuro
         color: var(--primary-white); /* Color de texto de la cabecera */
     }
 
-    .admtipopro-container h1{
+    .admtipopro-container h2{
         color: var(--second-light-green);
     }
 
