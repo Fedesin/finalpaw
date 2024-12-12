@@ -422,6 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectTipo_producto_id.addEventListener('change', function() {
             var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
 
+            document.querySelector('.label-fases').classList.remove('hidden');
             document.querySelector('.tabla-fases').classList.remove('hidden');
             document.querySelector('#fase-nombre').classList.remove('hidden');
             document.querySelector('.btn-agregar-fase').classList.remove('hidden');

@@ -737,7 +737,7 @@ Gestion de Fases
 .admfases-container label {
     font-weight: bold; /* Hace el texto de los labels más visible */
     margin-bottom: 0.5em;
-    display: block;
+
 }
 
 .admfases-container input[type="text"],
@@ -774,17 +774,8 @@ Gestion de Fases
     color: var(--primary-white); /* Color de texto de la cabecera */
 }
 
-.contenedor_lista_tipo_producto{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-evenly;
-}
-
-.contenedor_agregar_fases{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-around;
-    margin-top: 0.5vw;
+.contenedor_lista_tipo_producto select{
+    margin: 0.5em;
 }
 .campo-row {
     display: flex;
