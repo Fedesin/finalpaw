@@ -9,10 +9,15 @@ class ErrorController extends BaseController
         parent::__construct();
     }
 
-    public function notFound()
+    public function notFound($request)
     {
         http_response_code(404);
-        parent::showView('not-found.view.twig');
+
+        if($request->accept() == 'application/json') {
+            echo json_encode(['success' => false, 'message' => 'Modelo no encontrado']);
+        } else {
+            parent::showView('not-found.view.twig');
+        }
     }
 
     public function internalError()
