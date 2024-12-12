@@ -13,11 +13,12 @@
         });
     })();
     </script>
+    <script src="https://www.google.com/recaptcha/api.js?render='{{sitekey}}'" async defer></script>
     <script src="/assets/js/login.js" defer></script>
 {% endblock %}
 
 {% block hamburgerMenu %}
-{% endblock %}
+{% endblock %} 
 
 {% block navbar %}
 {% endblock %}
@@ -34,8 +35,11 @@
         <label for="password" itemprop="object.password">Contraseña:</label>
         <input type="password" id="password" name="password" title="Ingrese su contraseña" required>
 
-        <button type="submit" itemprop="potentialAction">Acceder</button>
-        
+        <button class="g-recaptcha"
+                data-sitekey={{ sitekey }} 
+                data-callback='onClick' 
+                data-action='submit'>Acceder</button>
+
         <output class="login-error" itemprop="result">{% if status %}{{ status }}{% endif %}</output>
 
         <a href="#" class="forgot-password-link" itemprop="url">Olvidé mi contraseña</a>

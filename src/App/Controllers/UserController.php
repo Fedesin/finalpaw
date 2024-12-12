@@ -6,6 +6,7 @@ use Paw\Core\Session;
 use Paw\App\Models\User;
 use Paw\App\Models\Roles;
 use Paw\Core\Exceptions\ModelNotFoundException;
+use function Paw\Core\getPublicKeyCaptcha;
 
 class UserController extends BaseController
 {
@@ -23,15 +24,28 @@ class UserController extends BaseController
         parent::showView('index.view.twig');
     }
 
-    public function login()
+    public function login($request)
     {
-        $data = $_POST;        
-        $email = $data['username'];
-        $password = $data['password'];
+        // verifica el token de recaptcha v3
+        $recaptchaToken = $request->g_recaptcha_response;
+        $secretKey = getPrivateKeyCaptcha();
+        $verifyUrl = getUrlCaptcha();
 
+        // realiza la solicitud a la API de reCAPTCHA
+        $response = file_get_contents($verifyUrl . '?secret=' . $secretKey . '&response=' . $recaptchaToken);
+        $responseKeys = json_decode($response, true);
+        
+        if (!$responseKeys['success'] || $responseKeys['score'] < 0.5) {
+            $error = 'La verificación de reCAPTCHA falló. Por favor, inténtalo nuevamente.';
+            parent::showView('login.view.twig', [
+                "email" => $request->email,
+                "status" => $error
+            ]);
+            return;
+        }
+        
         try {
-            $user = User::valid($email, $password, true);
-
+            $user = User::valid($request->email, $request->password, true);
             // Iniciar la sesión y almacenar el email del usuario
             $session = Session::getInstance();
             $session->logged_in = true;

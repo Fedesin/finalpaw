@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const forgotPasswordLink = document.querySelector('.forgot-password-link');
     const emailInput = document.querySelector('#username');
     const loginErrorElement = document.querySelector('.login-error');
+    const loginForm = document.querySelector('.login-form');
+
 
     if (forgotPasswordLink && emailInput && loginErrorElement) {
         forgotPasswordLink.addEventListener('click', (e) => {
@@ -66,6 +68,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
-
+function onClick(e) {
+    e.preventDefault();
+    grecaptcha.ready(function() {
+        grecaptcha.execute(SITEKEY, {action: 'submit'}).then(function(token) {
+            //aca logica del submit
+            console.log(token);
+        })
+    })
+    document.getElementsByClassName("login-form").submit();
+}
 emailjs.init('P2ymE0jXezSM_YMnM');

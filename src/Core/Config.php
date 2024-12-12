@@ -66,5 +66,19 @@ class Config
     {
         return self::getVar("DB_CHARSET", "utf8");
     }
+
+    public static function getPublicKeyCaptcha()
+    {
+        return self::getVar("RECAPTCHA_SITE_KEY", "");
+    }
+    public static function getPrivateKeyCaptcha()
+    {
+        return self::getVar("RECAPTCHA_SECRET_KEY", "");
+    }
+
+    public static function getUrlCaptcha()
+    {
+        return self::getVar("RECAPTCHA_VERIFY_URL", "https://www.google.com/recaptcha/api/siteverify");
+    }
     
 }

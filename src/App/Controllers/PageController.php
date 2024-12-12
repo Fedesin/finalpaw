@@ -7,6 +7,7 @@ use Paw\Core\Session;
 use Paw\Core\Validator;
 use Paw\App\Models\TipoProducto;
 use Paw\App\Models\Lote;
+use Paw\Core\Config;
 
 class PageController extends BaseController
 {
@@ -29,7 +30,10 @@ class PageController extends BaseController
 
     public function login ()
     {
-        parent::showView('login.view.twig');
+        $sitekey = Config::getPublicKeyCaptcha();
+        parent::showView('login.view.twig', [
+            "sitekey" => $sitekey
+            ]);
     }
 
     public function register ()
