@@ -53,6 +53,11 @@ class Request
         return $_SERVER['REQUEST_METHOD'];
     }
 
+    public function accept()
+    {
+        return $_SERVER['HTTP_ACCEPT'];
+    }
+
     public function route()
     {
         return[
