@@ -696,6 +696,7 @@ colores:
 
 
 
+
 .admtipopro-container table {
     width: 100%; /* La tabla ocupa todo el ancho del contenedor */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
@@ -812,7 +813,12 @@ Gestion de Fases
 .btn-editar-ver::before {
     content:  '👁️';
 }
-
+.btnEditarProducto::before {
+    content:'✏️';
+}
+.btnEliminarProducto::before {
+    content:'❌';
+}
 
 
 .btn {
@@ -1404,7 +1410,9 @@ h3 {
 main h1{
     margin-top: 0;
 }
-
+.admlotes-container h2 {
+    margin-top: 0;
+}
 
 
 
@@ -1685,13 +1693,8 @@ Modo oscuro
         color: var(--second-light-grey); /* Color de texto blanco */
     }
     
-    .btn-editarver{
 
-    }
-    .btn-editarver:hover{
-
-    }
-
+    
 
 
     .admfases-container input.input-editar,
