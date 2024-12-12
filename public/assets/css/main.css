@@ -1705,6 +1705,11 @@ Modo oscuro
         color: var(--primary-yellow); /* Color del placeholder */
     }
 
+    .admlotes-container h2 {
+        color: var(--second-light-green);
+    }
+
+
     /* Botones de editar y borrar en modo oscuro */
 
     header h1{
