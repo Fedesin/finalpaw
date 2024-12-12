@@ -22,7 +22,7 @@
 
   <main class="index-container" itemscope itemtype="http://schema.org/Person">
       <form class="index-form" action="" method="post" itemprop="potentialAction" itemscope itemtype="http://schema.org/Action">
-          <h1>Datos del usuario</h1>
+          <h2>Datos del usuario</h2>
           <section class="index-dataname" itemprop="name">
               <h2>Usuario:</h2>
               {% if user.email %}
@@ -35,7 +35,7 @@
               <h3 class="capitalize">{{ user.rol.nombre }}</h3>
               {% endif %}
           </section>
-          <h1>Cambiar contraseña</h1>
+          <h2>Cambiar contraseña</h2>
           <label for="actual-password">Contraseña actual:</label>
           <input type="password" id="actual-password" class="actual-password" name="actual-password" required>
 
