@@ -7,23 +7,19 @@
         <h2 class="capitalize" itemprop="headline">Lote {{ lote.numero }} - {{ lote.producto.nombre }}</h2>
         <h3 itemprop="dateCreated">Fecha: {{ lote.fecha }}</h3>
 
-        <ul class="no-dots">
-            <li>
-                <span><strong itemprop="jobTitle">Supervisor:</strong> <em itemprop="email">{{ lote.supervisor.email }}</em></span>
-            </li>
+        <dl>
+            <dt itemprop="jobTitle">Supervisor</dt>
+            <dd itemprop="email">{{ lote.supervisor.email }}</dd>
 
-            <li>
-                <span><strong itemprop="jobTitle">Encargado de producción:</strong> <em itemprop="email">{{ lote.encargado_produccion.email }}</em></span>
-            </li>
+            <dt itemprop="jobTitle">Encargado de producción</dt>
+            <dd itemprop="email">{{ lote.encargado_produccion.email }}</dd>
 
-            <li>
-                <span><strong itemprop="jobTitle">Encargado de limpieza:</strong> <em itemprop="email">{{ lote.encargado_limpieza.email }}</em></span>
-            </li>
+            <dt itemprop="jobTitle">Encargado de limpieza</dt>
+            <dd itemprop="email">{{ lote.encargado_limpieza.email }}</dd>
 
-            <li>
-                <span><strong itemprop="jobTitle">Fase actual:</strong> <em itemprop="email">{{ lote.fase.nombre }}</em></span>
-            </li>
-        </ul>
+            <dt>Fase actual</dt>
+            <dd itemprop="value">{{ lote.fase.nombre }}</dd>
+        </dl>
     </section>
 
     <hr>
@@ -31,14 +27,12 @@
         <section itemscope itemtype="http://schema.org/CreativeWork">
             <h2 itemprop="headline">{{ fase_nombre }}</h2>
 
-            <ul class="no-dots multi-columns">
+            <dl class="no-dots multi-columns">
                 {% for fase_atributos in atributos %}
-                <li itemscope itemtype="http://schema.org/PropertyValue">
-                    <label class="bold" itemprop="name">{{ fase_atributos.nombre }}:</label>
-                    <span itemprop="value">{{ fase_atributos.valor }}</span>
-                </li>
+                    <dt itemprop="name">{{ fase_atributos.nombre }}</dt>
+                    <dd itemprop="value">{{ fase_atributos.valor }}</dd>
                 {% endfor %}
-            </ul>
+            </dl>
         </section>
     {% endfor %}
 </main>

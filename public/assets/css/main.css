@@ -129,6 +129,30 @@ section {
     margin-bottom: 20px;
 }
 
+dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+}
+
+dl.multi-columns {
+    display: grid;
+    grid-template-columns: repeat(3, max-content 1fr);
+    column-gap: 1em;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dt::after {
+    content: ":";
+    padding-right: 10px;
+}
+
+dt, dd {
+    margin: 5px 0 5px;
+}
+
 .overlay {
     position: absolute;
     width: 100%;
@@ -1127,10 +1151,6 @@ ul.no-dots {
     list-style: none;
 }
 
-ul.multi-columns {
-    columns: 3;
-}
-
 ul.lista-horizontal, ol.lista-horizontal {
     list-style: none;
     margin: 0;
@@ -1338,8 +1358,8 @@ h3 {
 }
 
 @media (max-width:1000px) {
-    ul.multi-columns {
-        columns: 2;
+    dl.multi-columns {
+        grid-template-columns: repeat(2, max-content 1fr);
     }
 }
 
@@ -1363,8 +1383,8 @@ h3 {
 }
 
 @media (max-width:700px) {
-    ul.multi-columns {
-        columns: 1;
+    dl.multi-columns {
+        grid-template-columns: repeat(1, max-content 1fr);
     }
 
     .index-container {
