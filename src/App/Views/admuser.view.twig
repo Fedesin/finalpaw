@@ -17,13 +17,17 @@
 {% endblock %}
 
 {% block content %}
-<main class="admform-container" itemscope itemtype="http://schema.org/WebPage">    <h1 itemprop="headline">Gestión de Usuarios</h1>
+<main class="admform-container" itemscope itemtype="http://schema.org/WebPage">
+    <h2 itemprop="headline">Gestión de Usuarios</h2>
+
     <!-- Filtro de Usuarios -->
-    <section class="filtrador" itemscope itemtype="http://schema.org/SearchAction">
+    <form class="filtrador" itemscope itemtype="http://schema.org/SearchAction">
+        <h3>Filtrar usuarios</h3>
         <meta itemprop="target" content="/search?query={query}" />
-        <input type="text" class="filtro" placeholder="Filtrar por nombre" itemprop="query-input">
-        <button class="btn" onclick="filtrarUsuarios()">Filtrar</button>
-    </section>
+        <label for="filtro" hidden>Filtrar usuarios</label>
+        <input type="text" id="filtro" placeholder="Filtrar por email" itemprop="query-input">
+    </form>
+
     <!-- Tabla de Usuarios -->
     <table class="tabla-usuarios relative" data-cant-users="{{ cantUsers }}">
         <thead>
@@ -43,7 +47,7 @@
         <li class="button btn" data-page="prev">&lt;</li>
         
         <!-- Contenedor para los números de página -->
-        <ul class="page-numbers lista-horizontal"></ul>
+        <ol class="page-numbers lista-horizontal"></ol>
 
         <li class="button btn" data-page="next">&gt;</li>
         <li class="button btn" data-page="last">&gt;&gt;</li>
@@ -51,24 +55,25 @@
 
     <!-- Formulario para Agregar/Editar Usuario -->
     <form class="login-form" action="register" method="post">
+        <h3>Agregar usuario</h3>
         <label for="email">Email:</label>
-        <input type="text" class="email-input" name="email" required>
+        <input id="email" type="text" class="email-input" name="email" required>
         
         <label for="rol">Rol:</label>
-        <select class="rol-select capitalize" name="rol_id" required>
+        <select id="rol" class="rol-select capitalize" name="rol_id" required>
             {% for role in roles %}
             <option value="{{ role.id }}">{{ role.nombre }}</option>
             {% endfor %}
         </select>
         
         {% if status %}
-            <p class="login-error">{{ status }}</p>
+            <output class="login-error">{{ status }}</output>
         {% else %}
-            <p class="login-error"></p>
+            <output class="login-error"></output>
         {% endif %}
         
         <button class="btn-registrar" type="button" itemprop="potentialAction">Registrar Usuario</button>    
-        </form>
-  </main>
+    </form>
+</main>
 
 {% endblock %}

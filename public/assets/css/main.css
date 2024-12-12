@@ -823,6 +823,7 @@ Gestion de Fases
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+    margin: 10px;
 }
 
 .btn:hover {
@@ -1116,6 +1117,10 @@ Vamos ahora con la gestion de formularios
     text-align: center; /* Alinea el texto a la izquierda */
 }
 
+.admform-container td p {
+    margin: 0;
+}
+
 ul.no-dots {
     list-style: none;
 }
@@ -1124,7 +1129,7 @@ ul.multi-columns {
     columns: 3;
 }
 
-ul.lista-horizontal{
+ul.lista-horizontal, ol.lista-horizontal {
     list-style: none;
     margin: 0;
     text-align: center;
@@ -1132,7 +1137,7 @@ ul.lista-horizontal{
     width: max-content;
 }
 
-ul.lista-horizontal > * {
+ul.lista-horizontal > *, ol.lista-horizontal > * {
     display: inline-block;
     margin: 0.5ch;
 }
@@ -1165,7 +1170,7 @@ ul.lista-horizontal.paginator {
     cursor: auto;
 }
 
-.filtrador{
+.filtrador {
     display: block;
     text-align: center;
 }
@@ -1200,14 +1205,14 @@ vamos con los datos del usuario en el index
     text-align: left; /* Alineación del texto a la izquierda */
 }
 
-.index-container h1 {
-    font-size: 1.5em; /* Tamaño más grande para el título */
+h2 {
+    /*font-size: 1.5em; /* Tamaño más grande para el título */
     color: var(--primary-green); /* Color del título */
     text-align: center; /* Centra el título */
 }
 
-.index-container h2 {
-    font-size: 1em; /* Tamaño más grande para el título */
+h3 {
+    /*font-size: 1em; /* Tamaño más grande para el título */
     color: var(--primary-yellow); /* Color del título */
     text-align: center; /* Centra el título */
 }
@@ -1292,7 +1297,7 @@ vamos con los datos del usuario en el index
     text-align: center; /* Alinea el texto a la izquierda */
 }
 
-.index-container h3{
+.index-container h4 {
     color: var(--second-light-blue);
 }
 
@@ -1301,7 +1306,7 @@ vamos con los datos del usuario en el index
     display: flex;
     align-items: baseline;
 }
-.index-dataname > h2 {
+.index-dataname > h3 {
     margin-right:2vw;
 }
 
@@ -1512,13 +1517,6 @@ Modo oscuro
     .register-form button {
         background-color: var(--primary-blue); /* Color de fondo similar */
         color: var(--second-light-grey); /* Color de texto blanco */
-    }
-
-    .index-container h1{
-        color: var(--second-light-green);
-    }
-    .index-container h3{
-        color: var(--second-light-grey);
     }
 
     .index-container{

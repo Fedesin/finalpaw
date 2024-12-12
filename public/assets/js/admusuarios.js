@@ -13,7 +13,7 @@ function cargarPagina(pagina, force = false) {
 
     currentPage = pagina;
 
-    let filtro = document.querySelector('.filtro').value;
+    let filtro = document.querySelector('#filtro').value;
     tabla_usuarios.parentElement.appendChild(spinner);
 
     Users.list(
@@ -34,7 +34,10 @@ function cargarPagina(pagina, force = false) {
         console.error('Error al cargar pagina:', filtro, pagina, error);
     })
     .finally(() => {
-        tabla_usuarios.parentElement.querySelector('.overlay').remove();
+        let overlay = tabla_usuarios.parentElement.querySelector('.overlay');
+
+        if(overlay)
+            overlay.remove();
     });
 }
 
@@ -105,7 +108,7 @@ function toggleStatus(button, userId, newStatus) {
 }
 
 function changeAnchorToOptions(button) {
-    var parent = button.closest('ul').querySelector('li');
+    var parent = button.closest('td')
     var userId = button.getAttribute('data-id');
     var currentRoleName = button.getAttribute('rol-nombre');
 
@@ -123,56 +126,31 @@ function changeAnchorToOptions(button) {
     });
     var changeButton = document.createElement('button');
     changeButton.textContent = 'Cambiar Rol';
-    changeButton.classList.add('changeRolePressed');
+    changeButton.classList.add('btn');
     changeButton.addEventListener('click', function() {
         var selectedRoleId = select.value;
-        changeRole(selectedRoleId, userId);
+        changeRole(parent, selectedRoleId, userId);
     });
     parent.innerHTML = ''; 
     parent.appendChild(select);
     parent.appendChild(changeButton);
 }
 
-function changeRole(rol_id, user_id) {
+function changeRole(td, rol_id, user_id) {
     Users.update({
         userid: user_id,
         rol_id: rol_id
     })
     .then(function(data) {
-        var parent = document.querySelector(`[data-id='${user_id}']`).closest('ul').querySelector('li');
-        parent.innerHTML = roles[rol_id];
+        td.innerHTML = `<p class="capitalize">${roles[rol_id]}
+                    <a href="#" 
+                        class="modify modifyRoleButton btn-editarver"  
+                        data-id="${user_id}">
+                    </a>
+                </p>`;
     })
     .catch(function(error) {
         console.error(error);
-    });
-}
-
-function generateRandomPassword(length) {
-    var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    var password = "";
-    for (var i = 0; i < length; i++) {
-        var randomIndex = Math.floor(Math.random() * charset.length);
-        password += charset[randomIndex];
-    }
-    return password;
-}
-
-function registerUser(email, rol_id, password) {
-    Users.create({
-        username: email,
-        password: password,
-        rol_id: rol_id
-    })
-    .then(data => {
-        const errorContainer = document.querySelector('.login-error');
-        if (data.status === 'success') {
-            errorContainer.innerHTML = `<p class="success-message">${data.message}</p>`;
-        } else if (data.status === 'error') {
-            errorContainer.innerHTML = `<p class="error-message">${data.message}</p>`;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
     });
 }
 
@@ -213,29 +191,21 @@ function listarUsuarios(usuarios, cantUsers) {
             <td data-label="ID">${user.id}</td>
             <td data-label="Email">${user.email}</td>
             <td data-label="Rol" class="no-padding">
-                <ul class="lista-horizontal">
-                    <li class="capitalize">${roles[user.rol_id]}</li>
-                    <li>
-                        <a href="#" 
-                            class="modify modifyRoleButton btn-editarver"  
-                            data-id="${user.id}" 
-                            rol-nombre="${roles[user.rol_id]}">
-                            <img/>
-                        </a>
-                    </li>
-                </ul>
+                <p class="capitalize">${roles[user.rol_id]}
+                    <a href="#"
+                        title="Modificar rol"
+                        class="modify modifyRoleButton btn-editarver"  
+                        data-id="${user.id}">
+                    </a>
+                </p>
             </td>
             <td data-label="Estado">
-                <ul class="lista-horizontal">
-                    <li>
-                        <a href="#" 
-                            class="toggleStatusButton btn-editarflecha ${user.deshabilitado ? 'up' : 'down'}"
-                            data-id="${user.id}"
-                            data-status="${user.deshabilitado}">
-                            <img/>
-                        </a>
-                    </li>  
-                </ul>
+                <a href="#"
+                    title="Cambiar estado habilitado/deshabilitado"
+                    class="toggleStatusButton btn-editarflecha ${user.deshabilitado ? 'up' : 'down'}"
+                    data-id="${user.id}"
+                    data-status="${user.deshabilitado}">
+                </a>
             </td>
         `;
         tabla_usuarios.appendChild(row);
@@ -244,14 +214,9 @@ function listarUsuarios(usuarios, cantUsers) {
     agregarManejadoresDeEventos();
 }
 
-function filtrarUsuarios() {
-    const filtro = document.querySelector('.filtro').value;
-
-    cargarPagina(1);
-}
-
 function agregarManejadoresDeEventos() {
     var buttons = document.querySelectorAll('.toggleStatusButton');
+
     buttons.forEach(function(button) {
         button.addEventListener('click', function() {
             var userId = parseInt(this.getAttribute('data-id'));
@@ -259,6 +224,7 @@ function agregarManejadoresDeEventos() {
             toggleStatus(button, userId, 1 - newStatus);
         });
     });
+
     var buttons = document.querySelectorAll('.modifyRoleButton');
     buttons.forEach(function(button) {
         button.addEventListener('click', function() {
@@ -268,6 +234,18 @@ function agregarManejadoresDeEventos() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    let searchTimer = null;
+
+    document.querySelector('#filtro').addEventListener('keyup', function(e) {
+        if(searchTimer)
+            clearTimeout(searchTimer);
+
+        searchTimer = setTimeout(function() {
+            cargarPagina(1, true);
+            searchTimer = null;
+        }, 800);
+    });
+
     tabla_usuarios = document.querySelector('.tabla-usuarios > tbody');
 
     spinner = document.createElement('div');
@@ -291,8 +269,6 @@ document.addEventListener('DOMContentLoaded', function() {
             //luego tengo que registrar al usuario cuando este confirma el mail
 
             enviarCorreoVerificacion(email, rolId);
-            //registerUser(email, rolId, generateRandomPassword(12));
-            //cargarPagina(currentPage, true);
         });
     }
 
@@ -321,9 +297,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     Roles.list().then(function(ret) {
         roles = ret;
+    })
+    .then(function() {
+        cargarPagina(1);
     });
-
-    cargarPagina(1);
 });
 
 function enviarCorreoVerificacion(email, rol_id) {
