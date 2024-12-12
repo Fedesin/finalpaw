@@ -1463,9 +1463,6 @@ Vista de impresion
     .user-profile {
         display: none;
     }
-    .user-email{
-        display: none;
-    }
 }
 
 /*
@@ -1647,7 +1644,7 @@ Modo oscuro
         border: 1px solid var(--primary-blue); /* Bordes suaves */
     }
 
-    .admfases-container h1{
+    .admfases-container h2{
         color: var(--second-light-green);
     }
 
