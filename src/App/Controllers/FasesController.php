@@ -79,44 +79,11 @@ class FasesController extends BaseController
             // Actualizar el número de orden de la fase si está presente
             if (isset($request->numero_orden)) {
                 $fase->updateOrden($request->numero_orden);
-//                $fase->numero_orden = $request->numero_orden;
+
+                echo json_encode(['success' => true, 'message' => 'Fase actualizada correctamente']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Numero de orden no proporcionado']);
             }
-    
-            // Si estamos editando un campo existente
-            if (isset($request->editar_campo)) {
-                $atributos = json_decode($fase->atributos, true);
-                $campoOriginal = $request->editar_campo['original'];
-                
-                if (isset($atributos[$campoOriginal])) {
-                    // Actualizar el campo con los nuevos valores
-                    unset($atributos[$campoOriginal]); // Eliminar el nombre original
-                    $atributos[$request->editar_campo['nuevo_nombre']] = [
-                        'num_orden' => $request->editar_campo['num_orden'],
-                        'tipo' => $request->editar_campo['tipo'],
-                        'valor' => "" // Mantener vacío o puedes usar el valor que se necesite
-                    ];
-                    $fase->atributos = json_encode($atributos);
-                }
-            }
-    
-            // Si estamos agregando un nuevo campo
-            if (isset($request->nuevo_campo)) {
-                $atributos = json_decode($fase->atributos, true);
-                
-                // Añadir el nuevo campo
-                $nuevoCampoNombre = $request->nuevo_campo['nombre'];
-                $atributos[$nuevoCampoNombre] = [
-                    'num_orden' => $request->nuevo_campo['num_orden'],
-                    'tipo' => $request->nuevo_campo['tipo'],
-                    'valor' => "" // Inicializar con un valor vacío o puedes usar otro valor por defecto
-                ];
-                $fase->atributos = json_encode($atributos);
-            }
-    
-            // Guardar los cambios en la fase
-            $fase->save();
-    
-            echo json_encode(['success' => true, 'message' => 'Fase actualizada correctamente']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Fase no encontrada']);
         }
