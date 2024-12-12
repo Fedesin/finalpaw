@@ -432,7 +432,9 @@ footer section{
     margin-right: 0.5em;
 }
 
-
+.help-emoji{
+    text-decoration: none;
+}
 
 .help-emoji::before{
     content: 'ℹ️';
@@ -441,7 +443,9 @@ footer section{
 
 .help-emoji:hover{
     background-color: var(--second-light-blue);
+    text-decoration: underline;
 }
+
 body > main {
     margin: 2em auto auto;
 }
