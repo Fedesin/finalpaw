@@ -6,6 +6,7 @@ use Paw\Core\Database\ConnectionBuilder;
 use Paw\Core\Database\QueryBuilder;
 //use Paw\Core\Traits\Loggable;
 use Exception;
+use Paw\Core\Exceptions\ModelNotFoundException;
 
 class Model
 {
@@ -118,7 +119,7 @@ class Model
         $newInstance->setQueryBuilder($qb);
     
         if ($newInstance->load($where, $order_by, $direction, $limit, $offset) === null) {
-            return null;
+            throw new ModelNotFoundException();
         }
     
         return $newInstance;

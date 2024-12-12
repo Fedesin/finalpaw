@@ -2,6 +2,7 @@
 
 namespace Paw\Core;
 use Paw\Core\Exceptions\RouteNotFoundException;
+use Paw\Core\Exceptions\ModelNotFoundException;
 use Paw\Core\Request;
 use Exception;
 use Paw\Core\Traits\Loggable;
@@ -87,6 +88,9 @@ class Router
         } catch (RouteNotFoundException $e) {
             list($controller, $method) = $this->getController($this->notFound, "GET");       
             $this->logger->debug('Status Code: 404 - Route Not Found', ["ERROR" => $e]);
+        } catch (ModelNotFoundException $e) {
+            list($controller, $method) = $this->getController($this->notFound, "GET");       
+            $this->logger->debug('Status Code: 404 - Model Not Found', ["ERROR" => $e]);
         } catch (Exception $e) {
             list($controller, $method) = $this->getController($this->internalError, "GET");       
             $this->logger->error('Status Code: 500 - Internal Server Error', ["ERROR" => $e]);
