@@ -242,6 +242,7 @@ nav a {
     font-family: 'Gotham', sans-serif;
     text-decoration: none; 
     font-weight: bold;
+    padding: 10px;
 }
 
 nav ul li {
@@ -350,10 +351,15 @@ label[for=hamburgerMenu]:after {
 
     li.navbarDropOption {
        width: 11ch;
+       padding: 10px;
     }
 
     nav li:hover {
         background-color: #0393C2;
+    }
+
+    nav li a {
+        padding: 0;
     }
 
     .navbarDropOption > ul {
