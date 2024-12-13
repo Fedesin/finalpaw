@@ -29,10 +29,11 @@ function sendMailPasswordChange(actualPassword, newPassword) {
 document.addEventListener('DOMContentLoaded', function() {
     const changepasswordbutton = document.querySelector('.change-password-button');
 
-    changepasswordbutton.addEventListener('click', function() {
+    changepasswordbutton.addEventListener('click', async function() {
         const actualPassword = document.querySelector('.actual-password').value;
         const newPassword = document.querySelector('.new-password').value;
         const repeatPassword = document.querySelector('.repeat-password').value;
+        const messageElement = document.getElementById('message');
         if (newPassword !== repeatPassword) {
             const messageElement = document.getElementById('message');
             messageElement.textContent = 'Las contraseñas no coinciden.';
@@ -45,6 +46,21 @@ document.addEventListener('DOMContentLoaded', function() {
             messageElement.classList.remove('hidden'); 
             return;
         }
-        sendMailPasswordChange(actualPassword, newPassword);   
+        
+        try {
+            const response = await Users.changePassword({
+                email: userEmail,
+                actualPassword: actualPassword,
+                newPassword: newPassword,
+            });
+
+            messageElement.textContent = response.message || 'Contraseña actualizada correctamente.';
+            messageElement.classList.remove('hidden');
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            messageElement.textContent = error.message || 'Error al conectar con el servidor.';
+            messageElement.classList.remove('hidden');
+        }
+
     });
 });

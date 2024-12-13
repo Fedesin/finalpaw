@@ -44,6 +44,23 @@ var Users = {
             },
             body: JSON.stringify(args),
         });
+    },
+    changePassword: function(args) {
+        return fetch('/api/user/change-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(args),
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.message || 'Error al cambiar la contraseña.');
+                });
+            }
+            return response.json();
+        });
     }
 }
 
