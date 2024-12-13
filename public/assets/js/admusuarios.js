@@ -103,7 +103,12 @@ function toggleStatus(button, userId, newStatus) {
             button.classList.remove('down');
             button.classList.add('up');
         }
+
         button.dataset.status = newStatus;
+        let parent = button.parentNode;
+
+        parent.textContent = newStatus ? 'deshabilitado' : 'habilitado';
+        parent.appendChild(button);
     });
 }
 

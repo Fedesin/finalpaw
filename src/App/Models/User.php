@@ -42,7 +42,8 @@ class User extends Model
     public static function valid($user, $password, $touch_login)
     {
         $where = [
-            "email" => $user
+            "email" => $user,
+            "deshabilitado" => 0
         ];
   
         try {
