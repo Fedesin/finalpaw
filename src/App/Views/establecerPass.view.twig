@@ -1,0 +1,38 @@
+{% extends 'base.twig' %}
+
+
+{% block head %}
+    <script>email="{{ email }}"</script>
+    <script src="/assets/js/confirmarPass.js" defer></script>
+{% endblock %}
+
+{% block hamburgerMenu %}
+{% endblock %} 
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+
+<main class="login-container" itemscope itemtype="http://schema.org/WebPage">
+    <form class="login-form" action="verify" method="post" itemscope itemtype="http://schema.org/FormAction">
+        <h2 itemprop="name">Establezca su contraseña</h2>
+        
+        <input type="text" id="token" name="token" value="{{ token }}" required hidden>
+        
+        <label for="username" itemprop="object.name">Usuario:</label>
+        <input type="text" id="username" name="username" value="{{ email }}" placeholder="pepe@gmail.com" title="Ingrese su correo" required>
+
+        <label for="password" itemprop="object.password">Contraseña:</label>
+        <input type="password" id="password" name="password" title="Ingrese su contraseña" required>
+        
+        <label for="password" itemprop="object.password">Repita su contraseña:</label>
+        <input type="password" id="retype-password" name="retype-password" title="Reingrese su contraseña" required>
+        
+        <button class="btn" type="submit">Confirmar Contraseña</button>
+        <output class="login-error" itemprop="result">{% if status %}{{ status }}{% endif %}</output>
+    </form>
+</main>
+
+
+{% endblock %}

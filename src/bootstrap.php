@@ -66,6 +66,8 @@ if(!isset($session->logged_in)) {
     $router->post('/user/resetPassword', 'UserController@resetPassword');
 
     $router->get('/verify', 'UserController@verifyEmail'); // Endpoint para verificar usuarios
+    $router->post('/verify', 'UserController@createUser'); // Endpoint para verificar usuarios
+
 } else {
     $session = Session::getInstance();
     $user = User::getById($session->user_id);
@@ -96,8 +98,6 @@ if(!isset($session->logged_in)) {
     $router->get('/api/users', 'UserController@getUsers');
 
     $router->put('/api/users', 'UserController@updateUser');
-
-    $router->post('/api/users', 'UserController@createUser');
 
     $router->get('/api/roles', 'UserController@getRoles');
 

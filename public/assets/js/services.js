@@ -23,19 +23,6 @@ var Users = {
             return ret.json();
         })
     },
-    create: function(args) {
-        return fetch("/api/users", {
-            method: "POST",
-            body: JSON.stringify(args),
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json; charset=UTF-8"
-            }
-        })
-        .then(function(ret) {
-            return ret.json();
-        })
-    },
     update: function(args) {
         return fetch("/api/users", {
             method: "PUT",

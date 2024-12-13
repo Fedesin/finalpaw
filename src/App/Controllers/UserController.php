@@ -178,22 +178,55 @@ class UserController extends BaseController
     }
 
     public function createUser($request)
-    {
-        header('Content-Type: application/json');
+    {   
+        // Obtener el token de la URL
+        $token = $request->token;
+    
+        if (!$token) {
+            http_response_code(400);
+            echo "Enlace inválido. Token faltante.";
+            return;
+        }
+    
+        // Decodificar el token
+        $decodedToken = json_decode(base64_decode($token), true);
         
+        if (!$decodedToken || !isset($decodedToken['email'], $decodedToken['rol_id'], $decodedToken['timestamp'])) {
+            http_response_code(400);
+            echo "Token inválido o mal formado.";
+            return;
+        }
+    
         $email = $request->username;
         $password = $request->password;
-        $rol_id = $request->rol_id;
+        $rol_id = $decodedToken['rol_id'];
+        $timestamp = $decodedToken['timestamp'];
+    
+        // Validar si el token no ha expirado
+        $tokenLifetime = 3600; // 1 hora
+        if ((time() - $timestamp) > $tokenLifetime) {
+            http_response_code(400);
+            echo "El enlace de verificación ha expirado.";
+            return;
+        }
         
         try {
             // Registrar el nuevo usuario
             $user = User::register($email, $password, $rol_id);
-
             // Respuesta exitosa
-            echo json_encode(['status' => 'success', 'message' => 'Usuario registrado correctamente']);
+            $session = Session::getInstance();
+            $session->logged_in = true;
+            $session->email = $user->email;
+            $session->user_id = $user->id; // Guardar el ID del usuario
+
+            $this->redirect("/");
         } catch (Exception $e) {
             // Captura cualquier otro error inesperado
-            echo json_encode(['status' => 'error', 'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()]);
+            parent::showView('establecerPass.view.twig', [
+                'email'=> $email,
+                'token' => $token,
+                'error' => $e->getMessage(e->getMessage())
+            ]);
         }
     }
 
@@ -248,7 +281,7 @@ class UserController extends BaseController
 
     }
 
-    public function verifyEmail($request) {
+    public function verifyEmail2($request) {
         // Obtener el token de la URL
         $token = $_GET['token'] ?? null;
     
@@ -289,6 +322,19 @@ class UserController extends BaseController
         // Llamar a createUser para delegar la creación del usuario
         $this->createUser($mockRequest);
         $this->redirect("/");
+    }
+
+    public function verifyEmail($request){
+        $token = $request->token;
+
+        // Decodificar el token
+        $data = json_decode(base64_decode($token), true);
+
+        parent::showView('establecerPass.view.twig', [
+            'email' => $data['email'],
+            'token' => $token
+        ]);
+
     }
 
     public function forgotPassword($request)
