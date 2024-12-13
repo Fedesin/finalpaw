@@ -234,18 +234,6 @@ class UserController extends BaseController
         parent::showView('passwordChange.view.twig');
     }
 
-    public function sendVerificationEmail($request) {
-        $data = json_decode($request->getBody(), true);
-
-        $email = $data['email'] ?? null;
-        $rol_id = $data['rol_id'] ?? null;
-
-        if (!$email || !$rol_id) {
-            echo json_encode(['status' => 'error', 'message' => 'Email y rol son obligatorios.']);
-            return;
-        }
-    }
-
     public function verifyEmail($request){
         $token = $request->token;
 
@@ -297,7 +285,7 @@ class UserController extends BaseController
 
     public function showResetPasswordForm($request)
     {
-        $token = $require->token;
+        $token = $request->token;
 
         if (!$token) {
             echo "Enlace inválido o faltante.";
@@ -319,19 +307,13 @@ class UserController extends BaseController
     
     public function resetPassword($request)
     {
-        // Decodificar el JSON desde php://input manualmente
-        $data = json_decode(file_get_contents('php://input'), true);
-
-        if (!$data || !isset($data['token'], $data['newPassword'])) {
+        if (!isset($request->token) || !isset($request->newPassword)) {
             $this->jsonResponse(['status' => 'error', 'message' => 'Token y nueva contraseña son obligatorios'], 400);
             return;
         }
 
-        $token = $data['token'];
-        $newPassword = $data['newPassword'];
-
         // Decodificar el token
-        $tokenData = json_decode(base64_decode($token), true);
+        $tokenData = json_decode(base64_decode($request->token), true);
 
         if (!$tokenData || !isset($tokenData['email'], $tokenData['timestamp'])) {
             $this->jsonResponse(['status' => 'error', 'message' => 'Token inválido'], 400);
@@ -353,7 +335,7 @@ class UserController extends BaseController
             }
 
             // Actualizar la contraseña del usuario
-            $user->updatePassword($newPassword);
+            $user->updatePassword($request->newPassword);
 
             // Respuesta de éxito
             $this->jsonResponse(['status' => 'success', 'message' => 'Contraseña actualizada correctamente']);

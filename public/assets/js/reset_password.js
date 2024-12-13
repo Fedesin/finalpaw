@@ -58,6 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.status === 'success') {
                     messageElement.textContent = '¡Contraseña cambiada con éxito! Ahora puedes iniciar sesión.';
                     messageElement.classList.add('success-message');
+
+                    setTimeout(function() {
+                        window.location = '/';
+                    }, 3000);
                 } else {
                     messageElement.textContent = `Error: ${data.message}`;
                     messageElement.classList.add('error-message');
