@@ -109,10 +109,6 @@ class PageController extends BaseController
         ]);
     }
 
-    public function admalert ()
-    {
-        parent::showView('admalert.view.twig');
-    }
 
     public function admuser ()
     {
