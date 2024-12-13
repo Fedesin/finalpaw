@@ -281,49 +281,6 @@ class UserController extends BaseController
 
     }
 
-    public function verifyEmail2($request) {
-        // Obtener el token de la URL
-        $token = $_GET['token'] ?? null;
-    
-        if (!$token) {
-            http_response_code(400);
-            echo "Enlace inválido. Token faltante.";
-            return;
-        }
-    
-        // Decodificar el token
-        $decodedToken = json_decode(base64_decode($token), true);
-        
-        if (!$decodedToken || !isset($decodedToken['email'], $decodedToken['rol_id'], $decodedToken['timestamp'])) {
-            http_response_code(400);
-            echo "Token inválido o mal formado.";
-            return;
-        }
-    
-        $email = $decodedToken['email'];
-        $rol_id = $decodedToken['rol_id'];
-        $timestamp = $decodedToken['timestamp'];
-    
-        // Validar si el token no ha expirado
-        $tokenLifetime = 3600; // 1 hora
-        if ((time() - $timestamp) > $tokenLifetime) {
-            http_response_code(400);
-            echo "El enlace de verificación ha expirado.";
-            return;
-        }
-    
-        // Crear un objeto request simulado con la contraseña por defecto
-        $mockRequest = (object) [
-            'username' => $email,
-            'password' => '1234', // Contraseña por defecto
-            'rol_id' => $rol_id
-        ];
-    
-        // Llamar a createUser para delegar la creación del usuario
-        $this->createUser($mockRequest);
-        $this->redirect("/");
-    }
-
     public function verifyEmail($request){
         $token = $request->token;
 
@@ -359,15 +316,13 @@ class UserController extends BaseController
                 'email' => $email,
                 'timestamp' => time(),
             ]));
-
-            $resetLink = "http://localhost:8080/user/resetPassword?token={$token}";
-
+            
             // Devolver los datos al frontend para que use EmailJS
             $this->jsonResponse([
                 'status' => 'success',
                 'data' => [
                     'to_email' => $email,
-                    'reset_link' => $resetLink,
+                    'token' => $token,
                 ],
             ]);
         } catch (Exception $e) {
