@@ -30,7 +30,7 @@
         <input type="password" id="retype-password" name="retype-password" title="Reingrese su contraseña" required>
         
         <button class="btn" type="submit">Confirmar Contraseña</button>
-        <output class="login-error" itemprop="result">{% if status %}{{ status }}{% endif %}</output>
+        <output class="login-error" itemprop="result">{{ error }}</output>
     </form>
 </main>
 

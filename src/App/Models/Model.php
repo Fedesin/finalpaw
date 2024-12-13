@@ -7,6 +7,8 @@ use Paw\Core\Database\QueryBuilder;
 //use Paw\Core\Traits\Loggable;
 use Exception;
 use Paw\Core\Exceptions\ModelNotFoundException;
+use Paw\Core\Exceptions\ModelDuplicateException;
+use PDOException;
 
 class Model
 {
@@ -18,6 +20,8 @@ class Model
     protected static $table = '';
 
     protected $queryBuilder;
+
+    protected $duplicadoError = '';
 
     public function __construct()
     {
@@ -165,10 +169,16 @@ class Model
                     unset($attrs[$field]);
             }
             
-            $last_id = $this->queryBuilder->insert(static::$table, $attrs);
-            $this->id = $last_id;
+            try {
+                $last_id = $this->queryBuilder->insert(static::$table, $attrs);
+                $this->id = $last_id;
 
-            return $this;
+                return $this;
+            } catch(PDOException $e) {
+                if($e->getCode() == 23505) {
+                    throw new ModelDuplicateException($this->duplicadoError);
+                }
+            }
         } else {
             if ($this->queryBuilder->update(static::$table, $attrs, ['id' => $this->id])) {
                 return $this;

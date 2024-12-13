@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function enviarCorreoVerificacion(email, rol_id) {
-    const token = btoa(JSON.stringify({ email, rol_id, timestamp: Date.now() }));
+    const token = btoa(JSON.stringify({ email, rol_id, timestamp: Math.floor(Date.now() / 1000) }));
     const domainWithPort = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
     const isLocalhost = window.location.hostname === 'localhost';
     const protocol = isLocalhost ? 'http' : 'https';

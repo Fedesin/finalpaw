@@ -23,6 +23,13 @@ class User extends Model
         "password"
     ];
 
+    protected $duplicadoError = '';
+
+    public function __construct()
+    {
+        $this->duplicadoError = 'El usuario ya se encuentra registrado';
+        parent::__construct();
+    }
 
     public function getRol()
     {

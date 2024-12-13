@@ -41,11 +41,6 @@ class PageController extends BaseController
             ]);
     }
 
-    public function register ()
-    {
-        parent::showView('register.view.twig');
-    }
-
     public function admtipopro ()
     {
 

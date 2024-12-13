@@ -1,5 +1,5 @@
 function sendMailPasswordChange(actualPassword, newPassword) {
-    const token = btoa(JSON.stringify({ actual_password: actualPassword, new_password: newPassword, email: userEmail, timestamp: Date.now() }));
+    const token = btoa(JSON.stringify({ actual_password: actualPassword, new_password: newPassword, email: userEmail, timestamp: Math.floor(Date.now() / 1000) }));
     const domainWithPort = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
     const isLocalhost = window.location.hostname === 'localhost';
     const protocol = isLocalhost ? 'http' : 'https';

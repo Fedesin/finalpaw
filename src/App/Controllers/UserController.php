@@ -7,17 +7,15 @@ use Paw\Core\Config;
 use Paw\App\Models\User;
 use Paw\App\Models\Roles;
 use Paw\Core\Exceptions\ModelNotFoundException;
+use Paw\Core\Exceptions\ModelDuplicateException;
 use function Paw\Core\getPublicKeyCaptcha;
 
 class UserController extends BaseController
 {
-    private $user;
     public function __construct()
     {
         $this->modelName = User::class;
         parent::__construct();
-        // Inicializar el usuario logueado
-        $this->user = $this->getLoggedInUser();
     }
 
     public function index()
@@ -38,6 +36,9 @@ class UserController extends BaseController
         
         if (!$responseKeys['success'] || $responseKeys['score'] < 0.5) {
             $error = 'La verificación de reCAPTCHA falló. Por favor, inténtalo nuevamente.';
+
+            http_response_code(401);
+
             parent::showView('login.view.twig', [
                 "email" => $request->username,
                 "status" => $error,
@@ -48,6 +49,7 @@ class UserController extends BaseController
         
         try {
             $user = User::valid($request->username, $request->password, true);
+
             // Iniciar la sesión y almacenar el email del usuario
             $session = Session::getInstance();
             $session->logged_in = true;
@@ -56,7 +58,9 @@ class UserController extends BaseController
 
             $this->redirect("/");
         } catch(ModelNotFoundException $e) {
+            http_response_code(403);
             $error = 'Usuario o contraseña incorrecto';
+
             parent::showView('login.view.twig', [
                 "email" => $request->username,
                 "status" => $error,
@@ -71,17 +75,6 @@ class UserController extends BaseController
         $this->redirect("/");
     }
 
-    private function getLoggedInUser()
-    {
-        // Obtener el ID del usuario desde la sesión
-        $session = Session::getInstance();
-        if (isset($session->user_id)) {
-            // Obtener el usuario por su ID
-            return User::getById($session->user_id);
-        }
-        return null;
-    }
-
     public function getRoles()
     { 
         $roles = Roles::getAll();
@@ -90,34 +83,6 @@ class UserController extends BaseController
             $ret[$rol->id] = $rol->nombre;
         }
         echo json_encode($ret);
-    }
-
-    public function showRegisterForm()
-    {
-        $roles = $this->getRoles();
-        parent::showView('register.view.twig', [
-            "roles" => $roles
-        ]);
-    }
-
-    public function register($request)
-    {
-        header('Content-Type: application/json');
-        
-        $email = $request->username;
-        $password = $request->password;
-        $rol_id = $request->rol_id;
-        
-        try {
-            // Registrar el nuevo usuario
-            $user = User::register($email, $password, $rol_id);
-
-            // Respuesta exitosa
-            echo json_encode(['status' => 'success', 'message' => 'Usuario registrado correctamente']);
-        } catch (Exception $e) {
-            // Captura cualquier otro error inesperado
-            echo json_encode(['status' => 'error', 'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()]);
-        }
     }
 
     public function setStatus($request) {
@@ -213,6 +178,7 @@ class UserController extends BaseController
         try {
             // Registrar el nuevo usuario
             $user = User::register($email, $password, $rol_id);
+
             // Respuesta exitosa
             $session = Session::getInstance();
             $session->logged_in = true;
@@ -220,12 +186,12 @@ class UserController extends BaseController
             $session->user_id = $user->id; // Guardar el ID del usuario
 
             $this->redirect("/");
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Captura cualquier otro error inesperado
             parent::showView('establecerPass.view.twig', [
                 'email'=> $email,
                 'token' => $token,
-                'error' => $e->getMessage(e->getMessage())
+                'error' => $e->getMessage()
             ]);
         }
     }
@@ -278,7 +244,6 @@ class UserController extends BaseController
             echo json_encode(['status' => 'error', 'message' => 'Email y rol son obligatorios.']);
             return;
         }
-
     }
 
     public function verifyEmail($request){
@@ -330,9 +295,9 @@ class UserController extends BaseController
         }
     }
 
-    public function showResetPasswordForm()
+    public function showResetPasswordForm($request)
     {
-        $token = $_GET['token'] ?? null;
+        $token = $require->token;
 
         if (!$token) {
             echo "Enlace inválido o faltante.";
@@ -343,6 +308,7 @@ class UserController extends BaseController
         $data = json_decode(base64_decode($token), true);
 
         if (!$data || !isset($data['email'], $data['timestamp']) || (time() - $data['timestamp']) > 3600) {
+            http_response_code(401);
             echo "El enlace ha expirado o es inválido.";
             return;
         }
