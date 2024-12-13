@@ -5,60 +5,44 @@
 
 {% block content %}
 
-<main class="index-container" itemscope itemtype="http://schema.org/WebPage">
-    <section class="index-form" itemscope itemtype="http://schema.org/Form">
-        <h2 class="capitalize" itemprop="headline">Lote {{ lote.numero }} - {{ lote.fase.nombre }}</h2>
+<main class="admlotes-container" itemscope itemtype="http://schema.org/WebPage">
+    <h2 class="capitalize" itemprop="headline">Lote {{ lote.numero }} - {{ lote.fase.nombre }}</h2>
 
-        <form class="updateForm">
-            <!-- Campos ocultos para id_lote y fase -->
+    <form class="updateForm">
+        <!-- Campos ocultos para id_lote y fase -->
+        <input type="hidden" name="id_lote" value="{{ lote.id }}" itemprop="identifier">
+        <input type="hidden" name="fase_nombre" value="{{ lote.fase.nombre }}" itemprop="name">
+
+        {% for key, atributo in lote.atributos | json_decode[lote.fase.nombre] %}
+            <label class="attribute-detail" itemprop="name">{{ atributo.nombre }}:</label>
+                {% if atributo.tipo == 'boolean' %}
+                    <!-- Boolean input as checkbox -->
+                    <input class="attribute-input" type="checkbox" name="{{ atributo.nombre }}" itemprop="value" {{ atributo.valor == '1' ? 'value="1" checked' : 'value="0"' }}>
+                {% elseif atributo.tipo == 'entero' %}
+                    <!-- Integer input as number -->
+                    <input class="attribute-input entero" type="number" name="{{ atributo.nombre }}" value="{{ atributo.valor }}" itemprop="value">
+                {% elseif atributo.tipo == 'float' %}
+                    <!-- Float input -->
+                    <input class="attribute-input" type="number" step="0.001" name="{{ atributo.nombre }}" value="{{ atributo.valor }}" itemprop="value">
+                {% else %}
+                    <!-- Default text input for other types -->
+                    <input class="attribute-input" type="text" name="{{ atributo.nombre }}" value="{{ atributo.valor }}" itemprop="value">
+                {% endif %}
+        {% endfor %}
+
+        <button type="submit" class="btn" itemprop="potentialAction">Guardar cambios</button>
+    </form>
+
+    {% if next_fase is not null %}
+        <form class="form-pasar-fase" action="/lotes/pasarFase" method="POST" itemscope itemtype="http://schema.org/FormAction">
             <input type="hidden" name="id_lote" value="{{ lote.id }}" itemprop="identifier">
-            <input type="hidden" name="fase_nombre" value="{{ lote.fase.nombre }}" itemprop="name">
-
-            <section class="attribute-section" itemscope itemtype="http://schema.org/Table">
-                <table>
-                    <tbody>
-                        {% for key, atributo in lote.atributos | json_decode[lote.fase.nombre] %}
-                        <tr itemscope itemtype="http://schema.org/PropertyValue">
-                            <td><label class="attribute-detail" itemprop="name">{{ atributo.nombre }}:</label></td>
-                            <td>
-                                {% if atributo.tipo == 'boolean' %}
-                                    <!-- Boolean input as checkbox -->
-                                    <input class="attribute-input" type="checkbox" name="{{ atributo.nombre }}" itemprop="value" {{ atributo.valor == '1' ? 'value="1" checked' : 'value="0"' }}>
-                                {% elseif atributo.tipo == 'entero' %}
-                                    <!-- Integer input as number -->
-                                    <input class="attribute-input entero" type="number" name="{{ atributo.nombre }}" value="{{ atributo.valor }}" itemprop="value">
-                                {% elseif atributo.tipo == 'float' %}
-                                    <!-- Float input -->
-                                    <input class="attribute-input" type="number" step="0.001" name="{{ atributo.nombre }}" value="{{ atributo.valor }}" itemprop="value">
-                                {% else %}
-                                    <!-- Default text input for other types -->
-                                    <input class="attribute-input" type="text" name="{{ atributo.nombre }}" value="{{ atributo.valor }}" itemprop="value">
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </section>
-
-            <button type="submit" class="index-button" itemprop="potentialAction">Guardar cambios</button>
+            <button type="submit" class="btn" itemprop="potentialAction">
+                Terminar fase
+            </button>
         </form>
-
-        <section class="mensaje" itemscope itemtype="http://schema.org/CreativeWork">
-            <!-- Mensaje dinámico puede ser añadido aquí si es necesario -->
-        </section>
-
-        {% if next_fase is not null %}
-            <form class="form-pasar-fase" action="/lotes/pasarFase" method="POST" itemscope itemtype="http://schema.org/FormAction">
-                <input type="hidden" name="id_lote" value="{{ lote.id }}" itemprop="identifier">
-                <button type="submit" class="index-button" itemprop="potentialAction">
-                    Terminar fase
-                </button>
-            </form>
-        {% else %}
-            <output class="no-fase-message" itemprop="description">No hay más fases para editar.</output>
-        {% endif %}
-    </section>
+    {% else %}
+        <p class="no-fase-message" itemprop="description">No hay más fases para editar.</p>
+    {% endif %}
 </main>
 
 

@@ -10,7 +10,7 @@
     <h2 itemprop="headline">Gestión de productos</h2>
 
     <!-- Formulario para agregar producto -->
-    <section class="formulario-producto" itemscope itemtype="http://schema.org/Form">
+    <form class="formulario-producto" itemscope itemtype="http://schema.org/Form">
         <label for="tipoprod">Tipo de producto:</label>
         <select id="tipoprod" name="tipoprod_id" required itemprop="object.category">
             {% for tipoprod in tipo_productos %}
@@ -21,7 +21,7 @@
         <label for="nombre">Nombre del producto:</label>
         <input type="text" id="agregarProducto" placeholder="Cuartirolo" itemprop="object.name">
         <button class="btn" id="btnAgregarProducto" itemprop="potentialAction">Agregar Producto</button>
-    </section>
+    </form>
 
     <!-- Tabla de productos -->
     <table id="tablaProductos" itemscope itemtype="http://schema.org/Table">

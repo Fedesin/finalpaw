@@ -1,27 +1,3 @@
-function refrescarTablaFases() {
-    var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
-    Fases.list({
-        "tipo_producto_id": tipo_producto_id
-    })
-    .then(function(ret) {
-        var tabla_fases = document.querySelector('.tabla-fases > tbody');
-        tabla_fases.innerHTML = '';
-        Object.values(ret.data).forEach(fase => {
-            let row = document.createElement('tr');
-
-            row.innerHTML = `
-                <td>${fase.nombre}</td>
-                <td>
-                    <button class="btn-editar btn-editarver" data-id="${fase.id}"></button>
-                    <button class="btn-borrar btn-delete btn-editarver" data-id="${fase.id}"></button>
-                </td>
-            `;
-            tabla_fases.appendChild(row);
-        });
-        agregarEventosAcciones(); // Reasignar los eventos después de refrescar la tabla
-    });
-}
-
 function agregarEventosEditar(button) {
     button.addEventListener('click', function() {
         var faseId = this.getAttribute('data-id');
@@ -121,11 +97,13 @@ function agregarFilaEdicionAtributo(referenceNode, fase_id, atributos) {
     
     let confirmButton = document.createElement('button');
     confirmButton.classList.add('btn-confirmar');
+    confirmButton.title = 'Confirmar edición';
 
     // Botón de eliminar
     let cancelButton = document.createElement('button');
-    cancelButton.classList.add('btn-delete');
+    cancelButton.classList.add('btn-cancel');
     cancelButton.classList.add('btn-editarver');
+    cancelButton.title = "Cancelar edición";
 
     confirmarLi.appendChild(confirmButton);
     cancelLi.appendChild(cancelButton);
@@ -369,11 +347,13 @@ function addFase(fase) {
         
         let confirmButton = document.createElement('button');
         confirmButton.classList.add('btn-confirmar');
+        confirmButton.title = 'Confirmar';
 
         // Botón de eliminar
         let deleteButton = document.createElement('button');
         deleteButton.classList.add('btn-delete');
         deleteButton.classList.add('btn-editarver');
+        deleteButton.title = 'Descartar';
 
 
         confirmarLi.appendChild(confirmButton);

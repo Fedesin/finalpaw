@@ -32,7 +32,9 @@ function agregarElementoTablaProductos(producto) {
 document.addEventListener('DOMContentLoaded', function() {
     var btnAgregarProducto = document.querySelector('#btnAgregarProducto');
     if (btnAgregarProducto) {
-        btnAgregarProducto.addEventListener('click', function() {
+        btnAgregarProducto.addEventListener('click', function(e) {
+            e.preventDefault();
+            
             var nombreProducto = document.querySelector('#agregarProducto').value;
             var tipoProductoId = document.querySelector('#tipoprod').value;
             

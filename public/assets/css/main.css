@@ -837,7 +837,7 @@ Gestion de Fases
     content:'✏️';
 }
 .btnEliminarProducto::before {
-    content:'❌';
+    content:'↻';
 }
 
 
@@ -950,12 +950,17 @@ Gestion de Fases
     content: '❌';
 }
 
-
+.btn-cancel::before {
+    content: '↻';
+    transform: scale(2) rotate(90deg);
+    color: transparent;  
+    text-shadow: 0 0 0 red;
+}
 
 .btn-confirmar::before {
     content: '✔️';
     color: transparent;  
-    text-shadow: 0 0 0 red;
+    text-shadow: 0 0 0 green;
 }
 
 
@@ -1026,7 +1031,6 @@ Vamos ahora con la gestion de lotes
 .admlotes-container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Mejora la sombra para un efecto más suave */
     padding: 20px; /* Agrega un relleno interno para dar espacio dentro del contenedor */
-    width: 80%;
     max-width: 80vw; /* Limita el ancho máximo del contenedor */
 /*    margin: 3vh auto 3vh; /* Centra el contenedor horizontalmente y agrega espacio superior/inferior */
     background-color: var(--primary-white); /* Cambia el color de fondo para mayor contraste */
@@ -1057,7 +1061,7 @@ Vamos ahora con la gestion de lotes
     font-weight: bold; /* Hace el texto de los labels más visible */
 }
 
-.admlotes-container input[type="text"],
+.admlotes-container input,
 .admlotes-container select {
     padding: 8px; /* Añade un relleno interno */
     border: 1px solid #ccc; /* Define un borde suave */

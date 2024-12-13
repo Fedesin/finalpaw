@@ -24,7 +24,7 @@ final class AddConstraints extends AbstractMigration
             ->update();
 
         $table = $this->table('lotes');
-        $table->addIndex('numero', array('unique' => true))
+        $table->addIndex(['numero', 'producto_id'], array('unique' => true))
             ->update();
 
         $table = $this->table('productos');

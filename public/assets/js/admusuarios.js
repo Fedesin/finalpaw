@@ -173,7 +173,8 @@ function listarUsuarios(usuarios, cantUsers) {
                     </a>
                 </p>
             </td>
-            <td data-label="Estado">
+            <td data-label="Estado" class="capitalize">
+                ${user.deshabilitado ? 'deshabilitado' : 'habilitado'}
                 <a href="#"
                     title="Cambiar estado habilitado/deshabilitado"
                     class="toggleStatusButton btn-editarflecha ${user.deshabilitado ? 'up' : 'down'}"

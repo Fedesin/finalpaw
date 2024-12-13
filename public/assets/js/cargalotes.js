@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const forms = document.getElementsByClassName('updateForm');
-const mensaje = document.querySelector('.mensaje');
+
 Array.from(forms).forEach(form => {
     form.addEventListener('submit', async function(event) {
         event.preventDefault();
