@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const forgotPasswordLink = document.querySelector('.forgot-password-link');
     const emailInput = document.querySelector('#username');
-    const loginErrorElement = document.querySelector('.login-error');
+    const loginErrorElement = document.querySelector('.status-message');
     const loginForm = document.querySelector('.login-form');
 
 

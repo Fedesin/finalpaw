@@ -13,7 +13,7 @@
       <select class="selectTipoProducto" itemprop="category" title="Escoja un tipo de producto" {% if data.fields.tipo_producto_id is defined %}data-value="{{ data.fields.tipo_producto_id }}"{% endif %}></select>
       
       <label>Producto:</label>
-      <select class="selectProducto" name="producto_id" itemprop="object.product" title="Escoja un producto" {% if data.fields.producto_id is defined %}data-value="{{ data.fields.producto_id }}"{% endif %}></select>
+      <select class="selectProducto" name="producto_id" title="Escoja un producto" {% if data.fields.producto_id is defined %}data-value="{{ data.fields.producto_id }}"{% endif %}></select>
       
       <label>Producción N°:</label>
       <input type="number" id="numeroProduccion" name="numero" required itemprop="productionNumber" title="Escoja el numero de producción"{% if data.fields.numero is defined %}value="{{ data.fields.numero }}"{% endif %}>

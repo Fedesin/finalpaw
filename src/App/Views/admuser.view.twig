@@ -47,7 +47,7 @@
         <li class="button btn" data-page="prev">&lt;</li>
         
         <!-- Contenedor para los números de página -->
-        <ol class="page-numbers lista-horizontal"></ol>
+        <li><ol class="page-numbers lista-horizontal"></ol></li>
 
         <li class="button btn" data-page="next">&gt;</li>
         <li class="button btn" data-page="last">&gt;&gt;</li>
@@ -60,17 +60,14 @@
         <input id="email" type="text" class="email-input" name="email" title="ingrese el correo electronico del usuario que desea registrar" required>
         
         <label for="rol">Rol:</label>
-        <select id="rol" class="rol-select capitalize" name="rol_id" title="ingrese el rol que va a tener el usuario que desea registrar"required>
+        <select id="rol" class="rol-select capitalize" name="rol_id" title="ingrese el rol que va a tener el usuario que desea registrar" required>
+            <option disabled selected value>-- elija un rol --</option>
             {% for role in roles %}
             <option value="{{ role.id }}">{{ role.nombre }}</option>
             {% endfor %}
         </select>
         
-        {% if status %}
-            <output class="login-error">{{ status }}</output>
-        {% else %}
-            <output class="login-error"></output>
-        {% endif %}
+        <output class="status-message">{{ status }}</output>
         
         <button class="btn-registrar" type="button" itemprop="potentialAction">Registrar Usuario</button>    
     </form>

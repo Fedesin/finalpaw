@@ -7,6 +7,14 @@ var total_pages = 0;
 var spinner = null;
 var tabla_usuarios = null;
 
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 function cargarPagina(pagina, force = false) {
     if((pagina == currentPage) && (force === false))
         return;
@@ -159,8 +167,6 @@ function changeRole(td, rol_id, user_id) {
     });
 }
 
-
-
 function listarUsuarios(usuarios, cantUsers) {
     tabla_usuarios.innerHTML = ''; 
     Object.keys(usuarios).forEach(key => {
@@ -244,12 +250,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (registerButton) {
         registerButton.addEventListener('click', function() {
-            var email = document.querySelector('.email-input').value;
-            var rolId = document.querySelector('.rol-select').value;
-            //aca tengo que llamar a la funcion enviar mail
-            //luego tengo que registrar al usuario cuando este confirma el mail
+            let email = document.querySelector('.email-input').value;
+            let rolId = document.querySelector('.rol-select').value;
+            let messageElement = document.querySelector('.status-message');
 
-            enviarCorreoVerificacion(email, rolId);
+            messageElement.textContent = '';
+            messageElement.classList.remove('success-message');
+            messageElement.classList.add('error-message');
+
+            if(!validateEmail(email)) {
+                messageElement.textContent = 'El campo email debe ser un mail válido';
+            } else if(rolId == 0) {
+                messageElement.textContent = 'Debe seleccionar un rol';
+            } else {
+                enviarCorreoVerificacion(email, rolId);
+            }
         });
     }
 
@@ -296,14 +311,19 @@ function enviarCorreoVerificacion(email, rol_id) {
         verification_link: verificationLink,
     };
 
+    let messageElement = document.querySelector('.status-message');
+    messageElement.classList.remove('success-message', 'error-message');
+
     emailjs.send('service_ixstcji', 'template_uyoal4l', params)
         .then(response => {
             console.log('Correo enviado:', response.status, response.text);
-            document.querySelector('.login-error').innerHTML = `<p class="success-message">Correo de verificación enviado.</p>`;
+            messageElement.classList.add('success-message');
+            messageElement.textContent = 'Correo de verificación enviado';
         })
         .catch(error => {
             console.error('Error al enviar correo:', error);
-            document.querySelector('.login-error').innerHTML = `<p class="error-message">Error al enviar el correo.</p>`;
+            messageElement.classList.add('error-message');
+            messageElement.textContent = 'Ocurrió un error al enviar el correo';
         });
 }
 

@@ -10,33 +10,34 @@
   <main class="admfases-container" itemscope itemtype="http://schema.org/WebPage">
     <h2 itemprop="headline">Gestión de Fases</h2>
     
-    <section class="contenedor_lista_tipo_producto" itemscope itemtype="http://schema.org/Form">
-        <label for="tipoprod">Tipo de producto:</label>
-        <select id="tipo_producto_id" name="tipoprod_id" required itemprop="object.category">
-            <option value="" disabled selected>Seleccione una opción</option>
-            {% for tipo_producto in tipo_productos %}
-                <option value="{{ tipo_producto.id }}">{{ tipo_producto.nombre }}</option>
-            {% endfor %}
-        </select>
-    </section>
+    <label for="tipo_producto_id">Tipo de producto:</label>
+    <select id="tipo_producto_id" name="tipoprod_id" required>
+        <option value="" disabled selected>Seleccione una opción</option>
+        {% for tipo_producto in tipo_productos %}
+            <option value="{{ tipo_producto.id }}">{{ tipo_producto.nombre }}</option>
+        {% endfor %}
+    </select>
 
-    <section class="contenedor_agregar_fases" itemscope itemtype="http://schema.org/Form">
-        <label class="label-fases hidden" for="fase-nombre">Nombre de la fase:</label>
-        <input id="fase-nombre" class="hidden" type="text" placeholder="Pasteurización" itemprop="name">
-        <button class="btn btn-agregar-fase hidden" type="submit" itemprop="potentialAction">Agregar Fase</button>
+    <form class="contenedor_agregar_fases hidden" itemscope itemtype="http://schema.org/Form">
+        <label class="label-fases" for="fase-nombre">Nombre de la fase:</label>
+        <input id="fase-nombre" type="text" placeholder="Pasteurización" itemprop="name">
+        <button class="btn btn-agregar-fase" type="submit" itemprop="potentialAction">Agregar Fase</button>
+    </form>
+    
+    <section id="fases-container" class="hidden">
+        <h3>Listado de fases</h3>
+        <table class="tabla-fases max-content" itemscope itemtype="http://schema.org/Table">
+            <thead>
+                <tr>
+                    <th>Orden</th>
+                    <th>Fases</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </section>
-      
-    <table class="tabla-fases hidden max-content" itemscope itemtype="http://schema.org/Table">
-        <thead>
-            <tr>
-                <th>Orden</th>
-                <th>Fases</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
 </main>
 
 

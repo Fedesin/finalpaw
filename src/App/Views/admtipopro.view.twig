@@ -12,14 +12,16 @@
     <!-- Formulario para agregar producto -->
     <form class="formulario-producto" itemscope itemtype="http://schema.org/Form">
         <label for="tipoprod">Tipo de producto:</label>
-        <select id="tipoprod" name="tipoprod_id" required itemprop="object.category">
+        <select id="tipoprod" name="tipoprod_id" required>
+            <option disabled selected value>-- elija un rol --</option>
             {% for tipoprod in tipo_productos %}
                 <option value="{{ tipoprod.id }}">{{ tipoprod.nombre|capitalize }}</option>
             {% endfor %}
         </select>
         
-        <label for="nombre">Nombre del producto:</label>
-        <input type="text" id="agregarProducto" placeholder="Cuartirolo" itemprop="object.name">
+        <label for="agregarProducto">Nombre del producto:</label>
+        <input type="text" id="agregarProducto" placeholder="Cuartirolo">
+        
         <button class="btn" id="btnAgregarProducto" itemprop="potentialAction">Agregar Producto</button>
     </form>
 

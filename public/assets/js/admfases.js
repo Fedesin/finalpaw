@@ -409,10 +409,8 @@ document.addEventListener('DOMContentLoaded', function() {
         selectTipo_producto_id.addEventListener('change', function() {
             var tipo_producto_id = document.querySelector('#tipo_producto_id').value;
 
-            document.querySelector('.label-fases').classList.remove('hidden');
-            document.querySelector('.tabla-fases').classList.remove('hidden');
-            document.querySelector('#fase-nombre').classList.remove('hidden');
-            document.querySelector('.btn-agregar-fase').classList.remove('hidden');
+            document.querySelector('.contenedor_agregar_fases').classList.remove('hidden');
+            document.getElementById('fases-container').classList.remove('hidden');
 
             Fases.list({
                 "tipo_producto_id": tipo_producto_id
@@ -421,7 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 fases = ret.data;
 
                 tabla_fases.innerHTML = '';
-
                 Object.values(ret.data).forEach(fase => {
                     addFase(fase);
                 });
@@ -431,7 +428,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var addFasesButton = document.querySelector('.btn-agregar-fase');
     if (addFasesButton) {
-        addFasesButton.addEventListener('click', function() {
+        addFasesButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
             var inputFase = document.querySelector('#fase-nombre');
             var fase_nombre = document.querySelector('#fase-nombre').value;
             var tipo_producto_id = document.querySelector('#tipo_producto_id').value;

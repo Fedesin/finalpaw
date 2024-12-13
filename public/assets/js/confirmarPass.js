@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const passwordField = document.getElementById('password');
     const retypePasswordField = document.getElementById('retype-password');
-    const messageElement = document.querySelector('.login-error'); 
+    const messageElement = document.querySelector('.status-message'); 
     const submitButton = document.querySelector('.btn'); 
     function validatePasswords() {
         const password = passwordField.value;

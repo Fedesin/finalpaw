@@ -28,12 +28,12 @@
 
 <main class="login-container" itemscope itemtype="http://schema.org/WebPage">
     <form class="login-form" action="login" method="post" itemscope itemtype="http://schema.org/FormAction">
-        <h2 itemprop="name">Inicio de sesión</h2>
+        <h2>Inicio de sesión</h2>
 
-        <label for="username" itemprop="object.name">Usuario:</label>
+        <label for="username">Usuario:</label>
         <input type="text" id="username" name="username" value="{{ email }}" placeholder="pepe@gmail.com" title="Ingrese su correo" required>
 
-        <label for="password" itemprop="object.password">Contraseña:</label>
+        <label for="password">Contraseña:</label>
         <input type="password" id="password" name="password" title="Ingrese su contraseña" required>
         
         <button class="g-recaptcha" type="submit" itemprop="potentialAction"
@@ -41,7 +41,7 @@
                 data-callback='onSubmit'
                 data-badge="bottomleft"
                 data-action='submit'>Acceder</button>
-        <output class="login-error" itemprop="result">{% if status %}{{ status }}{% endif %}</output>
+        <output class="status-message" itemprop="result">{% if status %}{{ status }}{% endif %}</output>
 
         <a href="#" class="forgot-password-link" itemprop="url">Olvidé mi contraseña</a>
     </form>
