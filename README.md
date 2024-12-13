@@ -25,6 +25,9 @@ Instalar y habilitar las extensiones de pgsql para php y luego ejecutar los sigu
 
 Finalmente ingresas a la dirección http://localhost:8080/ y ualá! 🎉
 
+### Sitemap
+ ![Img sitemap](https://github.com/Fedesin/finalpaw/blob/main/sitemap.svg)
+
 
 ## 👥 *Integrantes*
  - Simone Federico
