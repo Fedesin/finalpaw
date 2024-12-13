@@ -343,4 +343,38 @@ class UserController extends BaseController
             $this->jsonResponse(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()], 500);
         }
     } 
+
+
+    public function changePassword($request)
+    {
+        if (!isset($request->newPassword)) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'Nueva contraseña es obligatoria'], 400);
+            return;
+        }
+        $email=$request->email;
+        $actualPassword=$request->actualPassword;
+        $newPassword=$request->newPassword;
+        try {
+            // Buscar el usuario en la base de datos
+            $user = User::getByEmail($email);
+            if (!$user) {
+                $this->jsonResponse(['status' => 'error', 'message' => 'Usuario no encontrado'], 404);
+                return;
+            }
+
+            if (!$user->verifyPassword($actualPassword)) {
+                $this->jsonResponse(['status' => 'error', 'message' => 'Contraseña actual incorrecta'], 400);
+                return;
+            }else{
+                // Actualizar la contraseña del usuario
+                $user->updatePassword($newPassword);
+
+                // Respuesta de éxito
+                $this->jsonResponse(['status' => 'success', 'message' => 'Contraseña actualizada correctamente']);
+            }
+        } catch (Exception $e) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()], 500);
+        }
+    } 
+
 }
