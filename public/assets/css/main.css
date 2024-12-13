@@ -121,10 +121,6 @@ tr[draggable="true"]:not(.dragging) {
   cursor: grab;
 }
 
-tbody {
-  transition: all 0.3s ease;
-}
-
 section {
     margin-bottom: 20px;
 }

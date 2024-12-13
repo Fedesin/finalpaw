@@ -225,6 +225,7 @@ function addFase(fase) {
     row.draggable = true;
     row.dataset.id = fase.id;
     row.innerHTML = `
+        <td>${fase.numero_orden}</td>
         <td>${fase.nombre}</td>
         <td>
             <button class="btn-editar btn-editarver" data-id="${fase.id}" title="Editar campos de la fase"></button>
@@ -256,6 +257,10 @@ function addFase(fase) {
         Fases.update({
             fase_id: row.dataset.id,
             numero_orden: targetIndex + 1
+        })
+        .then(function() {
+            for (var i = 0; i < filas.length; i++) 
+                filas[i].querySelector('td').textContent = i + 1;
         });
     });
 
@@ -301,7 +306,7 @@ function addFase(fase) {
     // Añadir elementos a la fila de edición
     let newRow = document.createElement('tr');
     let newCell = document.createElement('td');
-    newCell.colSpan = 2;
+    newCell.colSpan = 3;
 
     let agregarAttr = document.createElement('button');
     agregarAttr.textContent = 'Agregar atributo';

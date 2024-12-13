@@ -34,6 +34,7 @@ class FasesController extends BaseController
         foreach($fases as $fase) {
             $ret[] = [
                 "id" => $fase->id,
+                "numero_orden" => $fase->numero_orden,
                 "nombre" => $fase->nombre,
                 "tipo_producto_id" => $fase->tipo_producto_id,
                 "atributos" => $fase->atributos
@@ -50,6 +51,7 @@ class FasesController extends BaseController
         if ($fase) {
             $ret = [
                 "id" => $fase->id,
+                "numero_orden" => $fase->numero_orden,
                 "nombre" => $fase->nombre,
                 "tipo_producto_id" => $fase->tipo_producto_id,
                 "atributos" => $fase->atributos
