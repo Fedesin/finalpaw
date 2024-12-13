@@ -1,17 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const emailInput = document.querySelector('#username');
-    const newPassword = document.querySelector('#password');
-    const repeatPassword = document.querySelector('#retype-Password');
+    const passwordField = document.getElementById('password');
+    const retypePasswordField = document.getElementById('retype-password');
+    const messageElement = document.querySelector('.login-error'); 
+    const submitButton = document.querySelector('.btn'); 
+    function validatePasswords() {
+        const password = passwordField.value;
+        const retypePassword = retypePasswordField.value;
 
-    if (newPassword !== repeatPassword) {
-        const messageElement = document.getElementById('message');
-        messageElement.textContent = 'Las contraseñas no coinciden.';
-        messageElement.classList.remove('hidden'); 
-        return;
+        if (password !== retypePassword) {
+            messageElement.textContent = 'Las contraseñas no coinciden.';
+            submitButton.disabled = true; 
+        } else {
+            messageElement.textContent = ''; 
+            submitButton.disabled = false; 
+        }
     }
-    
-    
 
-    //llamar a la funcion del back para que actualice la contraseña
-   
+    passwordField.addEventListener('input', validatePasswords);
+    retypePasswordField.addEventListener('input', validatePasswords);
 });
