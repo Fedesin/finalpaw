@@ -62,7 +62,7 @@ class User extends Model
         return $model;
     }
 
-    public function register($username, $password, $rol_id)
+    public static function register($username, $password, $rol_id)
     {
         $user = new self();
 

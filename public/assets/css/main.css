@@ -1459,6 +1459,9 @@ main h1{
 .user-email{
     font-weight: bold;
     color: var(--primary-green);
+    align-self: end;
+    float: right;
+    margin: 0;
 }
 
 

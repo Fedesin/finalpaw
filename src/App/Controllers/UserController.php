@@ -51,7 +51,7 @@ class UserController extends BaseController
             // Iniciar la sesión y almacenar el email del usuario
             $session = Session::getInstance();
             $session->logged_in = true;
-            $session->email = $user->username;
+            $session->email = $user->email;
             $session->user_id = $user->id; // Guardar el ID del usuario
 
             $this->redirect("/");
@@ -260,7 +260,7 @@ class UserController extends BaseController
     
         // Decodificar el token
         $decodedToken = json_decode(base64_decode($token), true);
-    
+        
         if (!$decodedToken || !isset($decodedToken['email'], $decodedToken['rol_id'], $decodedToken['timestamp'])) {
             http_response_code(400);
             echo "Token inválido o mal formado.";

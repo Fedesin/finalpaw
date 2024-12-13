@@ -61,9 +61,11 @@ if(!isset($session->logged_in)) {
 
     $router->get('/login', 'PageController@login');
     $router->post('/login', 'UserController@login');
-    $router->post('/user/forgotPassword', 'UserController@forgotPassword');
+    $router->post('/api/user/forgotPassword', 'UserController@forgotPassword');
     $router->get('/user/resetPassword', 'UserController@showResetPasswordForm');
     $router->post('/user/resetPassword', 'UserController@resetPassword');
+
+    $router->get('/verify', 'UserController@verifyEmail'); // Endpoint para verificar usuarios
 } else {
     $session = Session::getInstance();
     $user = User::getById($session->user_id);
@@ -101,7 +103,7 @@ if(!isset($session->logged_in)) {
 
     $router->post('/api/users/change-role', 'UserController@changeRole');
 
-    $router->get('/api/verify-password-change', 'UserController@verifyPasswordChange');
+    $router->get('/verify-password-change', 'UserController@verifyPasswordChange');
 
     $router->get('/api/fases', 'FasesController@getFases');
 
@@ -129,8 +131,6 @@ if(!isset($session->logged_in)) {
     $router->get('/api/productos/tipo-productos', 'ProductoController@getTipoProductos'); // Para obtener tipos de productos
     $router->post('/update_attributes', 'LotesController@updateAttributes');
     $router->post('/lotes/pasarFase', 'LotesController@pasarFase');
-
-    $router->get('/api/verify', 'UserController@verifyEmail'); // Endpoint para verificar usuarios
 
     $router->get('/api/lotes/ultima-produccion', 'LotesController@getUltimaProduccion');
 

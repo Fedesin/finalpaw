@@ -1,12 +1,6 @@
 {% extends 'base.twig' %}
 
-
 {% block head %}
-
-    <script>
-    EMAILJSKEY = "{{ emailjskey }}"
-    </script>
-
     <script
     type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
@@ -30,33 +24,31 @@
 {% block content %}
 
   <main class="index-container" itemscope itemtype="http://schema.org/Person">
-      <form class="index-form" action="" method="post" itemprop="potentialAction" itemscope itemtype="http://schema.org/Action">
-          <h2>Datos del usuario</h2>
-          <section class="index-dataname" itemprop="name">
-              <h2>Usuario:</h2>
-              {% if user.email %}
-              <h3 itemprop="email">{{ user.email }}</h3>
-              {% endif %}
-          </section>
-          <section class="index-dataname" itemprop="role">
-              <h2>Rol:</h2>
-              {% if user.rol %}
-              <h3 class="capitalize">{{ user.rol.nombre }}</h3>
-              {% endif %}
-          </section>
-          <h2>Cambiar contraseña</h2>
-          <label for="actual-password">Contraseña actual:</label>
-          <input type="password" id="actual-password" class="actual-password" name="actual-password" required>
+    <section>
+      <h2>Datos del usuario</h2>
+      <dl>
+        <dt>Usuario</dt>
+        <dd>{{ user.email }}</dd>
+        <dt>Rol</dt>
+        <dd class="capitalize">{{ user.rol.nombre }}</dd>
 
-          <label for="new-password">Contraseña nueva:</label>
-          <input type="password" id="new-password" class="new-password" name="new-password" required>
 
-          <label for="repeat-password">Repita la contraseña:</label>
-          <input type="password" id="repeat-password" class="repeat-password" name="repeat-password" required>
+      </dl>
+    </section>
+    <form class="index-form" action="" method="post" itemprop="potentialAction" itemscope itemtype="http://schema.org/Action">
+        <h2>Cambiar contraseña</h2>
+        <label for="actual-password">Contraseña actual:</label>
+        <input type="password" id="actual-password" class="actual-password" name="actual-password" required>
 
-          <output id="message" class="hidden" itemprop="description"></output>          
-          <button type="button" class="change-password-button" itemprop="target">Cambiar contraseña</button>
-      </form>
+        <label for="new-password">Contraseña nueva:</label>
+        <input type="password" id="new-password" class="new-password" name="new-password" required>
+
+        <label for="repeat-password">Repita la contraseña:</label>
+        <input type="password" id="repeat-password" class="repeat-password" name="repeat-password" required>
+
+        <output id="message" class="hidden" itemprop="description"></output>          
+        <button type="button" class="change-password-button" itemprop="target">Cambiar contraseña</button>
+    </form>
   </main>
 
 {% endblock %}

@@ -283,7 +283,7 @@ function enviarCorreoVerificacion(email, rol_id) {
     const domainWithPort = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
     const isLocalhost = window.location.hostname === 'localhost';
     const protocol = isLocalhost ? 'http' : 'https';
-    const verificationLink = `${protocol}://${domainWithPort}/api/verify?token=${token}`;
+    const verificationLink = `${protocol}://${domainWithPort}/verify?token=${token}`;
 
     const params = {
         to_email: email,

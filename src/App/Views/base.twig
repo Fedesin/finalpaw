@@ -27,12 +27,12 @@
 			</figcaption>
 		</figure>
 		{% if logged_in %}
-		<section class="user-profile" itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<p class="user-email" itemprop="email">{{ email }}</p>
+		<p class="user-email" itemprop="email">
+			{{ email }}
 			<a class="logout" href="/logout" itemprop="url">
 				<span class="logout-emoji" title="Cerrar sesion"></span>
 			</a>
-		</section>
+		</p>
 		{% endif %}
 	</header>
 

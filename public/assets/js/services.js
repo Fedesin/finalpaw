@@ -48,6 +48,15 @@ var Users = {
         .then(function(ret) {
             return ret.json();
         })
+    },
+    forgotPassword: function(args) {
+        return fetch('/api/user/forgotPassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(args),
+        });
     }
 }
 
