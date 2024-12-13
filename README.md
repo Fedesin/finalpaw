@@ -28,6 +28,9 @@ Finalmente ingresas a la dirección http://localhost:8080/ y ualá! 🎉
 ### Sitemap
  ![Img sitemap](https://github.com/Fedesin/finalpaw/blob/main/sitemap.svg)
 
+ ### Wireframes
+ ![Link](https://github.com/Fedesin/finalpaw/blob/main/wireframe.svg)
+
 
 ## 👥 *Integrantes*
  - Simone Federico
